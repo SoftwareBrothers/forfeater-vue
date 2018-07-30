@@ -14,7 +14,7 @@ class ProductProvider {
       axios
         .get(this.url, {
           params: {
-            active: true,
+            active: 1,
             vendorId: vendorId
           }
         })
