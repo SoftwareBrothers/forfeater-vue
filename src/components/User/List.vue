@@ -11,19 +11,28 @@
       <div class="row">
         <div class="col-sm"></div>
         <div class="col-sm-10">
-          <div class="form-group">
-  
-            <ul v-if="users" class="list-group list-group-flush">
-              <li v-for="(user) in users" v-bind:key="user.id" class="list-group-item">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="product" :id="`user-${user.id}`" :value="`${user.id}`">
-                  <label class="form-check-label" :for="`product-${user.id}`">
-                        {{ user.firstName }} {{ user.lastName }} - {{ user.email}}
-                    </label>
-                </div>
-              </li>
-            </ul>
-          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody v-if="users">
+              <tr v-for="(user) in users" v-bind:key="user.id">
+                <th scope="row">{{ user.id }}</th>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.email}}</td>
+                <td>{{ user.role}}</td>
+                <td>TODO</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="col-sm"></div>
       </div>
