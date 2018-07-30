@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 Vue.config.productionTip = false;
 
 new Vue({
-  el: "#app",
+  el: '#app',
   router: router,
   template: "<App/>",
   components: { App },
