@@ -1,18 +1,18 @@
 import axios from "axios";
+import ApiProvider from '@/provider/api.provider';
 
-class VendorProvider {
-  url = null;
+class VendorProvider extends ApiProvider {
   vendor = null;
   error= [];
   
   constructor() {
-    this.url = process.env.API_URL + '/vendors';
+    super('/vendors');
   }
 
   getTodayVendor() {
     return new Promise((resolve,reject)=> {
       axios
-      .get(this.url)
+      .get(this.uri)
       .then(response => {
         this.vendor = response.data[0] ? response.data[0] : null;
         resolve(this.vendor);

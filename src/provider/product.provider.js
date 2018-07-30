@@ -1,20 +1,20 @@
 import axios from "axios";
+import ApiProvider from '@/provider/api.provider';
 
-class ProductProvider {
-  url = null;
+class ProductProvider extends ApiProvider {
   products = [];
   error = [];
-
-  constructor() {
-    this.url = process.env.API_URL + "/products";
+  
+  constructor(){
+    super('/products');
   }
 
   getAllActiveByVendor(vendorId) {
     return new Promise((resolve, reject) => {
       axios
-        .get(this.url, {
+        .get(this.uri, {
           params: {
-            active: true,
+            active: 1,
             vendorId: vendorId
           }
         })
