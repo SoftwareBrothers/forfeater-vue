@@ -10,8 +10,9 @@
     <div v-if="users">
       <div class="row">
         <div class="col-sm"></div>
-        <div class="col-sm-10">
-          <table class="table">
+        <div class="col-sm-12">
+          <div class="table-responsive">
+          <table class="table table-sm table-hover table-bordered table-striped">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -33,6 +34,7 @@
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
         <div class="col-sm"></div>
       </div>
