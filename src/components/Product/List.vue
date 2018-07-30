@@ -14,11 +14,12 @@
 <script>
 export default {
   props: {
-      products: {
-          type: Array,
-          required: true,
-          default: []
-      }
+    products: {
+      type: Array,
+      required: true
+    }
+  },
+  beforeMount() {
   }
 };
 </script>

@@ -53,7 +53,7 @@
     created() {
       VendorProvider.getTodayVendor()
         .then(vendor => {
-          this.restautrant = vendor;
+          this.vendor = vendor;
           ProductProvider.getAllActiveByVendor(vendor.id)
             .then(products => {
               this.products = products;
