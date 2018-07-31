@@ -43,6 +43,26 @@ class UserProvider extends ApiProvider {
     });
   }
 
+  store(user) {
+    return new Promise((resolve,reject)=> {
+      axios
+      .post(this.uri, user)
+      .then(response => {
+        status = response.data.status;
+        console.log(response.data)
+        if(status != 'success') {
+          reject(this.errors);
+        }
+        resolve(response.data.data);
+      })
+      .catch(errors => {
+        console.log(errors)
+        this.errors.push(errors);
+        reject(this.errors);
+      });
+    });
+  }
+
 }
 
 export default new UserProvider();

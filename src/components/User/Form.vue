@@ -3,51 +3,69 @@
     <div class="form-row">
       <div class="form-group col-md-6 custom-control">
         <label for="firstName">First name</label>
-        <input v-validate="'required|alpha'" type="text" class="form-control" name="firstName"  placeholder="firstName">
+        <input v-validate="'required|alpha'" v-model="User.firstName" type="text" class="form-control" name="firstName"  placeholder="firstName">
         <div class="invalid-feedback-not-work">{{ errors.first('firstName')}}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="lastName">Last name</label>
-        <input type="text" class="form-control" name="lastName" v-validate="'required|alpha'" placeholder="lastName">
+        <input v-validate="'required|alpha'" v-model="User.lastName" type="text" class="form-control" name="lastName" placeholder="lastName">
         <div class="invalid-feedback-not-work">{{ errors.first('lastName')}}</div>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="role">Role</label>
-        <input type="text" class="form-control" name="role" v-validate="'required|alpha'" placeholder="Role">
+        <input v-validate="'required|alpha'" v-model="User.role" type="text" class="form-control" name="role" placeholder="Role">
         <div class="invalid-feedback-not-work">{{ errors.first('role')}}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="email">Email</label>
-        <input type="email" class="form-control" name="email" v-validate="'required|email'" placeholder="Email">
+        <input v-validate="'required|email'" v-model="User.email" type="email" class="form-control" name="email" placeholder="Email">
         <div class="invalid-feedback-not-work">{{ errors.first('email')}}</div>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="password">Password</label>
-        <input type="password" class="form-control" name="password" v-validate="'confirmed:passwordConfirmation'" placeholder="Password">
+        <input v-validate="'required|confirmed:confirmation'" v-model="User.password" type="password" class="form-control" name="password" placeholder="Password">
         <div class="invalid-feedback-not-work">{{ errors.first('password')}}</div>
       </div>
       <div class="form-group col-md-6">
-        <label for="passwordConfirmation">Confirmation</label>
-        <input type="password" class="form-control" name="passwordConfirmation" placeholder="Password">
-        <div class="invalid-feedback-not-work">{{ errors.first('passwordConfirmation')}}</div>
+        <label for="confirmation">Confirmation</label>
+        <input type="password" class="form-control" name="confirmation" ref="confirmation" placeholder="Password">
+        <div class="invalid-feedback-not-work">{{ errors.first('confirmation')}}</div>
       </div>
     </div>
-    <button type="submit" class="btn btn-warning" :disabled="errors.has()" @click="sendForm">Create</button>
+    <button type="button" class="btn btn-warning" :disabled="errors.has()" @click="sendForm">Create</button>
   </form>
 </template>
 
 <script>
+import UserProvider from "@/provider/user.provider";
+
 export default {
   data() {
-    return {};
+    return {
+      User: {
+        firstName: null,
+        lastName: null,
+        role: null,
+        email: null,
+        password: null
+      }
+    };
   },
   methods: {
     sendForm: function() {
-       
+       if(!this.errors.any()) {
+        UserProvider.store(this.User)
+        .then(user => {
+          this.$router.push('/users') 
+      })
+      .catch(errors => {
+        this.errors.push(errors);
+      });
+       }
     },
   }
 };
