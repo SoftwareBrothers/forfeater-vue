@@ -39,6 +39,26 @@ class VendorProvider extends ApiProvider {
       });
     });
   }
+
+  remove(vendorId) {
+    return new Promise((resolve,reject)=> {
+      axios
+      .delete(this.uri + '/' + vendorId)
+      .then(response => {
+        status = response.data.status;
+        console.log(status);
+        if(status != 'success') {
+          reject(this.errors);
+        }
+        resolve(true);
+      })
+      .catch(errors => {
+        this.errors.push(errors);
+        reject(this.errors);
+      });
+    });
+  }
+
 }
 
 export default new VendorProvider();

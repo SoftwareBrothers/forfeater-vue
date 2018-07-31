@@ -30,7 +30,6 @@ class UserProvider extends ApiProvider {
       .delete(this.uri + '/' + userId)
       .then(response => {
         status = response.data.status;
-        console.log('response after delete');
         console.log(status);
         if(status != 'success') {
           reject(this.errors);
