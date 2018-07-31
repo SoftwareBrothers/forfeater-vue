@@ -23,6 +23,22 @@ class UserProvider extends ApiProvider {
       });
     });
   }
+
+  remove(userId) {
+    return new Promise((resolve,reject)=> {
+      axios
+      .delete(this.uri + '/' + userId)
+      .then(response => {
+        this.users = response.data;
+        resolve(this.users);
+      })
+      .catch(errors => {
+        this.errors.push(errors);
+        reject(this.errors);
+      });
+    });
+  }
+
 }
 
 export default new UserProvider();
