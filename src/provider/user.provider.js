@@ -1,18 +1,18 @@
 import axios from "axios";
+import ApiProvider from '@/provider/api.provider';
 
-class UserProvider {
-  url = null;
+class UserProvider extends ApiProvider {
   vendor = null;
   error= [];
   
   constructor() {
-    this.url = process.env.VUE_APP_API_URL + '/users';
+    super('/users');
   }
 
   getAllUsers() {
     return new Promise((resolve,reject)=> {
       axios
-      .get(this.url)
+      .get(this.uri)
       .then(response => {
         this.users = response.data;
         resolve(this.users);

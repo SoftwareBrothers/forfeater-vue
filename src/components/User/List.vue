@@ -11,6 +11,7 @@
       <div class="row">
         <div class="col-sm"></div>
         <div class="col-sm-12">
+          <router-link class="nav-link d-inline" :to="{ name: 'UserCreate' }">Create user</router-link>
           <div class="table-responsive">
           <table class="table table-sm table-hover table-bordered table-striped">
             <thead>
@@ -31,7 +32,7 @@
                 <td>{{ user.email}}</td>
                 <td>{{ user.role}}</td>
                 <td>
-                  <router-link class="nav-link d-inline" :to="{ name: 'UserList' }"><font-awesome-icon icon="edit" /></router-link>
+                  <router-link class="nav-link d-inline" :to="{ name: 'UserEdit' }"><font-awesome-icon icon="edit" /></router-link>
                   <router-link class="nav-link d-inline text-danger" :to="{ name: 'UserList' }"><font-awesome-icon icon="trash" /></router-link>
                 </td>
               </tr>
