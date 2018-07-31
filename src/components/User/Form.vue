@@ -37,7 +37,7 @@
       </div>
     </div>
     <button v-if="!User.id" type="button" class="btn btn-warning" :disabled="errors.has()" @click="createUser">Create</button>
-    <button v-if="User.id" type="button" class="btn btn-warning" :disabled="errors.has()" @click="editUser">Edit</button>
+    <button v-if="User.id" type="button" class="btn btn-warning" :disabled="errors.has()" @click="editUser">Save</button>
   </form>
 </template>
 

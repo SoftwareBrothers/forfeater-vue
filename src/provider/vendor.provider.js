@@ -10,6 +10,24 @@ class VendorProvider extends ApiProvider {
     super('/vendors');
   }
 
+  find(id) {
+    return new Promise((resolve,reject)=> {
+      axios
+      .get(this.uri + '/' + id)
+      .then(response => {
+        if(response.status !== 200) {
+          reject(this.errors);
+        }
+        resolve(response.data);
+      })
+      .catch(errors => {
+        console.log(errors)
+        this.errors.push(errors);
+        reject(this.errors);
+      });
+    });
+  }
+
   getAll() {
     return new Promise((resolve,reject)=> {
       axios
