@@ -6,6 +6,8 @@ import About from "@/components/About";
 import ChoiceAdd from "@/components/Choice/Add";
 
 import UserList from "@/components/User/List";
+import UserCreate from "@/components/User/Create";
+import UserEdit from "@/components/User/Edit";
 
 Vue.use(VueRouter);
 
@@ -31,6 +33,16 @@ export default new VueRouter({
       path: "/users",
       name: "UserList",
       component: UserList
+    },
+    {
+      path: "/users/create",
+      name: "UserCreate",
+      component: UserCreate
+    },
+    {
+      path: "/users/edit",
+      name: "UserEdit",
+      component: UserEdit
     }
   ]
 });
