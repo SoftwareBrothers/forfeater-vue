@@ -19,10 +19,11 @@
         <div class="col-sm"></div>
         <div class="col-sm-10">
           <div class="form-group">
-            <ProductList :products="products" v-on:productSelected="productSelected"></ProductList>
+            <ProductsInputList :products="products" @productSelected="productSelected"></ProductsInputList>
           </div>
           <div v-if="products" class="form-group">
-            <input type="text" class="form-control" placeholder="Your name">
+            <input v-validate="'required|alpha|min:6'" type="text" class="form-control" name="name" placeholder="Your name">
+            <span>{{ errors.first('name')}}</span>
           </div>
         </div>
         <div class="col-sm"></div>
@@ -37,7 +38,7 @@
 </template>
 
 <script>
-import ProductList from "@/components/Product/List";
+import ProductsInputList from "@/components/Product/InputsList";
 import VendorProvider from "@/provider/vendor.provider";
 import ProductProvider from "@/provider/product.provider";
 
@@ -46,14 +47,12 @@ export default {
     return {
       vendor: [],
       products: [],
-      errors: [],
+      appErrors: [],
       product: {}
     };
   },
   methods: {
-    sendForm: function(){
-
-    },
+    sendForm: function() {},
     productSelected: function(product) {
       this.product = product;
       console.log(this.product);
@@ -76,7 +75,7 @@ export default {
       });
   },
   components: {
-    ProductList
+    ProductsInputList
   }
 };
 </script>
