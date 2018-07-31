@@ -9,7 +9,7 @@ class UserProvider extends ApiProvider {
     super('/users');
   }
 
-  getAllUsers() {
+  getAll() {
     return new Promise((resolve,reject)=> {
       axios
       .get(this.uri)

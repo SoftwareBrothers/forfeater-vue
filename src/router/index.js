@@ -9,6 +9,8 @@ import UserList from "@/components/User/List";
 import UserCreate from "@/components/User/Create";
 import UserEdit from "@/components/User/Edit";
 
+import VendorList from "@/components/Vendor/List";
+
 Vue.use(VueRouter);
 
 export default new VueRouter({
@@ -43,6 +45,11 @@ export default new VueRouter({
       path: "/users/edit",
       name: "UserEdit",
       component: UserEdit
+    },
+    {
+      path: "/vendors",
+      name: "VendorList",
+      component: VendorList
     }
   ]
 });

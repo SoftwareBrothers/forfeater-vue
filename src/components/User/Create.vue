@@ -25,6 +25,11 @@ export default {
   data() {
     return {};
   },
+  methods: {
+    sendForm: function() {
+       console.log('sendForm in Create.vue')
+    },
+  },
   components: {
     UserForm
   }
