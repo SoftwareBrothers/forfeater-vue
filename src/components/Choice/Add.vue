@@ -22,8 +22,8 @@
             <ProductsInputList :products="products" @productSelected="productSelected"></ProductsInputList>
           </div>
           <div v-if="products" class="form-group">
-            <input v-validate="'required|alpha|min:6'" type="text" class="form-control" name="name" placeholder="Your name">
-            <span>{{ errors.first('name')}}</span>
+            <input v-bind:class="{'is-invalid': errors.has('name')}" v-validate="'required|alpha|min:6'" type="text" class="form-control" name="name" placeholder="Your name">
+            <div class="invalid-feedback">{{ errors.first('name')}}</div>
           </div>
         </div>
         <div class="col-sm"></div>
@@ -55,7 +55,6 @@ export default {
     sendForm: function() {},
     productSelected: function(product) {
       this.product = product;
-      console.log(this.product);
     }
   },
   created() {
@@ -67,11 +66,11 @@ export default {
             this.products = products;
           })
           .catch(errors => {
-            this.errros.push(errors);
+            this.appErrors.push(errors);
           });
       })
       .catch(errors => {
-        this.errros.push(errors);
+        this.appErrors.push(errors);
       });
   },
   components: {
