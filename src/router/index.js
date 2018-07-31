@@ -42,7 +42,7 @@ export default new VueRouter({
       component: UserCreate
     },
     {
-      path: "/users/edit",
+      path: "/users/:id/edit",
       name: "UserEdit",
       component: UserEdit
     },

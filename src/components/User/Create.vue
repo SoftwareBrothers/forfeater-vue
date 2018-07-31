@@ -17,19 +17,20 @@
 </template>
 
 <script>
-import axios from "axios";
-import UserProvider from "@/provider/user.provider";
-import UserForm from "@/components/User/Form";
-
-export default {
-  data() {
-    return {};
-  },
-  components: {
-    UserForm
-  }
-};
+  import axios from "axios";
+  import UserProvider from "@/provider/user.provider";
+  import UserForm from "@/components/User/Form";
+  
+  export default {
+    data() {
+      return {};
+    },
+    components: {
+      UserForm
+    }
+  };
 </script>
 
 <style lang="scss" scoped>
+  
 </style>
