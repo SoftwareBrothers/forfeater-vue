@@ -14,7 +14,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false;
 
 new Vue({
-  el: "#app",
+  el: '#app',
   router: router,
   template: "<App/>",
   components: { App },

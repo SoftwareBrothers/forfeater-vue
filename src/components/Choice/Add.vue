@@ -19,7 +19,7 @@
         <div class="col-sm"></div>
         <div class="col-sm-10">
           <div class="form-group">
-            <ProductList :products="products"></ProductList>
+            <ProductList :products="products" v-on:productSelected="productSelected"></ProductList>
           </div>
           <div v-if="products" class="form-group">
             <input type="text" class="form-control" placeholder="Your name">
@@ -29,7 +29,7 @@
       </div>
       <div class="row">
         <div class="ml-auto">
-          <button class="btn btn-dark">Send</button>
+          <button class="btn btn-dark" v-on:click="sendForm">Send</button>
         </div>
       </div>
     </div>
@@ -37,41 +37,49 @@
 </template>
 
 <script>
-  import axios from "axios";
-  import ProductList from "@/components/Product/List";
-  import VendorProvider from "@/provider/vendor.provider";
-  import ProductProvider from "@/provider/product.provider";
-  
-  export default {
-    data() {
-      return {
-        vendor: {},
-        products: [],
-        errors: []
-      };
+import ProductList from "@/components/Product/List";
+import VendorProvider from "@/provider/vendor.provider";
+import ProductProvider from "@/provider/product.provider";
+
+export default {
+  data: () => {
+    return {
+      vendor: [],
+      products: [],
+      errors: [],
+      product: {}
+    };
+  },
+  methods: {
+    sendForm: function(){
+
     },
-    created() {
-      VendorProvider.getTodayVendor()
-        .then(vendor => {
-          this.vendor = vendor;
-          ProductProvider.getAllActiveByVendor(vendor.id)
-            .then(products => {
-              this.products = products;
-            })
-            .catch(errors => {
-              console.log(errors);
-            });
-        })
-        .catch(errors => {
-          console.log(errors);
-        });
-    },
-    components: {
-      ProductList
+    productSelected: function(product) {
+      this.product = product;
+      console.log(this.product);
     }
-  };
+  },
+  created() {
+    VendorProvider.getTodayVendor()
+      .then(vendor => {
+        this.vendor = vendor;
+        ProductProvider.getAllActiveByVendor(vendor.id)
+          .then(products => {
+            this.products = products;
+          })
+          .catch(errors => {
+            this.errros.push(errors);
+          });
+      })
+      .catch(errors => {
+        this.errros.push(errors);
+      });
+  },
+  components: {
+    ProductList
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  
 </style>
