@@ -3,7 +3,7 @@
     <div class="row mt-5">
       <div class="col-sm"></div>
       <div class="col-sm">
-        <h1 class="text-center">Choice your meal!</h1>
+        <h1 class="text-center">Choose your meal!</h1>
       </div>
       <div class="col-sm"></div>
     </div>
@@ -22,15 +22,14 @@
             <ProductsInputList :products="products" @productSelected="productSelected"></ProductsInputList>
           </div>
           <div v-if="products" class="form-group">
-            <input v-bind:class="{'is-invalid': errors.has('name')}" v-validate="'required|alpha|min:6'" type="text" class="form-control" name="name" placeholder="Your name">
-            <div class="invalid-feedback">{{ errors.first('name')}}</div>
+            <UserAutocomplete @userSelected="userSelected"></UserAutocomplete>
           </div>
         </div>
         <div class="col-sm"></div>
       </div>
       <div class="row">
         <div class="ml-auto">
-          <button class="btn btn-dark" v-on:click="sendForm">Send</button>
+          <button :disabled="!isFormCompleted()" class="btn btn-dark" v-on:click="sendForm">Send</button>
         </div>
       </div>
     </div>
@@ -41,6 +40,7 @@
 import ProductsInputList from "@/components/Product/InputsList";
 import VendorProvider from "@/provider/vendor.provider";
 import ProductProvider from "@/provider/product.provider";
+import UserAutocomplete from "@/components/User/AutoComplete";
 
 export default {
   data: () => {
@@ -48,13 +48,23 @@ export default {
       vendor: [],
       products: [],
       appErrors: [],
-      product: {}
+      product: {},
+      user: {}
     };
   },
   methods: {
-    sendForm: function() {},
+    sendForm: function() {
+      if (this.isFormCompleted) {
+      }
+    },
     productSelected: function(product) {
       this.product = product;
+    },
+    isFormCompleted: function() {
+      return this.product && this.user;
+    },
+    userSelected: function(user) {
+      this.user = user;
     }
   },
   created() {
@@ -74,7 +84,8 @@ export default {
       });
   },
   components: {
-    ProductsInputList
+    ProductsInputList,
+    UserAutocomplete
   }
 };
 </script>
