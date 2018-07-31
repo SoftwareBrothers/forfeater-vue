@@ -27,6 +27,10 @@ html {
     padding-left: 15px;
   }
   
+  main{
+      margin-top: 3rem;
+  }
+
   code {
     font-size: 80%;
   }

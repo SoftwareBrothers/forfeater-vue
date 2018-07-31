@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="row mt-5">
+    <div class="row pt-3">
       <div class="col-sm"></div>
       <div class="col-sm">
         <h1 class="text-center">User list</h1>
@@ -30,7 +30,10 @@
                 <td>{{ user.lastName }}</td>
                 <td>{{ user.email}}</td>
                 <td>{{ user.role}}</td>
-                <td>TODO</td>
+                <td>
+                  <router-link class="nav-link d-inline" :to="{ name: 'UserList' }"><font-awesome-icon icon="edit" /></router-link>
+                  <router-link class="nav-link d-inline text-danger" :to="{ name: 'UserList' }"><font-awesome-icon icon="trash" /></router-link>
+                </td>
               </tr>
             </tbody>
           </table>
