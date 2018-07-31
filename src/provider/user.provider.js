@@ -29,8 +29,13 @@ class UserProvider extends ApiProvider {
       axios
       .delete(this.uri + '/' + userId)
       .then(response => {
-        this.users = response.data;
-        resolve(this.users);
+        status = response.data.status;
+        console.log('response after delete');
+        console.log(status);
+        if(status != 'success') {
+          reject(this.errors);
+        }
+        resolve(true);
       })
       .catch(errors => {
         this.errors.push(errors);

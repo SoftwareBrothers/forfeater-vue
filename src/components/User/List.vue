@@ -25,7 +25,7 @@
                 </tr>
               </thead>
               <tbody v-if="users">
-                <tr v-for="(user) in users" v-bind:key="user.id">
+                <tr v-for="(user, key) in users" v-bind:key="key">
                   <th scope="row">{{ user.id }}</th>
                   <td>{{ user.firstName }}</td>
                   <td>{{ user.lastName }}</td>
@@ -35,10 +35,10 @@
                     <router-link class="nav-link d-inline" :to="{ name: 'UserEdit' }">
                       <font-awesome-icon icon="edit" />
                     </router-link>
-                    <!-- <router-link class="nav-link d-inline text-danger" :to="removeUser(key)">
+                    <a class="nav-link d-inline text-danger" href="" @click="removeUser(user.id, key)">
                       <font-awesome-icon icon="trash" />
-                    </router-link> -->
-                    <!-- <button type="button" class="nav-link d-inline text-danger" @click="removeUser(key)">Delete</button> -->
+                    </a>
+                    <!-- <button type="button" class="nav-link d-inline text-danger" @click="removeUser(user.id, key)">Delete</button> -->
                   </td>
                 </tr>
               </tbody>
@@ -59,20 +59,18 @@
   export default {
     data() {
       return {
-        users: {},
-        errors: []
+        users: {}
       };
     },
     methods: {
-      removeUser: function(userId) {
+      removeUser: function(userId, key) {
         UserProvider.remove(userId)
           .then(user => {
-            Vue.delete(this.users, user);
+            this.users.splice(key, 1);
           })
           .catch(errors => {
             console.log(errors);
           });
-        console.log('remove user: ' + userId);
       }
     },
     created() {
