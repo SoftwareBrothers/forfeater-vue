@@ -3,7 +3,7 @@
     <div class="form-row">
       <div class="form-group col-md-6 custom-control">
         <label for="firstName">First name</label>
-        <input v-validate="'required|alpha'" v-model="User.firstName" type="text" class="form-control" name="firstName"  placeholder="firstName">
+        <input v-validate="'required|alpha'" v-model="User.firstName" type="text" class="form-control" name="firstName" placeholder="firstName">
         <div class="invalid-feedback-not-work">{{ errors.first('firstName')}}</div>
       </div>
       <div class="form-group col-md-6">
@@ -24,7 +24,7 @@
         <div class="invalid-feedback-not-work">{{ errors.first('email')}}</div>
       </div>
     </div>
-    <div class="form-row">
+    <div class="form-row" v-if="!User.id">
       <div class="form-group col-md-6">
         <label for="password">Password</label>
         <input v-validate="'required|confirmed:confirmation'" v-model="User.password" type="password" class="form-control" name="password" placeholder="Password">
@@ -36,58 +36,73 @@
         <div class="invalid-feedback-not-work">{{ errors.first('confirmation')}}</div>
       </div>
     </div>
-    <button type="button" class="btn btn-warning" :disabled="errors.has()" @click="sendForm">Create</button>
+    <button v-if="!User.id" type="button" class="btn btn-warning" :disabled="errors.has()" @click="createUser">Create</button>
+    <button v-if="User.id" type="button" class="btn btn-warning" :disabled="errors.has()" @click="editUser">Edit</button>
   </form>
 </template>
 
 <script>
-import UserProvider from "@/provider/user.provider";
-
-export default {
-  data() {
-    return {
+  import UserProvider from "@/provider/user.provider";
+  
+  export default {
+    props: {
       User: {
-        firstName: null,
-        lastName: null,
-        role: null,
-        email: null,
-        password: null
-      }
-    };
-  },
-  methods: {
-    sendForm: function() {
-       if(!this.errors.any()) {
-        UserProvider.store(this.User)
-        .then(user => {
-          this.$router.push('/users') 
-      })
-      .catch(errors => {
-        this.errors.push(errors);
-      });
-       }
-    },
-  }
-};
-
-(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
+        type: Object,
+        required: false,
+        default: {
+          firstName: null,
+          lastName: null,
+          role: null,
+          email: null,
+          password: null
         }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
+      }
+    },
+    methods: {
+      createUser: function() {
+        if (!this.errors.any()) {
+          UserProvider.store(this.User)
+            .then(user => {
+              this.$router.push('/users')
+            })
+            .catch(errors => {
+              this.errors.push(errors);
+            });
+        }
+      },
+      editUser: function() {
+        if (!this.errors.any()) {
+          UserProvider.update(this.User)
+            .then(user => {
+              this.$router.push('/users')
+            })
+            .catch(errors => {
+              this.errors.push(errors);
+            });
+        }
+      },
+    }
+  };
+  
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
 </script>
 
 <style lang="scss" scoped>
+  
 </style>

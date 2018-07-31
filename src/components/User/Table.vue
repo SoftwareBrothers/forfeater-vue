@@ -24,7 +24,7 @@
                                 <td>{{ user.email}}</td>
                                 <td>{{ user.role}}</td>
                                 <td>
-                                    <router-link class="nav-link d-inline" :to="{ name: 'UserEdit' }">
+                                    <router-link class="nav-link d-inline" :to="{ name: 'UserEdit', params: { id: user.id } }">
                                         <font-awesome-icon icon="edit" />
                                     </router-link>
                                     <a class="nav-link d-inline text-danger" href="" @click="removeUser(user.id, key, $event)">
