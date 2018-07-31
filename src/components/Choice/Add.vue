@@ -52,7 +52,8 @@ export default {
     };
   },
   methods: {
-    sendForm: function() {},
+    sendForm: function() {
+    },
     productSelected: function(product) {
       this.product = product;
     }

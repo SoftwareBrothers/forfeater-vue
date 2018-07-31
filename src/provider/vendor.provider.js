@@ -3,10 +3,26 @@ import ApiProvider from '@/provider/api.provider';
 
 class VendorProvider extends ApiProvider {
   vendor = null;
+  vendors = null;
   error= [];
   
   constructor() {
     super('/vendors');
+  }
+
+  getAll() {
+    return new Promise((resolve,reject)=> {
+      axios
+      .get(this.uri)
+      .then(response => {
+        this.vendors = response.data;
+        resolve(this.vendors);
+      })
+      .catch(errors => {
+        this.errors.push(errors);
+        reject(this.errors);
+      });
+    });
   }
 
   getTodayVendor() {
