@@ -2,39 +2,37 @@
   <div class="container">
     <div class="row pt-3">
       <div class="col-sm">
-        <h1 class="text-center">User list</h1>
+        <h1 class="text-center">Vendor list</h1>
       </div>
     </div>
-    <UserTable :users="users"></UserTable>
+    <VendorTable :vendors="vendors"></VendorTable>
   </div>
 </template>
 
 <script>
-  import axios from "axios";
-  import UserProvider from "@/provider/user.provider";
-  import UserTable from "@/components/User/Table";
+  import VendorProvider from "@/provider/vendor.provider";
+  import VendorTable from "@/components/Vendor/Table";
   
   export default {
     data() {
       return {
-        users: {}
+        vendors: {}
       };
     },
     created() {
-      UserProvider.getAll()
-        .then(users => {
-          this.users = users;
+      VendorProvider.getAll()
+        .then(vendors => {
+          this.vendors = vendors;
         })
         .catch(errors => {
           console.log(errors);
         });
     },
     components: {
-      UserTable
+      VendorTable
     }
   };
 </script>
 
 <style lang="scss" scoped>
-  
 </style>

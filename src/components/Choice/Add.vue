@@ -54,8 +54,11 @@ export default {
   },
   methods: {
     sendForm: function() {
+<<<<<<< HEAD
       if (this.isFormCompleted) {
       }
+=======
+>>>>>>> 5fb6ab18d4e2c5f1d1b26168b2093ae2a13a5698
     },
     productSelected: function(product) {
       this.product = product;
