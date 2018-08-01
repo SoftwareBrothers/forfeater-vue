@@ -2,34 +2,34 @@
   <div class="container">
     <div class="row pt-3">
       <div class="col-sm">
-        <h1 class="text-center">User list</h1>
+        <h1 class="text-center">Product list</h1>
       </div>
     </div>
-    <UserTable :users="users"></UserTable>
+    <ProductTable :products="products"></ProductTable>
   </div>
 </template>
 
 <script>
-  import UserProvider from "@/provider/user.provider";
-  import UserTable from "@/components/User/Table";
+  import ProductService from "@/services/product.service";
+  import ProductTable from "@/components/Product/Table";
   
   export default {
     data() {
       return {
-        users: {}
+        products: {}
       };
     },
     created() {
-      UserProvider.getAll()
-        .then(users => {
-          this.users = users;
+      ProductService.getAll(this.$route.params.vendorId)
+        .then(products => {
+          this.products = products;
         })
         .catch(errors => {
           console.log(errors);
         });
     },
     components: {
-      UserTable
+      ProductTable
     }
   };
 </script>
