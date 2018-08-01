@@ -2,13 +2,13 @@
   <div class="container">
     <div class="row pt-3">
       <div class="col-sm">
-        <h1 class="text-center">Edit user</h1>
+        <h1 class="text-center">Edit vendor</h1>
       </div>
     </div>
     <div>
       <div class="row">
         <div class="col-sm-12">
-          <UserForm :User="User"></UserForm>
+          <VendorForm :User="Vendor"></VendorForm>
         </div>
         <div class="col-sm"></div>
       </div>
@@ -18,32 +18,30 @@
 
 <script>
   import axios from "axios";
-  import UserProvider from "@/provider/user.provider";
-  import UserForm from "@/components/User/Form";
+  import VendorProvider from "@/provider/vendor.provider";
+  import VendorForm from "@/components/Vendor/Form";
   
   export default {
     data() {
       return {
-        User: {
-          firstName: null,
-          lastName: null,
-          role: null,
-          email: null,
-          password: null
+        Vendor: {
+          name: null,
+          url: null
         }
       };
     },
     beforeCreate() {
-      UserProvider.find(this.$route.params.id)
-        .then(user => {     
-          this.User = user;       
+      VendorProvider.find(this.$route.params.id)
+        .then(vendor => {
+          this.Vendor = vendor;
+          console.log(vendor)
         })
         .catch(errors => {
           console.log(errors);
         });
     },
     components: {
-      UserForm
+      VendorForm
     }
   };
 </script>

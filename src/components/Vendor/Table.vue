@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm"></div>
             <div class="col-sm-12">
-                <router-link class="nav-link d-inline" :to="{ name: 'UserCreate' }">Create vendor</router-link>
+                <router-link class="nav-link d-inline" :to="{ name: 'VendorCreate' }">Create vendor</router-link>
                 <div class="table-responsive">
                     <table class="table table-sm table-hover table-bordered table-striped">
                         <thead>
@@ -20,7 +20,7 @@
                                 <td>{{ vendor.name }}</td>
                                 <td>{{ vendor.url }}</td>
                                 <td>
-                                    <router-link class="nav-link d-inline" :to="{ name: 'UserEdit' }">
+                                    <router-link class="nav-link d-inline" :to="{ name: 'VendorEdit', params: { id: vendor.id } }">
                                         <font-awesome-icon icon="edit" />
                                     </router-link>
                                     <a class="nav-link d-inline text-danger" href="" @click="remove(vendor.id, key, $event)">
