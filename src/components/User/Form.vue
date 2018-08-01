@@ -3,12 +3,12 @@
     <div class="form-row">
       <div class="form-group col-md-6 custom-control">
         <label for="firstName">First name</label>
-        <input v-validate="'required|alpha'" v-model="User.firstName" type="text" class="form-control" name="firstName" placeholder="firstName">
+        <input v-validate="'required|alpha'" v-model="User.firstName" type="text" class="form-control" name="firstName" placeholder="First name">
         <div class="invalid-feedback-not-work">{{ errors.first('firstName')}}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="lastName">Last name</label>
-        <input v-validate="'required|alpha'" v-model="User.lastName" type="text" class="form-control" name="lastName" placeholder="lastName">
+        <input v-validate="'required|alpha'" v-model="User.lastName" type="text" class="form-control" name="lastName" placeholder="Last name">
         <div class="invalid-feedback-not-work">{{ errors.first('lastName')}}</div>
       </div>
     </div>
@@ -49,13 +49,13 @@
       User: {
         type: Object,
         required: false,
-        default: {
+        default: () => ({
           firstName: null,
           lastName: null,
           role: null,
           email: null,
           password: null
-        }
+        }),
       }
     },
     methods: {

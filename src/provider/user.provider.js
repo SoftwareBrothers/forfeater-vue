@@ -66,12 +66,10 @@ class UserProvider extends ApiProvider {
       axios
       .post(this.uri, user)
       .then(response => {
-        status = response.data.status;
-        console.log(response.data)
-        if(status != 'success') {
+        if(response.status !== 201) {
           reject(this.errors);
         }
-        resolve(response.data.data);
+        resolve(response.data);
       })
       .catch(errors => {
         console.log(errors)

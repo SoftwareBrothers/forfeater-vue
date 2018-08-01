@@ -20,10 +20,10 @@
                                 <td>{{ vendor.name }}</td>
                                 <td>{{ vendor.url }}</td>
                                 <td>
-                                    <router-link class="nav-link d-inline" :to="{ name: 'VendorEdit', params: { id: vendor.id } }">
+                                    <router-link class="btn-action d-inline" :to="{ name: 'VendorEdit', params: { id: vendor.id } }">
                                         <font-awesome-icon icon="edit" />
                                     </router-link>
-                                    <a class="nav-link d-inline text-danger" href="" @click="remove(vendor.id, key, $event)">
+                                    <a class="btn-action d-inline text-danger" href="" @click="remove(vendor.id, key, $event)">
                                         <font-awesome-icon icon="trash" />
                                     </a>
                                 </td>

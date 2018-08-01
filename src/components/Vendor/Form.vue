@@ -25,10 +25,10 @@
       Vendor: {
         type: Object,
         required: false,
-        default: {
+        default: () => ({
           name: null,
           url: null
-        }
+        }),
       }
     },
     methods: {

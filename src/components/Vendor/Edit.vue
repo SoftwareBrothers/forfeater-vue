@@ -8,7 +8,7 @@
     <div>
       <div class="row">
         <div class="col-sm-12">
-          <VendorForm :User="Vendor"></VendorForm>
+          <VendorForm :Vendor="Vendor"></VendorForm>
         </div>
         <div class="col-sm"></div>
       </div>
