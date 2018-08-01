@@ -27,7 +27,7 @@
                                     <router-link class="btn-action d-inline" :to="{ name: 'UserEdit', params: { id: user.id } }">
                                         <font-awesome-icon icon="edit" />
                                     </router-link>
-                                    <a class="btn-action d-inline text-danger" href="" @click="removeUser(user.id, key, $event)">
+                                    <a class="btn-action d-inline text-danger" href="" @click="remove(user.id, key, $event)">
                                         <font-awesome-icon icon="trash" />
                                     </a>
                                 </td>
@@ -51,7 +51,7 @@
             }
         },
         methods: {
-            removeUser: function(userId, key, event) {
+            remove: function(userId, key, event) {
                 UserProvider.remove(userId)
                     .then(user => {
                         this.users.splice(key, 1);

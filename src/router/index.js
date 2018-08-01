@@ -13,6 +13,10 @@ import VendorList from "@/components/Vendor/List";
 import VendorCreate from "@/components/Vendor/Create";
 import VendorEdit from "@/components/Vendor/Edit";
 
+import ProductList from "@/components/Product/List";
+import ProductCreate from "@/components/Product/Create";
+import ProductEdit from "@/components/Product/Edit";
+
 Vue.use(VueRouter);
 
 export default new VueRouter({
@@ -62,6 +66,22 @@ export default new VueRouter({
       path: "/vendors/:id/edit",
       name: "VendorEdit",
       component: VendorEdit
+    },
+
+    {
+      path: "/vendors/:vendorId/products",
+      name: "ProductList",
+      component: ProductList
+    },
+    {
+      path: "/vendors/:vendorId/products/create",
+      name: "ProductCreate",
+      component: ProductCreate
+    },
+    {
+      path: "/vendors/:vendorId/products/:id/edit",
+      name: "ProductEdit",
+      component: ProductEdit
     },
   ]
 });
