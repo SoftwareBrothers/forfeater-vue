@@ -25,15 +25,14 @@
       return {
         Product: {
           name: null,
-          url: null
+          active: null
         }
       };
     },
     beforeCreate() {
-      ProductService.find(this.$route.params.id)
+      ProductService.find(this.$route.params.vendorId, this.$route.params.id)
         .then(product => {
-          this.product = product;
-          console.log(product)
+          this.Product = product;
         })
         .catch(errors => {
           console.log(errors);

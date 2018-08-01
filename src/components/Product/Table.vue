@@ -18,7 +18,7 @@
                                 <th scope="row">{{ product.id }}</th>
                                 <td>{{ product.name }}</td>
                                 <td>
-                                    <router-link class="btn-action d-inline" :to="{ name: 'ProductEdit', params: { id: product.id } }">
+                                    <router-link class="btn-action d-inline" :to="{ name: 'ProductEdit', params: { vendorId: product.vendorId, id: product.id } }">
                                         <font-awesome-icon icon="edit" />
                                     </router-link>
                                     <a class="btn-action d-inline text-danger" href="" @click="remove(product.id, key, $event)">

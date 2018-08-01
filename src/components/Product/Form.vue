@@ -56,7 +56,7 @@
         if (!this.errors.any()) {
           ProductService.update(this.Product)
             .then(product => {
-              this.$router.push('/products')
+              this.$router.push('/vendors/' + product.vendorId + '/products')
             })
             .catch(errors => {
               this.errors.push(errors);

@@ -79,7 +79,7 @@ export default new VueRouter({
       component: ProductCreate
     },
     {
-      path: "/vendors/:vendorId/products/edit",
+      path: "/vendors/:vendorId/products/:id/edit",
       name: "ProductEdit",
       component: ProductEdit
     },

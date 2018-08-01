@@ -6,6 +6,24 @@ class ProductService extends ApiService {
   products = [];
   error = [];
  
+  find(vendorId, id) {
+    return new Promise((resolve,reject)=> {
+      axios
+      .get(this.base + '/vendors/' + vendorId + '/products/' + id)
+      .then(response => {
+        if(response.status !== 200) {
+          reject(this.errors);
+        }
+        resolve(response.data);
+      })
+      .catch(errors => {
+        console.log(errors)
+        this.errors.push(errors);
+        reject(this.errors);
+      });
+    });
+  }
+
   getAll(vendorId) {
     return new Promise((resolve,reject)=> {
       axios
@@ -46,6 +64,25 @@ class ProductService extends ApiService {
       .post(this.base + '/vendors/' + product.vendorId + '/products', product)
       .then(response => {
         if(response.status !== 201) {
+          reject(this.errors);
+        }
+        resolve(response.data);
+      })
+      .catch(errors => {
+        console.log(errors)
+        this.errors.push(errors);
+        reject(this.errors);
+      });
+    });
+  }
+
+  update(product) {
+    return new Promise((resolve,reject)=> {
+      axios
+      .patch(this.base + '/vendors/' + product.vendorId + '/products/' + product.id, product)
+      .then(response => {
+        console.log(response.data)
+        if(response.status !== 200) {
           reject(this.errors);
         }
         resolve(response.data);
