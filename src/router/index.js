@@ -3,6 +3,8 @@ import Vue from "vue";
 import Home from "@/components/Home";
 import About from "@/components/About";
 
+import Login from "@/components/Auth/Login";
+
 import ChoiceAdd from "@/components/Choice/Add";
 
 import UserList from "@/components/User/List";
@@ -22,6 +24,11 @@ Vue.use(VueRouter);
 export default new VueRouter({
   mode: "history",
   routes: [
+    {
+      path: "/login",
+      name: "Login",
+      component: Login
+    },
     {
       path: "/",
       name: "Home",
@@ -82,6 +89,6 @@ export default new VueRouter({
       path: "/vendors/:vendorId/products/:id/edit",
       name: "ProductEdit",
       component: ProductEdit
-    },
+    }
   ]
 });
