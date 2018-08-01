@@ -18,6 +18,7 @@ import ProductCreate from "@/components/Product/Create";
 import ProductEdit from "@/components/Product/Edit";
 
 import OrderList from "@/components/Order/List";
+import OrderCreate from "@/components/Order/Create";
 
 Vue.use(VueRouter);
 
@@ -90,6 +91,11 @@ export default new VueRouter({
       path: "/orders",
       name: "OrderList",
       component: OrderList
+    },
+    {
+      path: "/orders/create",
+      name: "OrderCreate",
+      component: OrderCreate
     },
   ]
 });
