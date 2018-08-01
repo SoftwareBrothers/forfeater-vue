@@ -38,23 +38,26 @@
 
 <script>
 import ProductsInputList from "@/components/Product/InputsList";
-import VendorProvider from "@/provider/vendor.provider";
+import OrderProvider from "@/provider/order.provider";
 import ProductProvider from "@/provider/product.provider";
+import ChoiceProvider from "@/provider/choice.provider";
 import UserAutocomplete from "@/components/User/AutoComplete";
 
 export default {
   data: () => {
     return {
-      vendor: [],
+      vendor: {},
       products: [],
       appErrors: [],
       product: {},
-      user: {}
+      user: {},
+      order: {}
     };
   },
   methods: {
     sendForm: function() {
-      if (this.isFormCompleted) {
+      if (this.isFormCompleted()) {
+      ChoiceProvider.post(this.user, this.order, this.product);
       }
     },
     productSelected: function(product) {
@@ -68,10 +71,11 @@ export default {
     }
   },
   created() {
-    VendorProvider.getTodayVendor()
-      .then(vendor => {
-        this.vendor = vendor;
-        ProductProvider.getAllActiveByVendor(vendor.id)
+    OrderProvider.getActive()
+      .then(result => {
+        this.order = result;
+        this.vendor = result.vendor;
+        ProductProvider.getAllActiveByVendor(this.vendor.id)
           .then(products => {
             this.products = products;
           })
