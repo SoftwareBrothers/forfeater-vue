@@ -2,34 +2,34 @@
   <div class="container">
     <div class="row pt-3">
       <div class="col-sm">
-        <h1 class="text-center">Product list</h1>
+        <h1 class="text-center">Order list</h1>
       </div>
     </div>
-    <ProductTable :products="products"></ProductTable>
+    <OrderTable :orders="orders"></OrderTable>
   </div>
 </template>
 
 <script>
-  import ProductService from "@/services/product.service";
-  import ProductTable from "@/components/Product/Table";
+  import OrderService from "@/services/order.service";
+  import OrderTable from "@/components/Order/Table";
   
   export default {
     data() {
       return {
-        products: {}
+        orders: {}
       };
     },
     created() {
-      ProductService.getAll(this.$route.params.vendorId)
-        .then(products => {
-          this.products = products;
+      OrderService.getAll()
+        .then(orders => {
+          this.orders = orders;
         })
         .catch(errors => {
           console.log(errors);
         });
     },
     components: {
-      ProductTable
+      OrderTable
     }
   };
 </script>

@@ -17,6 +17,8 @@ import ProductList from "@/components/Product/List";
 import ProductCreate from "@/components/Product/Create";
 import ProductEdit from "@/components/Product/Edit";
 
+import OrderList from "@/components/Order/List";
+
 Vue.use(VueRouter);
 
 export default new VueRouter({
@@ -82,6 +84,12 @@ export default new VueRouter({
       path: "/vendors/:vendorId/products/:id/edit",
       name: "ProductEdit",
       component: ProductEdit
+    },
+
+    {
+      path: "/orders",
+      name: "OrderList",
+      component: OrderList
     },
   ]
 });

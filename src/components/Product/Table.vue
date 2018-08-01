@@ -10,6 +10,8 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
+                                <th scope="col">Rate</th>
+                                <th scope="col">Votes</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -17,6 +19,8 @@
                             <tr v-for="(product, key) in products" v-bind:key="key">
                                 <th scope="row">{{ product.id }}</th>
                                 <td>{{ product.name }}</td>
+                                <td>{{ product.avgScore }}</td>
+                                <td>{{ product.rankCount }}</td>
                                 <td>
                                     <router-link class="btn-action d-inline" :to="{ name: 'ProductEdit', params: { vendorId: product.vendorId, id: product.id } }">
                                         <font-awesome-icon icon="edit" />
