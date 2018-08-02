@@ -33,11 +33,12 @@ const actions = {
       // })
       //   .then(result => {
       let result = {
-        firstName: "Marek",
-        lastName: "f",
-        email: "test@test.pl",
+        id: 1,
+        firstName: "Piotr",
+        lastName: "Wilczyński",
+        email: "piotr.wilczynski@rst-it.com",
         role: "admin",
-        token: "blabla"
+        token: "secret_token"
       };
       context.commit(LOGIN, result);
       localStorage.setItem("user", JSON.stringify(result));
