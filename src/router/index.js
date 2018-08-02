@@ -1,7 +1,9 @@
 import VueRouter from "vue-router";
 import Vue from "vue";
+
+import Guard from "@/security/guard";
+
 import Home from "@/components/Home";
-import About from "@/components/About";
 
 import Login from "@/components/Auth/Login";
 
@@ -27,68 +29,75 @@ export default new VueRouter({
     {
       path: "/login",
       name: "Login",
-      component: Login
+      component: Login,
+      beforeEnter: Guard.isGuest
     },
     {
       path: "/",
       name: "Home",
-      component: Home
-    },
-    {
-      path: "/about",
-      name: "About",
-      component: About
+      component: Home,
+      beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/order",
       name: "ChoiceAdd",
-      component: ChoiceAdd
+      component: ChoiceAdd,
+      beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/users",
       name: "UserList",
-      component: UserList
+      component: UserList,
+      beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/users/create",
       name: "UserCreate",
-      component: UserCreate
+      component: UserCreate,
+      beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/users/:id/edit",
       name: "UserEdit",
-      component: UserEdit
+      component: UserEdit,
+      beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/vendors",
       name: "VendorList",
-      component: VendorList
+      component: VendorList,
+      beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/vendors/create",
       name: "VendorCreate",
-      component: VendorCreate
+      component: VendorCreate,
+      beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/vendors/:id/edit",
       name: "VendorEdit",
-      component: VendorEdit
+      component: VendorEdit,
+      beforeEnter: Guard.isAuthenticated
     },
 
     {
       path: "/vendors/:vendorId/products",
       name: "ProductList",
-      component: ProductList
+      component: ProductList,
+      beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/vendors/:vendorId/products/create",
       name: "ProductCreate",
-      component: ProductCreate
+      component: ProductCreate,
+      beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/vendors/:vendorId/products/:id/edit",
       name: "ProductEdit",
-      component: ProductEdit
+      component: ProductEdit,
+      beforeEnter: Guard.isAuthenticated
     }
   ]
 });

@@ -29,20 +29,33 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                username: "",
-                password: ""
-            };
-        },
-        methods: {
-            login() {
-                console.log(this.username, this.password)
-            },
-            disabled() {
-                return this.username.length === 0 || this.password.length === 0 || this.errors.any();
-            }
-        }
+export default {
+  data() {
+    return {
+      username: "",
+      password: ""
     };
+  },
+  methods: {
+    login() {
+      this.$store
+        .dispatch("login", { username: this.username, password: this.password })
+        .then(result => {
+          let redirection = this.$route.query.redirect;
+          if (redirection) {
+            return this.$router.push({ name: redirection });
+          }
+          return this.$router.push({ name: "Home" });
+        });
+    },
+    disabled() {
+      return (
+        this.username.length === 0 ||
+        this.password.length === 0 ||
+        this.errors.any()
+      );
+    }
+  },
+  created() {}
+};
 </script>
