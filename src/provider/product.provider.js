@@ -5,14 +5,10 @@ class ProductProvider extends ApiProvider {
   products = [];
   error = [];
   
-  constructor(){
-    super('/products');
-  }
-
   getAllActiveByVendor(vendorId) {
     return new Promise((resolve, reject) => {
       axios
-        .get(this.uri, {
+        .get(`${this.api}/vendors/${vendorId}/products`, {
           params: {
             active: 1,
             vendorId: vendorId

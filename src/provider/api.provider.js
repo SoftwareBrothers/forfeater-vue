@@ -1,6 +1,7 @@
 export default class ApiProvider {
-    constructor(path){
-        this.uri = process.env.VUE_APP_API_URL + path;
-    }
-    
+  api = process.env.VUE_APP_API_URL;
+  uri = "";
+  constructor(path) {
+    this.uri = this.api + path;
+  }
 }
