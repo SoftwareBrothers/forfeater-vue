@@ -13,7 +13,8 @@
       <div class="form-group col-md-6 custom-control">
         <label for="name">Deadline</label>
         <div>
-          <date-picker v-model="Order.deadlineAt" type="datetime" :time-picker-options="timePickerOptions" :first-day-of-week="1" lang="en" format="YYYY-MM-DD HH:mm" v-validate="'required|date_format:YYYY-MM-DD HH:ii'" name="deadlineAt" ref="deadlineAt">
+          <date-picker v-model="Order.deadlineAt" type="datetime" :time-picker-options="timePickerOptions" :first-day-of-week="1" lang="en" format="YYYY-MM-DD HH:mm" v-validate="'required'" name="deadlineAt" ref="deadlineAt"
+          data-vv-validate-on="change|custom">
           </date-picker>
         </div>
         <div class="invalid-feedback-not-work">{{ errors.first('deadlineAt')}}</div>
@@ -21,7 +22,8 @@
       <div class="form-group col-md-6">
         <label for="name">Delivery</label>
         <div>
-          <date-picker v-model="Order.deliveryAt" type="datetime" :time-picker-options="timePickerOptions" :first-day-of-week="1" lang="en" format="YYYY-MM-DD HH:mm" v-validate="'date_format:YYYY-MM-DD HH:ii|after:deadlineAt'" name="deliveryAt">
+          <date-picker v-model="Order.deliveryAt" type="datetime" :time-picker-options="timePickerOptions" :first-day-of-week="1" lang="en" format="YYYY-MM-DD HH:mm" v-validate="'after:deadlineAt'" name="deliveryAt"
+          data-vv-validate-on="change|custom">
           </date-picker>
           <div class="invalid-feedback-not-work">{{ errors.first('deliveryAt')}}</div>
         </div>
@@ -36,6 +38,7 @@
   import OrderService from "@/services/order.service";
   import VendorProvider from "@/provider/vendor.provider";
   import DatePicker from 'vue2-datepicker'
+  // import Datepicker from 'vuejs-datepicker';
   
   export default {
     props: {
@@ -45,7 +48,7 @@
         default: () => ({
           vendorId: null,
           userId: 1,
-          dedlineAt: null,
+          deadlineAt: null,
           deliveryAt: null
         }),
       }
@@ -87,13 +90,22 @@
         var isValid  = await this.$validator.validateAll();
 
         if (isValid && !this.errors.any()) {
+          console.log(this.Order)
           OrderService.update(this.Order)
             .then(order => {
-              this.$router.push('/orders')
+              // this.$router.push('/orders')
             })
             .catch(errors => {
               this.errors.push(errors);
             });
+        } else {
+          console.log(':(')
+          console.log(this.errors.all())
+          // for(field in this.fields){
+          //     console.log(field.getter)
+          // }
+          console.log(this.$validator.fields.find({ name: 'deadlineAt' }).value);
+          console.log(this.$validator.fields.find({ name: 'deliveryAt' }).value);
         }
       },
      
