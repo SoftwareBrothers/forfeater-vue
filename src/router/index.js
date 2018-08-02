@@ -21,6 +21,9 @@ import ProductList from "@/components/Product/List";
 import ProductCreate from "@/components/Product/Create";
 import ProductEdit from "@/components/Product/Edit";
 
+import OrderList from "@/components/Order/List";
+import OrderCreate from "@/components/Order/Create";
+
 Vue.use(VueRouter);
 
 export default new VueRouter({
@@ -98,6 +101,19 @@ export default new VueRouter({
       name: "ProductEdit",
       component: ProductEdit,
       beforeEnter: Guard.isAuthenticated
+    },
+    {
+      path: "/orders",
+      name: "OrderList",
+      component: OrderList,
+      beforeEnter: Guard.isAuthenticated
+    },
+    {
+      path: "/orders/create",
+      name: "OrderCreate",
+      component: OrderCreate,
+      beforeEnter: Guard.isAuthenticated
     }
+
   ]
 });
