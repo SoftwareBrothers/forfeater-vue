@@ -15,9 +15,11 @@
     "bootstrap": "4",
     "dotenv": "^6.0.0",
     "dotenv-webpack": "^1.5.7",
+    "moment": "^2.22.2",
     "vee-validate": "^2.1.0-beta.7",
     "vue": "^2.5.16",
-    "vue-router": "3.0"
+    "vue-router": "3.0",
+    "vue2-datepicker": "^2.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-rc.9",
