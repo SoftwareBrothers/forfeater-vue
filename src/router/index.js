@@ -3,9 +3,10 @@ import Vue from "vue";
 
 import Guard from "@/security/guard";
 
-import Home from "@/components/Home";
-
 import Login from "@/components/Auth/Login";
+
+import Home from "@/components/Home";
+import PageNotFound from "@/components/PageNotFound";
 
 import ChoiceAdd from "@/components/Choice/Add";
 
@@ -30,6 +31,7 @@ Vue.use(VueRouter);
 export default new VueRouter({
   mode: "history",
   routes: [
+    { path: "*", component: PageNotFound },
     {
       path: "/login",
       name: "Login",
