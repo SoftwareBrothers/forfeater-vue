@@ -4,21 +4,29 @@
       <div class="form-group col-md-12 custom-control">
         <label for="name">Vendor</label>
         <select v-model="Order.vendorId" class="custom-select">
-          <option v-for="(vendor,key) in vendors" :key="key" :value="vendor.id">{{ vendor.name }}</option>
-        </select>
+            <option v-for="(vendor,key) in vendors" :key="key" :value="vendor.id">{{ vendor.name }}</option>
+          </select>
         <div class="invalid-feedback-not-work">{{ errors.first('order.vendorId')}}</div>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-6 custom-control">
         <label for="name">Deadline</label>
-        <input v-validate="'required'" v-model="Order.deadlineAt" type="text" class="form-control" name="deadlineAt" placeholder="deadlineAt">
+        <div>
+          <date-picker v-model="Order.deadlineAt" type="datetime" :time-picker-options="timePickerOptions" :first-day-of-week="1" lang="en" format="YYYY-MM-DD HH:mm" 
+          v-validate="'date_format:YYYY-MM-DD HH:ii'" name="deadlineAt">
+          </date-picker>
+        </div>
         <div class="invalid-feedback-not-work">{{ errors.first('order.deadlineAt')}}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="name">Delivery</label>
-        <input v-validate="'date'" v-model="Order.deliveryAt" type="text" class="form-control" name="deliveryAt" placeholder="deliveryAt">
-        <div class="invalid-feedback-not-work">{{ errors.first('order.deliveryAt')}}</div>
+        <div>
+          <date-picker v-model="Order.deliveryAt" type="datetime" :time-picker-options="timePickerOptions" :first-day-of-week="1" lang="en" format="YYYY-MM-DD HH:mm" 
+          v-validate="'date_format:YYYY-MM-DD HH:ii'" name="deliveryAt">
+          </date-picker>
+          <div class="invalid-feedback-not-work">{{ errors.first('order.deliveryAt')}}</div>
+        </div>
       </div>
     </div>
     <button v-if="!Order.id" type="button" class="btn btn-warning" :disabled="errors.has()" @click="create">Create</button>
@@ -29,6 +37,7 @@
 <script>
   import OrderService from "@/services/order.service";
   import VendorProvider from "@/provider/vendor.provider";
+  import DatePicker from 'vue2-datepicker'
   
   export default {
     props: {
@@ -37,7 +46,7 @@
         required: false,
         default: () => ({
           vendorId: null,
-          userId: null,
+          userId: 1,
           dedlineAt: null,
           deliveryAt: null
         }),
@@ -45,7 +54,12 @@
     },
     data() {
       return {
-        vendors: {}
+        vendors: {},
+        timePickerOptions: {
+          start: '08:00',
+          step: '00:15',
+          end: '17:00'
+        }
       };
     },
     created() {
@@ -82,6 +96,9 @@
             });
         }
       },
+    },
+    components: {
+      DatePicker
     }
   };
 </script>

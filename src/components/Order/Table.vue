@@ -21,12 +21,12 @@
                                 <th scope="row">{{ order.id }}</th>
                                 <td>{{ order.vendor.name }}</td>
                                 <td>{{ order.user.firstName }} {{ order.user.lastName }}</td>
-                                <td>{{ order.deadlineAt }}</td>
-                                <td>{{ order.deliveryAt }}</td>
+                                <td>{{ order.deadlineAt | moment }}</td>
+                                <td>{{ order.deliveryAt | moment }}</td>
                                 <td>
                                     <!-- <router-link class="btn-action d-inline text-warning" :to="{ name: 'ProductList', params: { id: order.id } }">
-                                        <font-awesome-icon icon="list" />
-                                    </router-link> -->
+                                            <font-awesome-icon icon="list" />
+                                        </router-link> -->
                                     <router-link class="btn-action d-inline" :to="{ name: 'VendorEdit', params: { id: order.id } }">
                                         <font-awesome-icon icon="edit" />
                                     </router-link>
@@ -45,8 +45,9 @@
 </template>
 
 <script>
-   import OrderService from "@/services/order.service";
-
+    import OrderService from "@/services/order.service";
+    var moment = require('moment');
+    
     export default {
         props: {
             orders: {
@@ -63,9 +64,16 @@
                         console.log(errors);
                     });
             }
+        },
+        filters: {
+            moment: function(date) {
+                if(!date) return null;
+                return moment(date).format('DD/MM/YYYY HH:mm');
+            }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    
 </style>

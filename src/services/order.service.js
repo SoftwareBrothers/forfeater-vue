@@ -21,6 +21,24 @@ class OrderService extends ApiService {
     });
   }
 
+  store(order) {
+    return new Promise((resolve,reject)=> {
+      axios
+      .post(this.base + '/orders', order)
+      .then(response => {
+        if(response.status !== 201) {
+          reject(this.errors);
+        }
+        resolve(response.data);
+      })
+      .catch(errors => {
+        console.log(errors)
+        this.errors.push(errors);
+        reject(this.errors);
+      });
+    });
+  }
+
 }
 
 export default new OrderService();
