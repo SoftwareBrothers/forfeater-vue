@@ -2,13 +2,13 @@
   <div class="container">
     <div class="row pt-3">
       <div class="col-sm">
-        <h1 class="text-center">Edit vendor</h1>
+        <h1 class="text-center">Edit order</h1>
       </div>
     </div>
     <div>
       <div class="row">
         <div class="col-sm-12">
-          <VendorForm :Vendor="Vendor"></VendorForm>
+          <OrderForm :Order="Order"></OrderForm>
         </div>
         <div class="col-sm"></div>
       </div>
@@ -17,34 +17,34 @@
 </template>
 
 <script>
-  import VendorProvider from "@/provider/vendor.provider";
-  import VendorForm from "@/components/Vendor/Form";
+  import OrderService from "@/services/order.service";
+  import OrderForm from "@/components/Order/Form";
   
   export default {
     data() {
       return {
-        Vendor: {
-          name: null,
-          url: null
+        Order: {
+          vendorId: null,
+          userId: 1,
+          deadlineAt: null,
+          deliveryAt: null
         }
       };
     },
     beforeCreate() {
-      VendorProvider.find(this.$route.params.id)
-        .then(vendor => {
-          this.Vendor = vendor;
-          console.log(vendor)
+      OrderService.find(this.$route.params.id)
+        .then(order => {
+          this.Order = order;
         })
         .catch(errors => {
           console.log(errors);
         });
     },
     components: {
-      VendorForm
+      OrderForm
     }
   };
 </script>
 
 <style lang="scss" scoped>
-  
 </style>

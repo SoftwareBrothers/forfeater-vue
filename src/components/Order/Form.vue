@@ -13,16 +13,29 @@
       <div class="form-group col-md-6 custom-control">
         <label for="name">Deadline</label>
         <div>
-          <date-picker v-model="Order.deadlineAt" type="datetime" :time-picker-options="timePickerOptions" :first-day-of-week="1" lang="en" format="YYYY-MM-DD HH:mm" v-validate="'required|date_format:YYYY-MM-DD HH:ii'" name="deadlineAt" ref="deadlineAt">
-          </date-picker>
+          <flat-pickr 
+                v-model="Order.deadlineAt"
+                v-validate="'date_format:YYYY-MM-DD HH:mm|required'"
+                :config="config"                                                          
+                class="form-control" 
+                placeholder="Select date"
+                name="deadlineAt"
+                ref="deadlineAt"
+          ></flat-pickr>
         </div>
         <div class="invalid-feedback-not-work">{{ errors.first('deadlineAt')}}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="name">Delivery</label>
         <div>
-          <date-picker v-model="Order.deliveryAt" type="datetime" :time-picker-options="timePickerOptions" :first-day-of-week="1" lang="en" format="YYYY-MM-DD HH:mm" v-validate="'date_format:YYYY-MM-DD HH:ii|after:deadlineAt'" name="deliveryAt">
-          </date-picker>
+          <flat-pickr 
+                v-model="Order.deliveryAt"
+                v-validate="'date_format:YYYY-MM-DD HH:mm|after:deadlineAt'"
+                :config="config"                                                          
+                class="form-control" 
+                placeholder="Select date"
+                name="deliveryAt"
+          ></flat-pickr>
           <div class="invalid-feedback-not-work">{{ errors.first('deliveryAt')}}</div>
         </div>
       </div>
@@ -35,7 +48,8 @@
 <script>
   import OrderService from "@/services/order.service";
   import VendorProvider from "@/provider/vendor.provider";
-  import DatePicker from 'vue2-datepicker'
+  import flatPickr from 'vue-flatpickr-component';
+  import 'flatpickr/dist/flatpickr.css';
   
   export default {
     props: {
@@ -45,7 +59,7 @@
         default: () => ({
           vendorId: null,
           userId: 1,
-          dedlineAt: null,
+          deadlineAt: null,
           deliveryAt: null
         }),
       }
@@ -53,11 +67,14 @@
     data() {
       return {
         vendors: {},
-        timePickerOptions: {
-          start: '08:00',
-          step: '00:15',
-          end: '17:00'
-        }
+        config: {
+          wrap: true, // set wrap to true only when using 'input-group'
+          altFormat: 'Y-m-d H:i',
+          altInput: true,
+          dateFormat: 'Y-m-d H:i',
+          enableTime: true,
+          time_24hr: true
+        },    
       };
     },
     created() {
@@ -99,7 +116,7 @@
      
     },
     components: {
-      DatePicker
+     flatPickr
     }
   };
 </script>

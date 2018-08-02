@@ -23,6 +23,7 @@ import ProductEdit from "@/components/Product/Edit";
 
 import OrderList from "@/components/Order/List";
 import OrderCreate from "@/components/Order/Create";
+import OrderEdit from "@/components/Order/Edit";
 
 Vue.use(VueRouter);
 
@@ -112,6 +113,12 @@ export default new VueRouter({
       path: "/orders/create",
       name: "OrderCreate",
       component: OrderCreate,
+      beforeEnter: Guard.isAuthenticated
+    },
+    { 
+      path: "/orders/:id/edit",
+      name: "OrderEdit",
+      component: OrderEdit,
       beforeEnter: Guard.isAuthenticated
     }
 
