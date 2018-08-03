@@ -3,10 +3,13 @@
     <div class="form-row">
       <div class="form-group col-md-12 custom-control">
         <label for="name">Vendor</label>
-        <select v-model="Order.vendorId" v-validate="'required'" name="vendorId" @change="myFunction()" class="custom-select">
+        <select v-model="Order.vendorId" v-validate="'required'" name="vendorId" @change="loadProducts()" class="custom-select">
+                <option :value="null" disabled>Select Vendor</option>
                 <option v-for="(vendor,key) in vendors" :key="key" :value="vendor.id">{{ vendor.name }}</option>
               </select>
         <div class="invalid-feedback-not-work">{{ errors.first('vendorId')}}</div>
+        <ProductCheckboxList :products="products" :checkedProducts="checkedProducts" @productsSelected="productsSelected"></ProductCheckboxList>
+        <input type="hidden" v-validate:length="'min_value:1'" name="checkedProducts">
       </div>
     </div>
     <div class="form-row">
@@ -33,11 +36,16 @@
 <script>
   import OrderService from "@/services/order.service";
   import VendorProvider from "@/provider/vendor.provider";
+  import ProductService from "@/services/product.service";
+  import ProductCheckboxList from "@/components/Product/CheckboxList";
   import flatPickr from 'vue-flatpickr-component';
   import 'flatpickr/dist/flatpickr.css';
   
   export default {
     props: {
+      products: {
+        required: false
+      },
       Order: {
         type: Object,
         required: false,
@@ -52,6 +60,8 @@
     data() {
       return {
         vendors: {},
+        // products: {},
+        checkedProducts: [],
         config: {
           wrap: true, // set wrap to true only when using 'input-group'
           altFormat: 'Y-m-d H:i',
@@ -70,10 +80,13 @@
         .catch(errors => {
           console.log(errors);
         });
+
     },
     methods: {
       create: async function() {
         var isValid = await this.$validator.validateAll();
+  
+        this.sendProducts();
   
         if (isValid && !this.errors.any()) {
           OrderService.store(this.Order)
@@ -99,21 +112,55 @@
         }
       },
   
-      myFunction: function() {
-        // set text "Select vendor"
-        // display all products form the vendor
-        // update products after created order
-        // not possible create button unless products are chosen
-        console.log('changed!')
-      }
+      loadProducts: function() {
+        this.products = null;
+  
+        ProductService.getAll(this.Order.vendorId)
+          .then(products => {
+            this.checkedProducts = products.filter(
+              product => {
+                return product.active
+              }
+              ).map(
+                product => {
+                return product.id
+                }
+              )
+            
+            this.products = products;
+          })
+          .catch(errors => {
+            console.log(errors);
+          });
   
       },
-      components: {
-        flatPickr
-      }
-    };
-</script>
-
-<style lang="scss" scoped>
   
-</style>
+      productsSelected: function(productIds) {
+        this.checkedProducts = productIds;
+      },
+  
+      sendProducts: function() {
+
+        for (var index in this.products) {
+          var product = this.products[index];
+  
+          product.active = (this.checkedProducts.indexOf(product.id) >= 0) ? 1 : 0;
+  
+          ProductService.update(product)
+            .then(product => {
+            })
+            .catch(errors => {
+              console.log(errors);
+            });
+  
+        }
+  
+      }
+  
+    },
+    components: {
+      ProductCheckboxList,
+      flatPickr
+    }
+  };
+</script>
