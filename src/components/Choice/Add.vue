@@ -1,33 +1,27 @@
 <template>
   <div class="container">
-    <div class="row pt-3">
-      <div class="col-sm">
-        <h1 class="text-center">Choose your meal!</h1>
-      </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col-sm">
-        <h2 class="text-center" v-if="vendor">{{vendor.name}}</h2>
-      </div>   
-    </div>
-    <div v-if="vendor">
-      <div class="row">
-        <div class="col-sm-10">
-          <div class="form-group">
-            <ProductsInputList :products="products" @productSelected="productSelected"></ProductsInputList>
-          </div>
-          <div v-if="products" class="form-group">
-            <UserAutocomplete @userSelected="userSelected"></UserAutocomplete>
+    <div class="mt-3 d-flex flex-row justify-content-around">
+        <div v-for="(order,key) in orders" :key="key" v-if="order.vendor.products" @click="orderSelected(order)">
+          <div class="card border-warning mx-2">
+            <div class="card-header text-center">
+              <h2>{{order.vendor.name}}</h2>
+              <small class="badge badge-warning">              
+                <Countdown v-if="order.deadlineAt" :end="order.deadlineAt"></Countdown>
+              </small>
+            </div>
+            <div class="card-body text-dark">
+              <ProductsInputList :products="order.vendor.products" @productSelected="productSelected"></ProductsInputList>
+            </div>
+            <div class="card-footer bg-transparent border-warning">
+              <strong>Deadline at: </strong> <small>{{order.deadlineAt | moment}}</small>
+            </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="ml-auto">
-          <button :disabled="!isFormCompleted()" class="btn btn-warning" v-on:click="sendForm">Send</button>
-        </div>
+      <div class="d-flex flex-row justify-content-center mt-4">
+          <button :disabled="!choice.product" class="btn btn-lg btn-warning" v-on:click="sendForm">Send</button>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -35,47 +29,52 @@ import ProductsInputList from "@/components/Product/InputsList";
 import OrderProvider from "@/provider/order.provider";
 import ProductProvider from "@/provider/product.provider";
 import ChoiceProvider from "@/provider/choice.provider";
-import UserAutocomplete from "@/components/User/AutoComplete";
+import Countdown from "@/components/Helpers/Countdown";
 
 export default {
   data: () => {
     return {
-      vendor: {},
-      products: [],
       appErrors: [],
-      product: {},
-      user: {},
-      order: {}
+      orders: [],
+      choice: {
+        order: {},
+        product: {}
+      }
     };
   },
   methods: {
+    getProducts(vendor) {},
     sendForm: function() {
-      if (this.isFormCompleted()) {
-      ChoiceProvider.post(this.user, this.order, this.product);
+      if (this.choice.product) {
+        ChoiceProvider.post(
+        this.$storage.getters.getUser,
+        this.choice.order,
+        this.choice.product
+        );
       }
     },
     productSelected: function(product) {
-      this.product = product;
+      this.choice.product = product;
     },
-    isFormCompleted: function() {
-      return this.product && this.user;
-    },
-    userSelected: function(user) {
-      this.user = user;
+    orderSelected: function(order){
+      this.choice.order = order;
     }
   },
   created() {
     OrderProvider.getActive()
-      .then(result => {
-        this.order = result;
-        this.vendor = result.vendor;
-        ProductProvider.getAllActiveByVendor(this.vendor.id)
-          .then(products => {
-            this.products = products;
-          })
-          .catch(errors => {
-            this.appErrors.push(errors);
-          });
+      .then(results => {
+        results.forEach(order => {
+          ProductProvider.getAllActiveByVendor(order.vendor.id)
+            .then(products => {
+              if (products.length > 0) {
+                order.vendor.products = products;
+              }
+              this.orders.push(order);
+            })
+            .catch(errors => {
+              this.appErrors.push(errors);
+            });
+        });
       })
       .catch(errors => {
         this.appErrors.push(errors);
@@ -83,10 +82,7 @@ export default {
   },
   components: {
     ProductsInputList,
-    UserAutocomplete
+    Countdown
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

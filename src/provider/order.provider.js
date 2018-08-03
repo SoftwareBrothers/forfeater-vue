@@ -13,8 +13,8 @@ class OderProvider extends ApiProvider {
           params: { active: 1 }
         })
         .then(response => {
-          if (response.data[0]) {
-            resolve(response.data[0]);
+          if (response.data) {
+            resolve(response.data);
             return;
           }
           reject("No order in database");

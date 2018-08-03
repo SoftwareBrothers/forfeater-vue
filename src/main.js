@@ -3,6 +3,8 @@ import VeeValidate from "vee-validate";
 import router from "@/router";
 import store from "@/security/store";
 
+import "@/filters/index";
+
 import App from "./App.vue";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -15,9 +17,10 @@ library.add(faList);
 
 Vue.use(VeeValidate);
 
+
+
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.config.productionTip = false;
-
 new Vue({
   el: "#app",
   router: router,
