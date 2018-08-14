@@ -13,6 +13,7 @@ import ChoiceAdd from "@/components/Choice/Add";
 import UserList from "@/components/User/List";
 import UserCreate from "@/components/User/Create";
 import UserEdit from "@/components/User/Edit";
+import UserProfile from "@/components/User/Profile";
 
 import VendorList from "@/components/Vendor/List";
 import VendorCreate from "@/components/Vendor/Create";
@@ -48,6 +49,12 @@ export default new VueRouter({
       path: "/order",
       name: "ChoiceAdd",
       component: ChoiceAdd,
+      beforeEnter: Guard.isAuthenticated
+    },
+    {
+      path: "/user/profile",
+      name: "UserProfile",
+      component: UserProfile,
       beforeEnter: Guard.isAuthenticated
     },
     {
@@ -117,7 +124,7 @@ export default new VueRouter({
       component: OrderCreate,
       beforeEnter: Guard.isAuthenticated
     },
-    { 
+    {
       path: "/orders/:id/edit",
       name: "OrderEdit",
       component: OrderEdit,

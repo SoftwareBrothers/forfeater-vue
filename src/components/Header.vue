@@ -5,8 +5,8 @@
         <img src="@/assets/images/logo.png" alt="logo" class="navbar-logo"> Forfeater
       </router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
@@ -21,7 +21,6 @@
         </ul>
       </div>
       <div>
-        <router-link v-if="!user" class="btn btn-outline-light" :to="{name: 'Login'}">Login</router-link>
         <button class="btn btn-outline-light" v-if="user" @click="logout()">Logout</button>
       </div>
     </nav>
@@ -29,31 +28,33 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {};
-    },
-    methods: {
-      logout() {
-        this.$store.dispatch("logout");
-        this.$router.push({
-          name: "Login"
-        });
-      }
-    },
-    computed: {
-      user() {
-        return this.$store.getters.getUser;
-      }
-    },
-    created() {
+export default {
+  data() {
+    return {};
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+      const name = this.$router.currentRoute.name !== "Home" ? "Home" : "Login";
+      return setTimeout(() => {
+        this.$router.push({ name });
+      }, 100);
     }
-  };
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    }
+  },
+  created() {
+    console.log(this.user);
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  #logo {
-    height: 50px;
-    width: auto;
-  }
+#logo {
+  height: 50px;
+  width: auto;
+}
 </style>

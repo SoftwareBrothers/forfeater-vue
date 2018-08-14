@@ -1,6 +1,6 @@
 class Auth {
   check() {
-    return localStorage.getItem("user");
+    return localStorage.getItem("token");
   }
 }
 

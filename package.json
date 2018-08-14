@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
     "@fortawesome/free-solid-svg-icons": "^5.2.0",
     "@fortawesome/vue-fontawesome": "^0.1.1",
@@ -16,16 +17,18 @@
     "dotenv": "^6.0.0",
     "dotenv-webpack": "^1.5.7",
     "moment": "^2.22.2",
+    "qs": "^6.5.2",
     "vee-validate": "^2.1.0-beta.7",
     "vue": "^2.5.16",
+    "vue-flatpickr-component": "^7.0.4",
     "vue-router": "3.0",
-    "vuex": "^3.0.1",
-    "vue-flatpickr-component": "^7.0.4"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-rc.9",
     "@vue/cli-plugin-eslint": "^3.0.0-rc.9",
     "@vue/cli-service": "^3.0.0-rc.9",
+    "js-beautify": "^1.7.5",
     "node-sass": "^4.9.2",
     "sass-loader": "^7.0.3",
     "vue-template-compiler": "^2.5.16"

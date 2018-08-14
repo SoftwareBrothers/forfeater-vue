@@ -1,19 +1,20 @@
 import Auth from "@/security/auth";
+import store from "@/security/store";
 
 class Guard {
   isGuest(to, from, next) {
     next(!Auth.check());
   }
-  isAuthenticated(to, from, next) {
+  async isAuthenticated(to, from, next) {
     next(
       Auth.check()
-        ? true
+        ? await store.dispatch("getUser")
         : {
-            name: "Login",
-            query: {
-              redirect: to.name
-            }
+          name: "Login",
+          query: {
+            redirect: to.name
           }
+        }
     );
   }
 }
