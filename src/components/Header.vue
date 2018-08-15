@@ -57,4 +57,12 @@ export default {
   height: 50px;
   width: auto;
 }
+
+.navbar-dark {
+  .navbar-nav {
+    .router-link-active {
+      color: #fff;
+    }
+  }
+}
 </style>
