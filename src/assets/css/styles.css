@@ -68,3 +68,15 @@ html {
       padding: 0;
   }
 
+.btn-warning.col-white, 
+.btn-warning.col-white:hover, 
+.btn-warning.col-white:active, 
+.btn-warning.col-white:focus, 
+.btn-warning.col-white:visited,
+.btn-warning.col-white:disabled {
+    color: #fff;
+}
+
+.col-white{
+    color: #fff;
+}

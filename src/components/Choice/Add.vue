@@ -1,25 +1,30 @@
 <template>
   <div class="container">
     <div class="mt-3 d-flex flex-row justify-content-around">
-        <div v-for="(order,key) in orders" :key="key" v-if="order.vendor.products" @click="orderSelected(order)">
-          <div class="card border-warning mx-2">
-            <div class="card-header text-center">
-              <h2>{{order.vendor.name}}</h2>
-              <small class="badge badge-warning">              
-                <Countdown v-if="order.deadlineAt" :end="order.deadlineAt"></Countdown>
-              </small>
-            </div>
-            <div class="card-body text-dark">
-              <ProductsInputList :products="order.vendor.products" @productSelected="productSelected"></ProductsInputList>
-            </div>
-            <div class="card-footer bg-transparent border-warning">
-              <strong>Deadline at: </strong> <small>{{order.deadlineAt | moment}}</small>
+        <div v-if="orders.length > 0">
+          <div v-for="(order,key) in orders" :key="key" v-if="order.vendor.products" @click="orderSelected(order)">
+            <div class="card border-warning mx-2">
+              <div class="card-header text-center">
+                <h2>{{order.vendor.name}}</h2>
+                <small class="badge badge-warning">              
+                  <Countdown v-if="order.deadlineAt" :end="order.deadlineAt"></Countdown>
+                </small>
+              </div>
+              <div class="card-body text-dark">
+                <ProductsInputList :products="order.vendor.products" @productSelected="productSelected"></ProductsInputList>
+              </div>
+              <div class="card-footer bg-transparent border-warning">
+                <strong>Deadline at: </strong> <small>{{order.deadlineAt | moment}}</small>
+              </div>
             </div>
           </div>
+          <div class="d-flex flex-row justify-content-center mt-4">
+            <button :disabled="!choice.product" class="btn btn-lg btn-warning col-white" v-on:click="sendForm">Send</button>
+          </div>
         </div>
-      </div>
-      <div class="d-flex flex-row justify-content-center mt-4">
-          <button :disabled="!choice.product" class="btn btn-lg btn-warning" v-on:click="sendForm">Send</button>
+        <div v-else>
+          <h2>{{ noOrderMessage }} </h2>
+        </div>
       </div>
     </div>
 </template>
@@ -38,8 +43,9 @@ export default {
       orders: [],
       choice: {
         order: {},
-        product: {}
-      }
+        product: null
+      },
+      noOrderMessage: ''
     };
   },
   methods: {
@@ -47,7 +53,7 @@ export default {
     sendForm: function() {
       if (this.choice.product) {
         ChoiceProvider.post(
-        this.$storage.getters.getUser,
+        this.$store.getters.user,
         this.choice.order,
         this.choice.product
         );
@@ -63,6 +69,11 @@ export default {
   created() {
     OrderProvider.getActive()
       .then(results => {
+        
+        if(results.length == 0) {
+          this.noOrderMessage = 'There is no active order!'
+        }
+
         results.forEach(order => {
           ProductProvider.getAllActiveByVendor(order.vendor.id)
             .then(products => {

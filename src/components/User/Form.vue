@@ -15,7 +15,11 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="role">Role</label>
-        <input v-validate="'required|alpha'" v-model="User.role" type="text" class="form-control" name="role" placeholder="Role">
+        <select v-model="User.role" v-validate="'required|alpha'" name="role" class="custom-select">
+          <option value="null" disabled>Select role</option>
+          <option value="admin">Administrator</option>
+          <option value="user">User</option>
+        </select>
         <div class="invalid-feedback-not-work">{{ errors.first('role')}}</div>
       </div>
       <div class="form-group col-md-6">

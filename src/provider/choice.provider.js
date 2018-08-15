@@ -16,7 +16,7 @@ class ChoiceProvider extends ApiProvider {
         })
         .then(response => {
           if (response.data[0]) {
-            resolve(response.dat[0]);
+            resolve(response.data[0]);
             return;
           }
           reject("Choice was not saved in database");
