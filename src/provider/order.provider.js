@@ -10,7 +10,8 @@ class OderProvider extends ApiProvider {
     return new Promise((resolve, reject) => {
       axios
         .get(this.uri, {
-          params: { active: 1 }
+          params: { active: 1 },
+          headers: this.config.headers
         })
         .then(response => {
           if (response.data) {

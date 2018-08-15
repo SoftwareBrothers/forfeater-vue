@@ -12,7 +12,7 @@ class UserProvider extends ApiProvider {
     find(id) {
     return new Promise((resolve,reject)=> {
       axios
-      .get(this.uri + '/' + id)
+      .get(this.uri + '/' + id, this.config)
       .then(response => {
         if(response.status !== 200) {
           reject(this.errors);
@@ -30,7 +30,7 @@ class UserProvider extends ApiProvider {
   getAll() {
     return new Promise((resolve,reject)=> {
       axios
-      .get(this.uri)
+      .get(this.uri, this.config)
       .then(response => {
         this.users = response.data;
         resolve(this.users);
@@ -45,7 +45,7 @@ class UserProvider extends ApiProvider {
   remove(userId) {
     return new Promise((resolve,reject)=> {
       axios
-      .delete(this.uri + '/' + userId)
+      .delete(this.uri + '/' + userId, this.config)
       .then(response => {
         status = response.data.status;
         console.log(status);
@@ -64,7 +64,7 @@ class UserProvider extends ApiProvider {
   store(user) {
     return new Promise((resolve,reject)=> {
       axios
-      .post(this.uri, user)
+      .post(this.uri, user, this.config)
       .then(response => {
         if(response.status !== 201) {
           reject(this.errors);
@@ -82,7 +82,7 @@ class UserProvider extends ApiProvider {
   update(user) {
     return new Promise((resolve,reject)=> {
       axios
-      .patch(this.uri + '/' + user.id, user)
+      .patch(this.uri + '/' + user.id, user, this.config)
       .then(response => {
         status = response.data.status;
         console.log(response.data)

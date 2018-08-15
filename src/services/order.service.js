@@ -6,7 +6,7 @@ class OrderService extends ApiService {
   find(orderId) {
     return new Promise((resolve,reject)=> {
       axios
-      .get(this.base + '/orders/' + orderId)
+      .get(this.base + '/orders/' + orderId, this.config)
       .then(response => {
         if(response.status !== 200) {
           reject(this.errors);
@@ -24,7 +24,7 @@ class OrderService extends ApiService {
   getAll() {
     return new Promise((resolve,reject)=> {
       axios
-      .get(this.base + '/orders' )
+      .get(this.base + '/orders', this.config)
       .then(response => {
         this.orders = response.data;
         resolve(this.orders);
@@ -39,7 +39,7 @@ class OrderService extends ApiService {
   remove(orderId) {
     return new Promise((resolve,reject)=> {
       axios
-      .delete(this.base + '/orders/' + orderId)
+      .delete(this.base + '/orders/' + orderId, this.config)
       .then(response => {
         status = response.status;
         console.log(status);
@@ -58,7 +58,7 @@ class OrderService extends ApiService {
   store(order) {
     return new Promise((resolve,reject)=> {
       axios
-      .post(this.base + '/orders', order)
+      .post(this.base + '/orders', order, this.config)
       .then(response => {
         if(response.status !== 201) {
           reject(this.errors);
@@ -80,7 +80,7 @@ class OrderService extends ApiService {
       console.log(order)
 
       axios
-      .patch(this.base + '/orders/' + order.id, order)
+      .patch(this.base + '/orders/' + order.id, order, this.config)
       .then(response => {
         console.log(response.data)
         if(response.status !== 200) {

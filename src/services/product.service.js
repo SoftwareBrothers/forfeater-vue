@@ -9,7 +9,7 @@ class ProductService extends ApiService {
   find(vendorId, id) {
     return new Promise((resolve,reject)=> {
       axios
-      .get(this.base + '/vendors/' + vendorId + '/products/' + id)
+      .get(this.base + '/vendors/' + vendorId + '/products/' + id, this.config)
       .then(response => {
         if(response.status !== 200) {
           reject(this.errors);
@@ -27,7 +27,7 @@ class ProductService extends ApiService {
   getAll(vendorId) {
     return new Promise((resolve,reject)=> {
       axios
-      .get(this.base + '/vendors/' + vendorId + '/products')
+      .get(this.base + '/vendors/' + vendorId + '/products', this.config)
       .then(response => {
         this.products = response.data;
         resolve(this.products);
@@ -42,7 +42,7 @@ class ProductService extends ApiService {
   remove(vendorId, productId) {
     return new Promise((resolve,reject)=> {
       axios
-      .delete(this.base + '/vendors/' + vendorId + '/products/' + productId)
+      .delete(this.base + '/vendors/' + vendorId + '/products/' + productId, this.config)
       .then(response => {
         status = response.data.status;
         console.log(status);
@@ -61,7 +61,7 @@ class ProductService extends ApiService {
   store(product) {
     return new Promise((resolve,reject)=> {
       axios
-      .post(this.base + '/vendors/' + product.vendorId + '/products', product)
+      .post(this.base + '/vendors/' + product.vendorId + '/products', product, this.config)
       .then(response => {
         if(response.status !== 201) {
           reject(this.errors);
@@ -79,7 +79,7 @@ class ProductService extends ApiService {
   update(product) {
     return new Promise((resolve,reject)=> {
       axios
-      .patch(this.base + '/vendors/' + product.vendorId + '/products/' + product.id, product)
+      .patch(this.base + '/vendors/' + product.vendorId + '/products/' + product.id, product, this.config)
       .then(response => {
         console.log(response.data)
         if(response.status !== 200) {

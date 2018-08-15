@@ -12,8 +12,9 @@ class ProductProvider extends ApiProvider {
           params: {
             active: 1,
             vendorId: vendorId
-          }
-        })
+          },
+          headers: this.config.headers
+        },)
         .then(response => {
           this.products = response.data ? response.data : null;
           resolve(this.products);

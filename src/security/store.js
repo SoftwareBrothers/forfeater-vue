@@ -16,7 +16,9 @@ const STATUS = {
 };
 
 const state = {
-  user: (await actions.getUser()) || null,
+  user: JSON.parse(localStorage.getItem("user")) || null,
+  // user: (await actions.getUser()) || null,
+  // user: actions.getUser() || null,
   token: localStorage.getItem("token") || null,
   status: null,
   error: null

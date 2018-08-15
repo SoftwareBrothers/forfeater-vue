@@ -5,7 +5,7 @@ class VendorProvider extends ApiProvider {
   vendor = null;
   vendors = null;
   error= [];
-  
+   
   constructor() {
     super('/vendors');
   }
@@ -13,7 +13,7 @@ class VendorProvider extends ApiProvider {
   find(id) {
     return new Promise((resolve,reject)=> {
       axios
-      .get(this.uri + '/' + id)
+      .get(this.uri + '/' + id, this.config)
       .then(response => {
         if(response.status !== 200) {
           reject(this.errors);
@@ -31,14 +31,16 @@ class VendorProvider extends ApiProvider {
   getAll() {
     return new Promise((resolve,reject)=> {
       axios
-      .get(this.uri)
+      .get(this.uri, this.config)
       .then(response => {
         this.vendors = response.data;
         resolve(this.vendors);
+        console.log(this.vendors)
       })
       .catch(errors => {
         this.errors.push(errors);
         reject(this.errors);
+        console.log(errors)
       });
     });
   }
@@ -46,7 +48,7 @@ class VendorProvider extends ApiProvider {
   getTodayVendor() {
     return new Promise((resolve,reject)=> {
       axios
-      .get(this.uri)
+      .get(this.uri, this.config)
       .then(response => {
         this.vendor = response.data[0] ? response.data[0] : null;
         resolve(this.vendor);
@@ -61,7 +63,7 @@ class VendorProvider extends ApiProvider {
   remove(vendorId) {
     return new Promise((resolve,reject)=> {
       axios
-      .delete(this.uri + '/' + vendorId)
+      .delete(this.uri + '/' + vendorId, this.config)
       .then(response => {
         status = response.data.status;
         console.log(status);
@@ -80,7 +82,7 @@ class VendorProvider extends ApiProvider {
   store(vendor) {
     return new Promise((resolve,reject)=> {
       axios
-      .post(this.uri, vendor)
+      .post(this.uri, vendor, this.config)
       .then(response => {
         if(response.status !== 201) {
           reject(this.errors);
@@ -98,7 +100,7 @@ class VendorProvider extends ApiProvider {
   update(vendor) {
     return new Promise((resolve,reject)=> {
       axios
-      .patch(this.uri + '/' + vendor.id, vendor)
+      .patch(this.uri + '/' + vendor.id, vendor, this.config)
       .then(response => {
         status = response.data.status;
         console.log(response.data)
