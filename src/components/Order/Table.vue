@@ -24,6 +24,9 @@
                                 <td>{{ order.deadlineAt | moment }}</td>
                                 <td>{{ order.deliveryAt | moment }}</td>
                                 <td>
+                                    <router-link class="btn-action d-inline text-warning" :to="{ name: 'ChoiceList', params: { orderId: order.id } }">
+                                        <font-awesome-icon icon="list" />
+                                    </router-link>
                                     <router-link class="btn-action d-inline" :to="{ name: 'OrderEdit', params: { id: order.id } }">
                                         <font-awesome-icon icon="edit" />
                                     </router-link>

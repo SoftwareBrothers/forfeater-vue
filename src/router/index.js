@@ -27,6 +27,8 @@ import OrderList from "@/components/Order/List";
 import OrderCreate from "@/components/Order/Create";
 import OrderEdit from "@/components/Order/Edit";
 
+import ChoiceList from "@/components/Choice/List";
+
 Vue.use(VueRouter);
 
 export default new VueRouter({
@@ -129,7 +131,13 @@ export default new VueRouter({
       name: "OrderEdit",
       component: OrderEdit,
       beforeEnter: Guard.isAuthenticated
-    }
+    },
+    {
+      path: "/orders/:orderId/choices",
+      name: "ChoiceList",
+      component: ChoiceList,
+      beforeEnter: Guard.isAuthenticated
+    },
 
   ]
 });
