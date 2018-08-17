@@ -36,9 +36,7 @@ export default {
     logout() {
       this.$store.dispatch("logout");
       const name = this.$router.currentRoute.name !== "Home" ? "Home" : "Login";
-      return setTimeout(() => {
-        this.$router.push({ name });
-      }, 100);
+      this.$router.push({ name });
     }
   },
   computed: {
@@ -46,8 +44,7 @@ export default {
       return this.$store.getters.user;
     }
   },
-  created() {
-  }
+  created() {}
 };
 </script>
 

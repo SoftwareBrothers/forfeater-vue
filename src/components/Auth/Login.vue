@@ -58,14 +58,12 @@ export default {
           username: this.username,
           password: this.password
         })
-        .then(async () => {
+        .then(token => {
           this.loading = false;
-          let componentName = await this.$route.query.redirect;
-          return setTimeout(() => {
-            this.$router.push({
-              name: componentName ? componentName : "Home"
-            });
-          }, 100);
+          let componentName = this.$route.query.redirect;
+          this.$router.push({
+            name: componentName ? componentName : "Home"
+          });
         })
         .catch(error => {
           this.error = error;

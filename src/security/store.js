@@ -17,8 +17,6 @@ const STATUS = {
 
 const state = {
   user: JSON.parse(localStorage.getItem("user")) || null,
-  // user: (await actions.getUser()) || null,
-  // user: actions.getUser() || null,
   token: localStorage.getItem("token") || null,
   status: null,
   error: null
@@ -55,7 +53,7 @@ const mutations = {
 
 const actions = {
   authenticate: (context, payload) => {
-    new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       UserProvider.authorize({
         username: payload.username,
         password: payload.password
@@ -63,7 +61,7 @@ const actions = {
         .then(data => {
           localStorage.setItem("token", data.access_token);
           context.commit(AUTH_SUCCESS, data.access_token);
-          resolve(true);
+          resolve(data.access_token);
         })
         .catch(error => {
           context.commit(AUTH_FAILED, error);
