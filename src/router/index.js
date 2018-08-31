@@ -60,7 +60,10 @@ export default new VueRouter({
       name: "UserProfile",
       component: UserProfile,
       beforeEnter: Guard.isAuthenticated
+      // meta: { requiresAuth: true, adminAuth: true },
+      // beforeEnter: Guard.checkAccess
     },
+
     {
       path: "/user/change-password",
       name: "UserChangePassword",
@@ -89,7 +92,9 @@ export default new VueRouter({
       path: "/vendors",
       name: "VendorList",
       component: VendorList,
-      beforeEnter: Guard.isAuthenticated
+      meta: { requiresAuth: true, adminAuth: true },
+      beforeEnter: Guard.isAuthenticated2
+      // beforeEnter: Guard.checkAccess
     },
     {
       path: "/vendors/create",
