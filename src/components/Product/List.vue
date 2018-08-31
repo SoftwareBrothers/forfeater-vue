@@ -23,9 +23,10 @@
       ProductService.getAll(this.$route.params.vendorId)
         .then(products => {
           this.products = products;
+          // console.log(this.products)
         })
         .catch(errors => {
-          console.log(errors);
+          // console.log(errors);
         });
     },
     components: {

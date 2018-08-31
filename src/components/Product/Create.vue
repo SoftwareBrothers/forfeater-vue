@@ -20,9 +20,6 @@
   import ProductService from "@/services/product.service";
   import ProductForm from "@/components/Product/Form";
   
-// console.log('heloł');
-// console.log(this.$route.params);
-
   export default {
     data() {
       return {};

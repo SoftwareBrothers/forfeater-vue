@@ -30,6 +30,7 @@ html {
   main{
       margin-top: 3rem;
       margin-bottom: 60px;
+      padding-bottom: 50px;
   }
 
   code {

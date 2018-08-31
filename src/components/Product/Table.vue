@@ -22,6 +22,9 @@
                                 <td>{{ product.avgScore }}</td>
                                 <td>{{ product.rankCount }}</td>
                                 <td>
+                                    <router-link class="btn-action d-inline text-warning" :to="{ name: 'ProductShow', params: { vendorId: product.vendorId, id: product.id}  }">
+                                        <font-awesome-icon icon="list" />
+                                   </router-link>
                                     <router-link class="btn-action d-inline" :to="{ name: 'ProductEdit', params: { vendorId: product.vendorId, id: product.id } }">
                                         <font-awesome-icon icon="edit" />
                                     </router-link>
@@ -49,13 +52,13 @@
             }
         },
         methods: {
-            remove: function(productId, key, event) {
+            remove: function(productId, key) {
                 ProductService.remove(this.$route.params.vendorId, productId)
                     .then(products => {
                         this.products.splice(key, 1);
                     })
                     .catch(errors => {
-                        console.log(errors);
+                        // console.log(errors);
                     });
             }
         }

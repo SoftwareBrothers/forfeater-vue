@@ -14,6 +14,7 @@ import UserList from "@/components/User/List";
 import UserCreate from "@/components/User/Create";
 import UserEdit from "@/components/User/Edit";
 import UserProfile from "@/components/User/Profile";
+import UserChangePassword from "@/components/User/ChangePassword";
 
 import VendorList from "@/components/Vendor/List";
 import VendorCreate from "@/components/Vendor/Create";
@@ -22,6 +23,7 @@ import VendorEdit from "@/components/Vendor/Edit";
 import ProductList from "@/components/Product/List";
 import ProductCreate from "@/components/Product/Create";
 import ProductEdit from "@/components/Product/Edit";
+import ProductShow from "@/components/Product/Show";
 
 import OrderList from "@/components/Order/List";
 import OrderCreate from "@/components/Order/Create";
@@ -54,9 +56,15 @@ export default new VueRouter({
       beforeEnter: Guard.isAuthenticated
     },
     {
-      path: "/user/profile",
+      path: "/user/my-profile",
       name: "UserProfile",
       component: UserProfile,
+      beforeEnter: Guard.isAuthenticated
+    },
+    {
+      path: "/user/change-password",
+      name: "UserChangePassword",
+      component: UserChangePassword,
       beforeEnter: Guard.isAuthenticated
     },
     {
@@ -112,6 +120,12 @@ export default new VueRouter({
       path: "/vendors/:vendorId/products/:id/edit",
       name: "ProductEdit",
       component: ProductEdit,
+      beforeEnter: Guard.isAuthenticated
+    },
+    {
+      path: "/vendors/:vendorId/products/:id",
+      name: "ProductShow",
+      component: ProductShow,
       beforeEnter: Guard.isAuthenticated
     },
     {

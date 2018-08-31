@@ -18,10 +18,14 @@
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'UserList' }">Users</router-link>
           </li>
+          <li class="nav-item" v-if="user">
+            <router-link class="nav-link" :to="{ name: 'UserProfile' }">Profile</router-link>
+          </li>
         </ul>
       </div>
-      <div>
-        <button class="btn btn-outline-light" v-if="user" @click="logout()">Logout</button>
+      <div v-if="user">
+        <div class="nav-user">Hello, <strong><router-link class="nav-link" :to="{ name: 'UserProfile' }">{{ user.firstName }}</router-link></strong></div>
+        <button class="btn btn-outline-light" @click="logout()">Logout</button>
       </div>
     </nav>
   </header>
@@ -60,5 +64,17 @@ export default {
       color: #fff;
     }
   }
+}
+
+.nav-user {
+    display: inline;
+    margin-right: 10px;
+    color: #fff;
+
+    a {
+      display: inline;
+      color: #fff;
+      padding: 0;
+    }
 }
 </style>
