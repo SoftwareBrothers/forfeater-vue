@@ -1,5 +1,5 @@
 <template>
-    <div v-if="choices">
+    <div v-if="choices.length > 0">
         <div class="row">
             <div class="col-sm"></div>
             <div class="col-sm-12">
@@ -31,6 +31,7 @@
             <div class="col-sm"></div>
         </div>
     </div>
+    <div v-else><h4 class="text-center">There is no choice!</h4></div>
 </template>
 
 <script>

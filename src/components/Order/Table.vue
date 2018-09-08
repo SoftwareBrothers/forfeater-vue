@@ -16,7 +16,7 @@
                             </tr>
                         </thead>
                         <tbody v-if="orders">
-                            <tr v-for="(order, key) in orders" v-bind:key="key">
+                            <tr v-for="(order, key) in orders" v-bind:key="key" :class="{'no-active' : !isActive(order)}">
                                 <th scope="row">{{ order.id }}</th>
                                 <td>{{ order.vendor.name }}</td>
                                 <td>{{ order.user.firstName }} {{ order.user.lastName }}</td>
@@ -62,6 +62,9 @@
                     .catch(errors => {
                         console.log(errors);
                     });
+            },
+            isActive(order) {
+                return new Date(order.deadlineAt).getTime() > new Date().getTime();
             }
         },
         computed: {
@@ -76,5 +79,8 @@
 </script>
 
 <style lang="scss" scoped>
-    
+    .no-active {
+        color: red;
+        opacity: 0.5;
+    }
 </style>
