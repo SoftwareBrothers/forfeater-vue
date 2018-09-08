@@ -60,8 +60,6 @@ export default new VueRouter({
       name: "UserProfile",
       component: UserProfile,
       beforeEnter: Guard.isAuthenticated
-      // meta: { requiresAuth: true, adminAuth: true },
-      // beforeEnter: Guard.checkAccess
     },
 
     {
@@ -74,38 +72,42 @@ export default new VueRouter({
       path: "/users",
       name: "UserList",
       component: UserList,
+      meta: { adminAuth: true },
       beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/users/create",
       name: "UserCreate",
       component: UserCreate,
+      meta: { adminAuth: true },
       beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/users/:id/edit",
       name: "UserEdit",
       component: UserEdit,
+      meta: { adminAuth: true },
       beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/vendors",
       name: "VendorList",
       component: VendorList,
-      meta: { requiresAuth: true, adminAuth: true },
-      beforeEnter: Guard.isAuthenticated2
-      // beforeEnter: Guard.checkAccess
+      meta: { adminAuth: true },
+      beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/vendors/create",
       name: "VendorCreate",
       component: VendorCreate,
+      meta: { adminAuth: true },
       beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/vendors/:id/edit",
       name: "VendorEdit",
       component: VendorEdit,
+      meta: { adminAuth: true },
       beforeEnter: Guard.isAuthenticated
     },
 
@@ -113,24 +115,28 @@ export default new VueRouter({
       path: "/vendors/:vendorId/products",
       name: "ProductList",
       component: ProductList,
+      meta: { adminAuth: true },
       beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/vendors/:vendorId/products/create",
       name: "ProductCreate",
       component: ProductCreate,
+      meta: { adminAuth: true },
       beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/vendors/:vendorId/products/:id/edit",
       name: "ProductEdit",
       component: ProductEdit,
+      meta: { adminAuth: true },
       beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/vendors/:vendorId/products/:id",
       name: "ProductShow",
       component: ProductShow,
+      meta: { adminAuth: true },
       beforeEnter: Guard.isAuthenticated
     },
     {
@@ -143,12 +149,14 @@ export default new VueRouter({
       path: "/orders/create",
       name: "OrderCreate",
       component: OrderCreate,
+      meta: { adminAuth: true },
       beforeEnter: Guard.isAuthenticated
     },
     {
       path: "/orders/:id/edit",
       name: "OrderEdit",
       component: OrderEdit,
+      meta: { adminAuth: true },
       beforeEnter: Guard.isAuthenticated
     },
     {

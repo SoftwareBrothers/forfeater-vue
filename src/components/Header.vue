@@ -12,10 +12,10 @@
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'OrderList' }">Orders</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="user && user.role == 'admin'" class="nav-item">
             <router-link class="nav-link" :to="{ name: 'VendorList' }">Vendors</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="user && user.role == 'admin'" class="nav-item">
             <router-link class="nav-link" :to="{ name: 'UserList' }">Users</router-link>
           </li>
           <li class="nav-item" v-if="user">

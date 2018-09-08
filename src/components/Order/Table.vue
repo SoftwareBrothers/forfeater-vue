@@ -27,10 +27,10 @@
                                     <router-link class="btn-action d-inline text-warning" :to="{ name: 'ChoiceList', params: { orderId: order.id } }">
                                         <font-awesome-icon icon="list" />
                                     </router-link>
-                                    <router-link class="btn-action d-inline" :to="{ name: 'OrderEdit', params: { id: order.id } }">
+                                    <router-link v-if="user && user.role == 'admin'" class="btn-action d-inline" :to="{ name: 'OrderEdit', params: { id: order.id } }">
                                         <font-awesome-icon icon="edit" />
                                     </router-link>
-                                    <a class="btn-action d-inline text-danger" href="" @click="remove(order.id, key, $event)">
+                                    <a v-if="user && user.role == 'admin'" class="btn-action d-inline text-danger" href="" @click="remove(order.id, key, $event)">
                                         <font-awesome-icon icon="trash" />
                                     </a>
                                 </td>
@@ -65,11 +65,17 @@
                     });
             }
         },
+        computed: {
+            user() {
+                return this.$store.getters.user;
+            }
+        },
         filters: {
-
+    
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    
 </style>
