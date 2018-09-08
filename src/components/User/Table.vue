@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm"></div>
             <div class="col-sm-12">
-                <router-link class="nav-link d-inline" :to="{ name: 'UserCreate' }">Create user</router-link>
+                <router-link class="nav-link btn btn-warning btn-custom col-white" :to="{ name: 'UserCreate' }">Create user</router-link>
                 <div class="table-responsive">
                     <table class="table table-sm table-hover table-bordered table-striped">
                         <thead>

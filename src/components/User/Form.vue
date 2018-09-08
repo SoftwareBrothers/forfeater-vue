@@ -40,8 +40,8 @@
         <div class="invalid-feedback-not-work">{{ errors.first('confirmation')}}</div>
       </div>
     </div>
-    <button v-if="!User.id" type="button" class="btn btn-warning" :disabled="errors.has()" @click="createUser">Create</button>
-    <button v-if="User.id" type="button" class="btn btn-warning" :disabled="errors.has()" @click="editUser">Save</button>
+    <button v-if="!User.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="createUser">Create</button>
+    <button v-if="User.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="editUser">Save</button>
   </form>
 </template>
 

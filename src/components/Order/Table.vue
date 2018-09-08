@@ -1,9 +1,8 @@
 <template>
     <div v-if="orders">
         <div class="row">
-            <div class="col-sm"></div>
             <div class="col-sm-12">
-                <router-link class="nav-link d-inline" :to="{ name: 'OrderCreate' }">Create order</router-link>
+                <router-link class="nav-link btn btn-warning btn-custom col-white" :to="{ name: 'OrderCreate' }">Create order</router-link>
                 <div class="table-responsive">
                     <table class="table table-sm table-hover table-bordered table-striped">
                         <thead>

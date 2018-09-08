@@ -12,8 +12,8 @@
         <div class="invalid-feedback-not-work">{{ errors.first('url')}}</div>
       </div>
     </div>
-    <button v-if="!Vendor.id" type="button" class="btn btn-warning" :disabled="errors.has()" @click="create">Create</button>
-    <button v-if="Vendor.id" type="button" class="btn btn-warning" :disabled="errors.has()" @click="edit">Save</button>
+    <button v-if="!Vendor.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="create">Create</button>
+    <button v-if="Vendor.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="edit">Save</button>
   </form>
 </template>
 
