@@ -27,7 +27,7 @@ export default {
     };
   },
   created() {
-    UserProvider.getAll()
+    new UserProvider().getAll()
       .then(users => {
         this.users = users;
       })

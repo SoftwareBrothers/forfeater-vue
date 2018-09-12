@@ -20,7 +20,7 @@
       };
     },
     created() {
-      VendorProvider.getAll()
+      new VendorProvider().getAll()
         .then(vendors => {
           this.vendors = vendors;
         })

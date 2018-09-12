@@ -34,7 +34,7 @@
       };
     },
     beforeCreate() {
-      UserProvider.find(this.$route.params.id)
+      new UserProvider().find(this.$route.params.id)
         .then(user => {     
           this.User = user;       
         })

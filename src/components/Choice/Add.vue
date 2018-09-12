@@ -49,7 +49,7 @@ export default {
     getProducts(vendor) {},
     sendForm: function() {
       if (this.choice.product) {
-        ChoiceProvider.post(
+        new ChoiceProvider().post(
           this.$store.getters.user,
           this.choice.order,
           this.choice.product
@@ -64,14 +64,14 @@ export default {
     }
   },
   created() {
-    OrderProvider.getActive()
+    new OrderProvider().getActive()
       .then(results => {
         if (results.length == 0) {
           this.noOrderMessage = "There is no active order!";
         }
 
         results.forEach(order => {
-          ProductProvider.getAllActiveByVendor(order.vendor.id)
+          new ProductProvider().getAllActiveByVendor(order.vendor.id)
             .then(products => {
               if (products.length > 0) {
                 order.vendor.products = products;

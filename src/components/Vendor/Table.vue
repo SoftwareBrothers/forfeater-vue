@@ -51,7 +51,7 @@
         },
         methods: {
             remove: function(vendorId, key, event) {
-                VendorProvider.remove(vendorId)
+                new VendorProvider().remove(vendorId)
                     .then(vendor => {
                         this.vendors.splice(key, 1);
                     })

@@ -17,7 +17,6 @@
 </template>
 
 <script>
-  import VendorProvider from "@/provider/vendor.provider";
   import VendorForm from "@/components/Vendor/Form";
   
   export default {
