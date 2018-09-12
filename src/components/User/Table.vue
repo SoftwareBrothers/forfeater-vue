@@ -52,7 +52,7 @@
         },
         methods: {
             remove: function(userId, key, event) {
-                UserProvider.remove(userId)
+                new UserProvider().remove(userId)
                     .then(user => {
                         this.users.splice(key, 1);
                     })

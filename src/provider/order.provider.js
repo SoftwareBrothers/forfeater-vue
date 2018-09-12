@@ -1,17 +1,11 @@
-import axios from "axios";
 import ApiProvider from "@/provider/api.provider";
 
-class OderProvider extends ApiProvider {
-  constructor() {
-    super("/orders");
-  }
-
+export default class OderProvider extends ApiProvider {
   getActive() {
     return new Promise((resolve, reject) => {
-      axios
-        .get(this.uri, {
+      this.axios
+        .get("/orders", {
           params: { active: 1 },
-          headers: this.config.headers
         })
         .then(response => {
           if (response.data) {
@@ -26,5 +20,3 @@ class OderProvider extends ApiProvider {
     });
   }
 }
-
-export default new OderProvider();

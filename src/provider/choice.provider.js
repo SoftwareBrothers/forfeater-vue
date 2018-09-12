@@ -1,15 +1,9 @@
-import axios from "axios";
 import ApiProvider from "@/provider/api.provider";
 
-class ChoiceProvider extends ApiProvider {
-  constructor() {
-    super("/choices");
-  }
-
+export default class ChoiceProvider extends ApiProvider {
   post(User, Order, Product) {
     return new Promise((resolve, reject) => {
-      axios
-        .post(this.uri, {
+      this.axios.post("/choices", {
           orderId: Order.id,
           userId: User.id,
           productId: Product.id
@@ -27,5 +21,3 @@ class ChoiceProvider extends ApiProvider {
     });
   }
 }
-
-export default new ChoiceProvider();

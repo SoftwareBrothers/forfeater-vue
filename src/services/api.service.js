@@ -1,11 +1,9 @@
-import store from "@/security/store";
-
 export default class ApiService {
 
     config = {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ` + store.getters.token
+          Authorization: `Bearer ${localStorage.getItem("token")}`
         }
       }
 

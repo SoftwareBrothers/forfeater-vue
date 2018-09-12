@@ -46,6 +46,7 @@
 </template>
 
 <script>
+<<<<<<< HEAD
   import ProductsInputList from "@/components/Product/InputsList";
   import OrderProvider from "@/provider/order.provider";
   import ProductProvider from "@/provider/product.provider";
@@ -71,7 +72,7 @@
       getProducts(vendor) {},
       sendForm: function() {
         if (this.choice.product) {
-          ChoiceProvider.post(
+          new ChoiceProvider().post(
               this.$store.getters.user,
               this.choice.order,
               this.choice.product
@@ -82,6 +83,7 @@
               this.orders.find(x => x.id === choice.orderId).choice = {
                 product: this.choice.product.name,
                 comment: this.choice.comment
+
               }
               this.choice.comment = '';
               // console.log('choice added!');
@@ -112,7 +114,7 @@
           }
   
           results.forEach(order => {
-            ProductProvider.getAllActiveByVendor(order.vendor.id)
+            new ProductProvider().getAllActiveByVendor(order.vendor.id)
               .then(products => {
                 if (products.length > 0) {
                   order.vendor.products = products;

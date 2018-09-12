@@ -65,7 +65,7 @@
     methods: {
       createUser: function() {
         if (!this.errors.any()) {
-          UserProvider.store(this.User)
+          this.userProvider.store(this.User)
             .then(user => {
               this.$router.push('/users')
             })
@@ -76,7 +76,7 @@
       },
       editUser: function() {
         if (!this.errors.any()) {
-          UserProvider.update(this.User)
+          this.userProvider.update(this.User)
             .then(user => {
               this.$router.push('/users')
             })
@@ -85,7 +85,10 @@
             });
         }
       },
-    }
+    },
+    created() {
+      this.userProvider = new UserProvider();
+    },
   };
   
   (function() {
