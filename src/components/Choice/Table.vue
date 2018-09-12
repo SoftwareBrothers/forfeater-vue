@@ -10,6 +10,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">User</th>
                                 <th scope="col">Product</th>
+                                <th scope="col">Comment</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -18,6 +19,7 @@
                                 <th scope="row">{{ choice.id }}</th>
                                 <td>{{ choice.user.firstName }} {{ choice.user.lastName }}</td>
                                 <td>{{ choice.product.name }}</td>
+                                <td>{{ choice.comment }}</td>
                                 <td>
                                     <!-- <a class="btn-action d-inline text-danger" href="" @click="remove(choice.id, key, $event)">
                                         <font-awesome-icon icon="trash" />

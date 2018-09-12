@@ -28,6 +28,7 @@
               <strong>Comment: </strong>
               <small v-if="order.choice">{{order.choice.comment}}</small>
             </div>
+            <button v-if="order.choice.product" class="btn btn-sm btn-danger col-white">Cancel</button>
           </div>
         </div>
       </div>

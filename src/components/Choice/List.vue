@@ -22,7 +22,7 @@
     created() {
       ChoiceService.getAll(this.$route.params.orderId)
         .then(choices => {
-          this.choices = choices;
+          this.choices = choices.sort( (a,b) => a.productId - b.productId);
         })
         .catch(errors => {
           console.log(errors);
