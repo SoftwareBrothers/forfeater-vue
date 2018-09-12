@@ -9,19 +9,21 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Vendor</th>
-                                <th scope="col">Creator</th>
+                                <th scope="col">My choice</th>            
                                 <th scope="col">Deadline</th>
                                 <th scope="col">Delivery</th>
+                                <th scope="col">Creator</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody v-if="orders">
                             <tr v-for="(order, key) in orders" v-bind:key="key" :class="{'no-active' : !isActive(order)}">
                                 <th scope="row">{{ order.id }}</th>
-                                <td>{{ order.vendor.name }}</td>
-                                <td>{{ order.user.firstName }} {{ order.user.lastName }}</td>
+                                <td>{{ order.vendor.name }}</td> 
+                                <td>{{ order.choice.product ? order.choice.product.name : '' }}</td>                     
                                 <td>{{ order.deadlineAt | moment }}</td>
                                 <td>{{ order.deliveryAt | moment }}</td>
+                                <td>{{ order.user.firstName }} {{ order.user.lastName }}</td>
                                 <td>
                                     <router-link class="btn-action d-inline text-warning" :to="{ name: 'ChoiceList', params: { orderId: order.id } }">
                                         <font-awesome-icon icon="list" />

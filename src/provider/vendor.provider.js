@@ -1,18 +1,15 @@
-import axios from "axios";
 import ApiProvider from '@/provider/api.provider';
 
-class VendorProvider extends ApiProvider {
+export default class VendorProvider extends ApiProvider {
   vendor = null;
   vendors = null;
-  error= [];
-   
-  constructor() {
-    super('/vendors');
-  }
+  errors = [];
 
+  uri = "/vendors";
+   
   find(id) {
     return new Promise((resolve,reject)=> {
-      axios
+      this.axios
       .get(this.uri + '/' + id, this.config)
       .then(response => {
         if(response.status !== 200) {
@@ -30,7 +27,7 @@ class VendorProvider extends ApiProvider {
 
   getAll() {
     return new Promise((resolve,reject)=> {
-      axios
+      this.axios
       .get(this.uri, this.config)
       .then(response => {
         this.vendors = response.data;
@@ -47,7 +44,7 @@ class VendorProvider extends ApiProvider {
 
   getTodayVendor() {
     return new Promise((resolve,reject)=> {
-      axios
+      this.axios
       .get(this.uri, this.config)
       .then(response => {
         this.vendor = response.data[0] ? response.data[0] : null;
@@ -62,7 +59,7 @@ class VendorProvider extends ApiProvider {
 
   remove(vendorId) {
     return new Promise((resolve,reject)=> {
-      axios
+      this.axios
       .delete(this.uri + '/' + vendorId, this.config)
       .then(response => {
         status = response.data.status;
@@ -81,7 +78,7 @@ class VendorProvider extends ApiProvider {
 
   store(vendor) {
     return new Promise((resolve,reject)=> {
-      axios
+      this.axios
       .post(this.uri, vendor, this.config)
       .then(response => {
         if(response.status !== 201) {
@@ -99,7 +96,7 @@ class VendorProvider extends ApiProvider {
 
   update(vendor) {
     return new Promise((resolve,reject)=> {
-      axios
+      this.axios
       .patch(this.uri + '/' + vendor.id, vendor, this.config)
       .then(response => {
         status = response.data.status;
@@ -118,5 +115,3 @@ class VendorProvider extends ApiProvider {
   }
 
 }
-
-export default new VendorProvider();

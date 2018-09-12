@@ -3,14 +3,14 @@
     <div v-if="orders.length > 0">
       <div v-if="alertText" :class="alertClass" role="alert">
         {{ alertText }}
-        </div>
+      </div>
       <div class="mt-3 d-flex flex-row justify-content-center">
         <div v-for="(order,key) in orders" :key="key" v-if="order.vendor.products" @click="orderSelected(order)" class="card border-warning mx-2 my-2">
           <div class="card-header text-center">
             <h2>{{order.vendor.name}}</h2>
             <small class="badge badge-warning">
-                <Countdown v-if="order.deadlineAt" :end="order.deadlineAt"></Countdown>
-              </small>
+                      <Countdown v-if="order.deadlineAt" :end="order.deadlineAt"></Countdown>
+                    </small>
           </div>
           <div class="card-body text-dark">
             <ProductsInputList :products="order.vendor.products" :order="order" @productSelected="productSelected"></ProductsInputList>
@@ -50,6 +50,7 @@
   import OrderProvider from "@/provider/order.provider";
   import ProductProvider from "@/provider/product.provider";
   import ChoiceProvider from "@/provider/choice.provider";
+  import ChoiceService from "@/services/choice.service";
   import Countdown from "@/components/Helpers/Countdown";
   
   export default {
@@ -80,24 +81,20 @@
               this.alertText = 'Your choice was added!';
               this.alertClass = 'alert alert-success';
               this.orders.find(x => x.id === choice.orderId).choice = {
-                product: this.choice.product.name,
+                product: this.choice.product,
                 comment: this.choice.comment
-
+  
               }
               this.choice.comment = '';
-              // console.log('choice added!');
-              // console.log(choice);
             })
             .catch(errors => {
               this.alertText = 'Something went wrong!';
               this.alertClass = 'alert alert-danger';
-              // console.log('error after choice add');
               this.appErrors.push(errors);
             });
         }
       },
       productSelected: function(product, order) {
-        console.log('product selected, order: ' + order.id)
         this.orders.find(x => x.id === order.id).choice.product = product
         this.choice.product = product;
       },
@@ -118,11 +115,23 @@
                 if (products.length > 0) {
                   order.vendor.products = products;
                 }
-                order.choice = {
-                  product: null,
-                  comment: ''
-                }
-                this.orders.push(order);
+
+                ChoiceService.getAll(order.id)
+                  .then(choices => {
+  
+                    let userChoice = choices.find(x => x.userId === this.$store.getters.user.id);
+
+                    order.choice = {
+                      product: userChoice ? userChoice.product : null,
+                      comment: userChoice ? userChoice.comment : ''
+                    }
+  
+                    this.orders.push(order);
+                  })
+                  .catch(errors => {
+                    console.log(errors);
+                  });
+  
               })
               .catch(errors => {
                 this.appErrors.push(errors);

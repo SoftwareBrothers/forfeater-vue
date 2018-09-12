@@ -12,17 +12,36 @@
 <script>
   import OrderService from "@/services/order.service";
   import OrderTable from "@/components/Order/Table";
+  import ChoiceService from "@/services/choice.service";
   
   export default {
     data() {
       return {
-        orders: {}
+        orders: []
       };
     },
     created() {
       OrderService.getAll()
         .then(orders => {
-          this.orders = orders;
+  
+          orders.forEach(order => {
+            ChoiceService.getAll(order.id)
+              .then(choices => {
+  
+                let userChoice = choices.find(x => x.userId === this.$store.getters.user.id);
+  
+                order.choice = {
+                  product: userChoice ? userChoice.product : null,
+                  comment: userChoice ? userChoice.comment : ''
+                }
+  
+                this.orders.push(order);
+              })
+              .catch(errors => {
+                console.log(errors);
+              });
+          });
+  
         })
         .catch(errors => {
           console.log(errors);
@@ -35,4 +54,5 @@
 </script>
 
 <style lang="scss" scoped>
+  
 </style>

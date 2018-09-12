@@ -30,7 +30,7 @@
       };
     },
     beforeCreate() {
-      VendorProvider.find(this.$route.params.id)
+      new VendorProvider().find(this.$route.params.id)
         .then(vendor => {
           this.Vendor = vendor;
           console.log(vendor)

@@ -4,7 +4,7 @@ export default class UserProvider extends ApiProvider {
   vendor = null;
   error = [];
 
-  uri = "/user";
+  uri = "/users";
 
   find(id) {
     return new Promise((resolve, reject) => {

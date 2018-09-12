@@ -34,7 +34,7 @@
     methods: {
       create: function() {
         if (!this.errors.any()) {
-          VendorProvider.store(this.Vendor)
+          new VendorProvider().store(this.Vendor)
             .then(vendor => {
               this.$router.push('/vendors')
             })
@@ -45,7 +45,7 @@
       },
       edit: function() {
         if (!this.errors.any()) {
-          VendorProvider.update(this.Vendor)
+          new VendorProvider().update(this.Vendor)
             .then(vendor => {
               this.$router.push('/vendors')
             })
