@@ -46,7 +46,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
   import ProductsInputList from "@/components/Product/InputsList";
   import OrderProvider from "@/provider/order.provider";
   import ProductProvider from "@/provider/product.provider";
@@ -107,7 +106,7 @@
       }
     },
     created() {
-      OrderProvider.getActive()
+      new OrderProvider().getActive()
         .then(results => {
           if (results.length == 0) {
             this.noOrderMessage = "There is no active order!";
