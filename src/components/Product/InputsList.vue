@@ -12,11 +12,14 @@ export default {
   props: {
     products: {
       required: true
+    },
+    order: {
+      required: true
     }
   },
   methods: {
     onSelect: function(product) {
-      this.$emit("productSelected", product);
+      this.$emit("productSelected", product, this.order);
     }
   },
 };
