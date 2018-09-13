@@ -11,6 +11,7 @@
             <h2>{{ user.firstName }} {{ user.lastName }}</h2>
             <p><strong>E-mail:</strong> {{ user.email }}</p>
             <p><strong>Role:</strong> {{ user.role }}</p>
+            <router-link class="nav-link btn btn-warning btn-custom col-white" :to="{ name: 'UserChangePassword' }">Change password</router-link>
         </div>
         <div class="col-sm"></div>
       </div>

@@ -17,7 +17,6 @@
 </template>
 
 <script>
-  import axios from "axios";
   import UserForm from "@/components/User/Form";
   
   export default {

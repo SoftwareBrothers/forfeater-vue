@@ -2,7 +2,7 @@ import ApiProvider from "@/provider/api.provider";
 
 export default class UserProvider extends ApiProvider {
   vendor = null;
-  error = [];
+  errors = [];
 
   uri = "/users";
 
@@ -95,4 +95,25 @@ export default class UserProvider extends ApiProvider {
         });
     });
   }
+
+  changePassword(user, password) {
+    return new Promise((resolve, reject) => {
+      this.axios
+        .put(this.uri + "/" + user.id + '/password', {"newPassword": password}, this.config)
+        .then(response => {
+          status = response.data.status;
+          console.log(response.data);
+          if (status != "success") {
+            reject(this.errors);
+          }
+          resolve(response.data.message);
+        })
+        .catch(errors => {
+          console.log(errors);
+          this.errors.push(errors);
+          reject(this.errors);
+        });
+    });
+  }
+
 }
