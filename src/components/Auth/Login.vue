@@ -2,8 +2,8 @@
   <div class="container pt-5">
     <div class="row">
       <div class="col-sm-4 mx-auto w-100">
-        <div class="alert alert=danger" v-if="error">
-          <p>{{error}}</p>
+        <div class="alert alert-danger" v-if="error">
+          {{error}}
         </div>
         <form @submit.prevent="login()">
           <div class="form-group">
@@ -42,8 +42,8 @@
 export default {
   data() {
     return {
-      username: "pawel.lorenc@rst-it.com",
-      password: "test",
+      username: "",
+      password: "",
       error: null,
       loading: false,
       isClicked: false
@@ -66,7 +66,7 @@ export default {
           });
         })
         .catch(error => {
-          this.error = error;
+          this.error = 'Error, szwagier.';
           this.loading = false;
         });
     },

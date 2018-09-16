@@ -73,10 +73,11 @@
       getProducts(vendor) {},
       sendForm: function() {
         if (this.choice.product) {
-          new ChoiceProvider().post(
+          new ChoiceProvider().store(
               this.$store.getters.user,
               this.choice.order,
-              this.choice.product
+              this.choice.product,
+              this.choice.comment
             )
             .then(choice => {
               this.alertText = 'Your choice was added!';
@@ -124,7 +125,7 @@
 
                     order.choice = {
                       product: userChoice ? userChoice.product : null,
-                      comment: userChoice ? userChoice.comment : ''
+                      comment: userChoice ? userChoice.orderComment : ''
                     }
   
                     this.orders.push(order);
