@@ -1,5 +1,7 @@
 # forfeater-vue
 
+# Yarn (without docker)
+
 ## Project setup
 ```
 yarn install
@@ -18,4 +20,10 @@ yarn run build
 ### Lints and fixes files
 ```
 yarn run lint
+```
+
+# Docker
+```
+docker build -t forfeater-vue .
+docker run -it -p 8080:80 --rm --name forfeater-vue forfeater-vue
 ```
