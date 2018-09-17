@@ -22,20 +22,22 @@
             </div>
             <div>
               <strong>Choice: </strong>
-              <small v-if="order.choice && order.choice.product">{{order.choice.product.name}}</small>
+              <small v-if="order.choice && order.choice.id">{{order.choice.product.name}}</small>
             </div>
             <div v-if="order.choice && order.choice.comment">
               <strong>Comment: </strong>
               <small v-if="order.choice">{{order.choice.comment}}</small>
             </div>
-            <button v-if="order.choice.product" class="btn btn-sm btn-danger col-white">Cancel</button>
+            <div class="text-center mt-1">
+              <button v-if="order.choice.product && beforeDeadline(order)" v-on:click="removeChoice(order)" class="btn btn-sm btn-danger col-white">Cancel</button>
+            </div>
           </div>
         </div>
       </div>
-      <div class="justify-content-center mt-4">
-        <div>
+      <div class="row justify-content-center mt-4">
+        <div class="col-sm-6">
           <span>Comment:</span>
-          <textarea v-model="choice.comment" class="form-control"></textarea>
+          <textarea v-model="choice.comment" class="form-control border-warning"></textarea>
         </div>
       </div>
       <div class="d-flex justify-content-center mt-4">
@@ -83,9 +85,9 @@
               this.alertText = 'Your choice was added!';
               this.alertClass = 'alert alert-success';
               this.orders.find(x => x.id === choice.orderId).choice = {
+                id: choice.id,
                 product: this.choice.product,
                 comment: this.choice.comment
-  
               }
               this.choice.comment = '';
             })
@@ -96,13 +98,38 @@
             });
         }
       },
+      removeChoice: function(order) {
+          new ChoiceProvider().remove(order, order.choice)
+            .then(data => {
+              this.alertText = 'Your choice was canceled!';
+              this.alertClass = 'alert alert-success';
+              this.choice.comment = '';
+              this.orders.find(x => x.id === order.id).choice = {
+                id: null,
+                product: null,
+                comment: ''
+              }
+            })
+            .catch(errors => {
+              this.alertText = 'Something went wrong!';
+              this.alertClass = 'alert alert-danger';
+              this.appErrors.push(errors);
+            });
+      },
       productSelected: function(product, order) {
-        this.orders.find(x => x.id === order.id).choice.product = product
+        this.orders.find(x => x.id === order.id).choice.product = product;
         this.choice.product = product;
       },
       orderSelected: function(order) {
         this.choice.order = order;
+      },
+      beforeDeadline: function(order) {
+        console.log(new Date(order.deadlineAt) > new Date());
+        return new Date(order.deadlineAt) > new Date();
       }
+    },
+    computed: {
+            
     },
     created() {
       new OrderProvider().getActive()
@@ -124,6 +151,7 @@
                     let userChoice = choices.find(x => x.userId === this.$store.getters.user.id);
 
                     order.choice = {
+                      id: userChoice ? userChoice.id : null,
                       product: userChoice ? userChoice.product : null,
                       comment: userChoice ? userChoice.orderComment : ''
                     }

@@ -21,4 +21,20 @@ export default class ChoiceProvider extends ApiProvider {
         });
     });
   }
+
+  remove(Order) {
+    return new Promise((resolve, reject) => {
+      this.axios.delete('/orders/' + Order.id + '/choices/' + Order.choice.id)
+        .then(response => {
+          if (response.data) {
+            resolve(response.data);
+            return;
+          }
+          reject("Choice was not deleted");
+        })
+        .catch(errors => {
+          reject(errors);
+        });
+    });
+  }
 }
