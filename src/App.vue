@@ -21,6 +21,6 @@
   }
 </script>
 
-<style>
+<style scoped>
   @import './assets/css/styles.css';
 </style>
