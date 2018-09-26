@@ -9,6 +9,7 @@ import Home from "@/components/Home";
 import PageNotFound from "@/components/PageNotFound";
 
 import ChoiceAdd from "@/components/Choice/Add";
+import ChoiceScore from "@/components/Choice/Score";
 
 import UserList from "@/components/User/List";
 import UserCreate from "@/components/User/Create";
@@ -164,6 +165,12 @@ export default new VueRouter({
       name: "ChoiceList",
       component: ChoiceList,
       beforeEnter: Guard.isAuthenticated
+    },
+    {
+        path: "/orders/:id/score",
+        name: "ChoiceScore",
+        component: ChoiceScore,
+        beforeEnter: Guard.isAuthenticated
     },
 
   ]

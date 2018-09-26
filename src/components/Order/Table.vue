@@ -28,6 +28,9 @@
                                     <router-link class="btn-action d-inline text-warning" :to="{ name: 'ChoiceList', params: { orderId: order.id } }">
                                         <font-awesome-icon icon="list" />
                                     </router-link>
+                                    <router-link v-if="order.choice.product" class="btn-action d-inline" :to="{ name: 'ChoiceScore', params: { id: order.id } }">
+                                        <font-awesome-icon icon="comment" />
+                                    </router-link>
                                     <router-link v-if="user && user.role == 'admin'" class="btn-action d-inline" :to="{ name: 'OrderEdit', params: { id: order.id } }">
                                         <font-awesome-icon icon="edit" />
                                     </router-link>

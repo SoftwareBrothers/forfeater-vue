@@ -10,11 +10,12 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faEdit, faTrash, faList } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash, faList, faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(faEdit);
 library.add(faTrash);
 library.add(faList);
+library.add(faComment);
 
 Vue.use(VeeValidate);
 
