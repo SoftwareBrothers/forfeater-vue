@@ -23,4 +23,7 @@
 
 <style scoped>
   @import './assets/css/styles.css';
+  body {
+    background: #fafafa;
+  }
 </style>

@@ -39,6 +39,25 @@ export default class ChoiceProvider extends ApiProvider {
         });
     }
 
+    rate(orderId, Score) {
+        return new Promise((resolve, reject) => {
+            this.axios.patch('/orders/' + orderId + '/ratings', {
+                mark: Score.score,
+                scoreComment: Score.comment,
+            })
+                .then(response => {
+                    if (response.data) {
+                        resolve(response.data);
+                        return;
+                    }
+                    reject("Your rate is not saved");
+                })
+                .catch(errors => {
+                    reject(errors);
+                });
+        });
+    }
+
     remove(Order) {
         return new Promise((resolve, reject) => {
             this.axios.delete('/orders/' + Order.id + '/choices/' + Order.choice.id)
