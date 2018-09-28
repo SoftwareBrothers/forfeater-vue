@@ -15,7 +15,10 @@
     <div>
       <div class="row">
         <div class="col-sm-12">
-          <!-- <OrderForm :Order="Order"></OrderForm> -->
+          <div>Product: </div>
+          <div>Rate: </div>
+          <div>Comment: </div>
+          <ScoreForm></ScoreForm>
         </div>
       </div>
     </div>
@@ -23,14 +26,16 @@
 </template>
 
 <script>
-  import ChoiceService from "@/services/choice.service";
+  import ChoiceProvider from "@/provider/choice.provider";
+
+  import ScoreForm from "@/components/Choice/ScoreForm";
 
   export default {
     data() {
       return {
         Choice: {
           orderId: null,
-          userId: 1,
+          userId: null,
           productId: null,
           orderComment: null,
           score: null,
@@ -39,9 +44,10 @@
       };
     },
     beforeCreate() {
-      ChoiceService.find(this.$route.params.id)
+        new ChoiceProvider().getFromOrder(this.$route.params.id)
         .then(choice => {
           this.Choice = choice;
+          console.log(choice);
         })
         .catch(errors => {
           console.log(errors);
@@ -50,6 +56,7 @@
     methods: {
     },
     components: {
+        ScoreForm
     }
   };
 </script>
