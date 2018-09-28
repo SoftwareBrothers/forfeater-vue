@@ -9,6 +9,7 @@ import App from "./App.vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
+import {ServerTable, ClientTable, Event} from 'vue-tables-2';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faEdit, faTrash, faList, faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -18,6 +19,8 @@ library.add(faList);
 library.add(faComment);
 
 Vue.use(VeeValidate);
+Vue.use(ClientTable, {}, false, 'bootstrap4', 'default');
+// Vue.use(ServerTable, [options = {}], [useVuex = false], [theme = 'bootstrap4'], [template = 'default']);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.config.productionTip = false;
