@@ -18,6 +18,22 @@ export default class ChoiceProvider extends ApiProvider {
         });
     }
 
+  getFromProduct(Product) {
+    return new Promise((resolve, reject) => {
+      this.axios.get('/vendors/' + Product.vendorId + '/products/' + Product.id + '/choices')
+        .then(response => {
+          if (response.data) {
+            resolve(response.data);
+            return;
+          }
+          reject("There is no choice!");
+        })
+        .catch(errors => {
+          reject(errors);
+        });
+    });
+  }
+
     store(User, Order, Product, comment) {
         return new Promise((resolve, reject) => {
             this.axios.put('/orders/' + Order.id + '/choices', {
