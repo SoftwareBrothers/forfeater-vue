@@ -70,7 +70,11 @@
                             name: componentName ? componentName : "Home"
                         });
                     })
-                    .catch(error => this.error = 'Error, szwagier.');
+                    .catch(error => {
+                        this.error = 'Error, szwagier.'
+                        this.loading = false;
+                        this.isClicked = false;
+                    });
             },
             disabled() {
                 return (
@@ -86,20 +90,7 @@
                 this.$router.push({name: "UserProfile"});
             }
         }
-        ,
-        watch: {
-            password: function () {
-                this.isClicked = false;
-            },
-            username: function () {
-                this.isClicked = false;
-            },
-            error: function () {
-                this.loading = false;
-            }
-        }
     }
-    ;
 </script>
 <style lang="scss" scoped>
     .overlay {
