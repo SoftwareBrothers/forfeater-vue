@@ -34,6 +34,9 @@
                                     <router-link v-if="user && user.role == 'admin'" class="btn-action d-inline" :to="{ name: 'OrderEdit', params: { id: order.id } }">
                                         <font-awesome-icon icon="edit" />
                                     </router-link>
+                                    <router-link v-if="user && user.role == 'admin'" class="btn-action d-inline text-warning" :to="{ name: 'ChoiceCreate', params: { orderId: order.id } }">
+                                        <font-awesome-icon icon="plus" />
+                                    </router-link>
                                     <a v-if="user && user.role == 'admin'" class="btn-action d-inline text-danger" href="" @click="remove(order.id, key, $event)">
                                         <font-awesome-icon icon="trash" />
                                     </a>

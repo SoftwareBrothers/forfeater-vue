@@ -75,7 +75,7 @@
     created() {
       new VendorProvider().getAll()
         .then(vendors => {
-          this.vendors = vendors;
+          this.vendors = vendors
         })
         .catch(errors => {
           console.log(errors);
