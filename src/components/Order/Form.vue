@@ -51,7 +51,7 @@
         required: false,
         default: () => ({
           vendorId: null,
-          userId: 1,
+          userId: null,
           deadlineAt: null,
           deliveryAt: null
         }),
@@ -89,6 +89,9 @@
         this.sendProducts();
   
         if (isValid && !this.errors.any()) {
+
+          this.Order.userId = this.user.id;
+
           OrderService.store(this.Order)
             .then(order => {
               this.$router.push('/orders')
@@ -157,6 +160,11 @@
   
       }
   
+    },
+    computed: {
+      user() {
+        return this.$store.getters.user;
+      }
     },
     components: {
       ProductCheckboxList,
