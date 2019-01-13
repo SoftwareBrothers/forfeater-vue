@@ -24,19 +24,18 @@
 </template>
 
 <script>
-  import OrderService from "@/services/order.service";
-  import OrderForm from "@/components/Order/Form";
-  
-  export default {
-    data() {
-      return {};
-    },
-    components: {
-      OrderForm
-    }
-  };
+import OrderService from "@/services/order.service";
+import OrderForm from "@/components/Order/Form";
+
+export default {
+  data() {
+    return {};
+  },
+  components: {
+    OrderForm
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  
 </style>

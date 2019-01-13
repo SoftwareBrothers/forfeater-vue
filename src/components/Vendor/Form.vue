@@ -18,64 +18,73 @@
 </template>
 
 <script>
-  import VendorProvider from "@/provider/vendor.provider";
-  
-  export default {
-    props: {
-      Vendor: {
-        type: Object,
-        required: false,
-        default: () => ({
-          name: null,
-          url: null
-        }),
+import VendorProvider from "@/provider/vendor.provider";
+
+export default {
+  props: {
+    Vendor: {
+      type: Object,
+      required: false,
+      default: () => ({
+        name: null,
+        url: null
+      })
+    }
+  },
+  methods: {
+    create: function() {
+      if (!this.errors.any()) {
+        new VendorProvider()
+          .store(this.Vendor)
+          .then(vendor => {
+            this.$router.push("/vendors");
+          })
+          .catch(errors => {
+            this.errors.push(errors);
+          });
       }
     },
-    methods: {
-      create: function() {
-        if (!this.errors.any()) {
-          new VendorProvider().store(this.Vendor)
-            .then(vendor => {
-              this.$router.push('/vendors')
-            })
-            .catch(errors => {
-              this.errors.push(errors);
-            });
-        }
-      },
-      edit: function() {
-        if (!this.errors.any()) {
-          new VendorProvider().update(this.Vendor)
-            .then(vendor => {
-              this.$router.push('/vendors')
-            })
-            .catch(errors => {
-              this.errors.push(errors);
-            });
-        }
-      },
+    edit: function() {
+      if (!this.errors.any()) {
+        new VendorProvider()
+          .update(this.Vendor)
+          .then(vendor => {
+            this.$router.push("/vendors");
+          })
+          .catch(errors => {
+            this.errors.push(errors);
+          });
+      }
     }
-  };
-  
-  (function() {
-    'use strict';
-    window.addEventListener('load', function() {
+  }
+};
+
+(function() {
+  "use strict";
+  window.addEventListener(
+    "load",
+    function() {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.getElementsByClassName('needs-validation');
+      var forms = document.getElementsByClassName("needs-validation");
       // Loop over them and prevent submission
       var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-          if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add('was-validated');
-        }, false);
+        form.addEventListener(
+          "submit",
+          function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add("was-validated");
+          },
+          false
+        );
       });
-    }, false);
-  })();
+    },
+    false
+  );
+})();
 </script>
 
 <style lang="scss" scoped>
-  
 </style>

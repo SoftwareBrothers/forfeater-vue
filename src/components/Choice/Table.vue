@@ -36,46 +36,45 @@
 </template>
 
 <script>
-  import ChoiceService from "@/services/choice.service";
+import ChoiceService from "@/services/choice.service";
 
-  export default {
-    props: {
-      choices: {
-        required: true
-      },
-      tableData: {
-        required: true
-      }
+export default {
+  props: {
+    choices: {
+      required: true
     },
-    data() {
-      return {
-        columns: ['userFullName', 'productName', 'orderComment', 'actions'],
-        options: {
-          headings: {
-            userFullName: 'User',
-            productName: 'Product',
-            orderComment: 'Comment'
-          },
-          perPage: 30,
-          perPageValues: [10, 30, 50, 100],
-          skin: 'table table-sm table-hover table-bordered table-striped'
-        }
-      };
-    },
-    methods: {
-      remove: function (orderId, key, event) {
-        ChoiceService.remove(this.$route.params.orderId, choiceId)
-          .then(choices => {
-            this.choices.splice(key, 1);
-          })
-          .catch(errors => {
-            console.log(errors);
-          });
+    tableData: {
+      required: true
+    }
+  },
+  data() {
+    return {
+      columns: ["userFullName", "productName", "orderComment", "actions"],
+      options: {
+        headings: {
+          userFullName: "User",
+          productName: "Product",
+          orderComment: "Comment"
+        },
+        perPage: 30,
+        perPageValues: [10, 30, 50, 100],
+        skin: "table table-sm table-hover table-bordered table-striped"
       }
+    };
+  },
+  methods: {
+    remove: function(orderId, key, event) {
+      ChoiceService.remove(this.$route.params.orderId, choiceId)
+        .then(choices => {
+          this.choices.splice(key, 1);
+        })
+        .catch(errors => {
+          console.log(errors);
+        });
     }
   }
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>

@@ -25,34 +25,34 @@
 </template>
 
 <script>
-  import VendorProvider from "@/provider/vendor.provider";
-  import VendorForm from "@/components/Vendor/Form";
-  
-  export default {
-    data() {
-      return {
-        Vendor: {
-          name: null,
-          url: null
-        }
-      };
-    },
-    beforeCreate() {
-      new VendorProvider().find(this.$route.params.id)
-        .then(vendor => {
-          this.Vendor = vendor;
-          console.log(vendor)
-        })
-        .catch(errors => {
-          console.log(errors);
-        });
-    },
-    components: {
-      VendorForm
-    }
-  };
+import VendorProvider from "@/provider/vendor.provider";
+import VendorForm from "@/components/Vendor/Form";
+
+export default {
+  data() {
+    return {
+      Vendor: {
+        name: null,
+        url: null
+      }
+    };
+  },
+  beforeCreate() {
+    new VendorProvider()
+      .find(this.$route.params.id)
+      .then(vendor => {
+        this.Vendor = vendor;
+        console.log(vendor);
+      })
+      .catch(errors => {
+        console.log(errors);
+      });
+  },
+  components: {
+    VendorForm
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  
 </style>

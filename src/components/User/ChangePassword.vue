@@ -30,41 +30,42 @@
 </template>
 
 <script>
-  import UserProvider from "@/provider/user.provider";
-  
-  export default {
-    data() {
-      return {
-        User: {
-          type: Object,
-          required: false,
-          default: () => ({
-            firstName: null,
-            lastName: null,
-            role: null,
-            email: null,
-            password: null
-          }),
-        },
-        newPassword: null,
-      };
-    },
-    methods: {
-      changePassword: function() {
-        console.log(this.errors);
-        if (!this.errors.any()) {
-          new UserProvider().changePassword(this.User, this.newPassword)
-            .then(response => {
-              this.$router.push('/')
-            })
-            .catch(errors => {
-              this.errors.push(errors);
-            });
-        }
+import UserProvider from "@/provider/user.provider";
+
+export default {
+  data() {
+    return {
+      User: {
+        type: Object,
+        required: false,
+        default: () => ({
+          firstName: null,
+          lastName: null,
+          role: null,
+          email: null,
+          password: null
+        })
       },
-    },
-    created() {
-      this.User = this.$store.getters.user;
-    },
-  };
+      newPassword: null
+    };
+  },
+  methods: {
+    changePassword: function() {
+      console.log(this.errors);
+      if (!this.errors.any()) {
+        new UserProvider()
+          .changePassword(this.User, this.newPassword)
+          .then(response => {
+            this.$router.push("/");
+          })
+          .catch(errors => {
+            this.errors.push(errors);
+          });
+      }
+    }
+  },
+  created() {
+    this.User = this.$store.getters.user;
+  }
+};
 </script>

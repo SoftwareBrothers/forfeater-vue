@@ -24,61 +24,58 @@
 </template>
 
 <script>
-  import OrderService from "@/services/order.service";
-  import OrderForm from "@/components/Order/Form";
-  import ProductService from "@/services/product.service";
-  
-  export default {
-    data() {
-      return {
-        products: null,
-        Order: {
-          vendorId: null,
-          userId: 1,
-          deadlineAt: null,
-          deliveryAt: null
-        }
-      };
-    },
-    beforeCreate() {
-      OrderService.find(this.$route.params.id)
-        .then(order => {
-          this.Order = order;
-          this.loadProducts();
+import OrderService from "@/services/order.service";
+import OrderForm from "@/components/Order/Form";
+import ProductService from "@/services/product.service";
+
+export default {
+  data() {
+    return {
+      products: null,
+      Order: {
+        vendorId: null,
+        userId: 1,
+        deadlineAt: null,
+        deliveryAt: null
+      }
+    };
+  },
+  beforeCreate() {
+    OrderService.find(this.$route.params.id)
+      .then(order => {
+        this.Order = order;
+        this.loadProducts();
+      })
+      .catch(errors => {
+        console.log(errors);
+      });
+  },
+  methods: {
+    loadProducts: function() {
+      this.products = null;
+
+      ProductService.getAll(this.Order.vendorId)
+        .then(products => {
+          this.checkedProducts = products
+            .filter(product => {
+              return product.active;
+            })
+            .map(product => {
+              return product.id;
+            });
+
+          this.products = products;
+          console.log(this.products);
         })
         .catch(errors => {
           console.log(errors);
         });
-    },
-    methods: {
-      loadProducts: function() {
-        this.products = null;
-  
-        ProductService.getAll(this.Order.vendorId)
-          .then(products => {
-            this.checkedProducts = products.filter(
-              product => {
-                return product.active
-              }
-              ).map(
-                product => {
-                return product.id
-                }
-              )
-            
-            this.products = products;
-            console.log(this.products)
-          })
-          .catch(errors => {
-            console.log(errors);
-          });
-  
-      }
-    },
-    components: {
-      OrderForm
     }
-  };
+  },
+  components: {
+    OrderForm
+  }
+};
 </script>
 
 <style lang="scss" scoped>

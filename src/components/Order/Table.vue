@@ -49,43 +49,41 @@
 </template>
 
 <script>
-    import OrderService from "@/services/order.service";
-    var moment = require('moment');
-    
-    export default {
-        props: {
-            orders: {
-                required: true
-            }
-        },
-        methods: {
-            remove: function(orderId, key, event) {
-                OrderService.remove(orderId)
-                    .then(orders => {
-                        this.orders.splice(key, 1);
-                    })
-                    .catch(errors => {
-                        console.log(errors);
-                    });
-            },
-            isActive(order) {
-                return new Date(order.deadlineAt).getTime() > new Date().getTime();
-            }
-        },
-        computed: {
-            user() {
-                return this.$store.getters.user;
-            }
-        },
-        filters: {
-    
-        }
+import OrderService from "@/services/order.service";
+var moment = require("moment");
+
+export default {
+  props: {
+    orders: {
+      required: true
     }
+  },
+  methods: {
+    remove: function(orderId, key, event) {
+      OrderService.remove(orderId)
+        .then(orders => {
+          this.orders.splice(key, 1);
+        })
+        .catch(errors => {
+          console.log(errors);
+        });
+    },
+    isActive(order) {
+      return new Date(order.deadlineAt).getTime() > new Date().getTime();
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    }
+  },
+  filters: {}
+};
 </script>
 
 <style lang="scss" scoped>
-    .no-active {
-        color: red;
-        opacity: 0.5;
-    }
+.no-active {
+  color: red;
+  opacity: 0.5;
+}
 </style>

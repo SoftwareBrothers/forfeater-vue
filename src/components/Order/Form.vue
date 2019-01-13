@@ -34,133 +34,125 @@
 </template>
 
 <script>
-  import OrderService from "@/services/order.service";
-  import VendorProvider from "@/provider/vendor.provider";
-  import ProductService from "@/services/product.service";
-  import ProductCheckboxList from "@/components/Product/CheckboxList";
-  import flatPickr from 'vue-flatpickr-component';
-  import 'flatpickr/dist/flatpickr.css';
-  
-  export default {
-    props: {
-      products: {
-        required: false
-      },
-      Order: {
-        type: Object,
-        required: false,
-        default: () => ({
-          vendorId: null,
-          userId: 1,
-          deadlineAt: null,
-          deliveryAt: null
-        }),
+import OrderService from "@/services/order.service";
+import VendorProvider from "@/provider/vendor.provider";
+import ProductService from "@/services/product.service";
+import ProductCheckboxList from "@/components/Product/CheckboxList";
+import flatPickr from "vue-flatpickr-component";
+import "flatpickr/dist/flatpickr.css";
+
+export default {
+  props: {
+    products: {
+      required: false
+    },
+    Order: {
+      type: Object,
+      required: false,
+      default: () => ({
+        vendorId: null,
+        userId: 1,
+        deadlineAt: null,
+        deliveryAt: null
+      })
+    }
+  },
+  data() {
+    return {
+      vendors: {},
+      // products: {},
+      checkedProducts: [],
+      config: {
+        wrap: true, // set wrap to true only when using 'input-group'
+        altFormat: "Y-m-d H:i",
+        altInput: true,
+        dateFormat: "Y-m-d H:i",
+        enableTime: true,
+        time_24hr: true
+      }
+    };
+  },
+  created() {
+    new VendorProvider()
+      .getAll()
+      .then(vendors => {
+        this.vendors = vendors;
+      })
+      .catch(errors => {
+        console.log(errors);
+      });
+  },
+  methods: {
+    create: async function() {
+      var isValid = await this.$validator.validateAll();
+
+      this.sendProducts();
+
+      if (isValid && !this.errors.any()) {
+        OrderService.store(this.Order)
+          .then(order => {
+            this.$router.push("/orders");
+          })
+          .catch(errors => {
+            this.errors.push(errors);
+          });
       }
     },
-    data() {
-      return {
-        vendors: {},
-        // products: {},
-        checkedProducts: [],
-        config: {
-          wrap: true, // set wrap to true only when using 'input-group'
-          altFormat: 'Y-m-d H:i',
-          altInput: true,
-          dateFormat: 'Y-m-d H:i',
-          enableTime: true,
-          time_24hr: true
-        },
-      };
+    edit: async function() {
+      var isValid = await this.$validator.validateAll();
+
+      if (isValid && !this.errors.any()) {
+        OrderService.update(this.Order)
+          .then(order => {
+            this.$router.push("/orders");
+          })
+          .catch(errors => {
+            this.errors.push(errors);
+          });
+      }
     },
-    created() {
-      new VendorProvider().getAll()
-        .then(vendors => {
-          this.vendors = vendors;
+
+    loadProducts: function() {
+      this.products = null;
+
+      ProductService.getAll(this.Order.vendorId)
+        .then(products => {
+          this.checkedProducts = products
+            .filter(product => {
+              return product.active;
+            })
+            .map(product => {
+              return product.id;
+            });
+
+          this.products = products;
         })
         .catch(errors => {
           console.log(errors);
         });
-
     },
-    methods: {
-      create: async function() {
-        var isValid = await this.$validator.validateAll();
-  
-        this.sendProducts();
-  
-        if (isValid && !this.errors.any()) {
-          OrderService.store(this.Order)
-            .then(order => {
-              this.$router.push('/orders')
-            })
-            .catch(errors => {
-              this.errors.push(errors);
-            });
-        }
-      },
-      edit: async function() {
-        var isValid = await this.$validator.validateAll();
-  
-        if (isValid && !this.errors.any()) {
-          OrderService.update(this.Order)
-            .then(order => {
-              this.$router.push('/orders')
-            })
-            .catch(errors => {
-              this.errors.push(errors);
-            });
-        }
-      },
-  
-      loadProducts: function() {
-        this.products = null;
-  
-        ProductService.getAll(this.Order.vendorId)
-          .then(products => {
-            this.checkedProducts = products.filter(
-              product => {
-                return product.active
-              }
-              ).map(
-                product => {
-                return product.id
-                }
-              )
-            
-            this.products = products;
-          })
+
+    productsSelected: function(productIds) {
+      this.checkedProducts = productIds;
+    },
+
+    sendProducts: function() {
+      for (var index in this.products) {
+        var product = this.products[index];
+
+        product.active = this.checkedProducts.indexOf(product.id) >= 0 ? 1 : 0;
+
+        ProductService.update(product)
+          .then(product => {})
           .catch(errors => {
             console.log(errors);
           });
-  
-      },
-  
-      productsSelected: function(productIds) {
-        this.checkedProducts = productIds;
-      },
-  
-      sendProducts: function() {
-
-        for (var index in this.products) {
-          var product = this.products[index];
-  
-          product.active = (this.checkedProducts.indexOf(product.id) >= 0) ? 1 : 0;
-  
-          ProductService.update(product)
-            .then(product => {
-            })
-            .catch(errors => {
-              console.log(errors);
-            });
-  
-        }
-  
       }
-  
-    },
-    components: {
-      ProductCheckboxList,
-      flatPickr
     }
-  };
+  },
+  components: {
+    ProductCheckboxList,
+    flatPickr
+  }
+};
 </script>

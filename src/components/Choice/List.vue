@@ -25,35 +25,37 @@
 </template>
 
 <script>
-  import ChoiceService from "@/services/choice.service";
-  import ChoiceTable from "@/components/Choice/Table";
+import ChoiceService from "@/services/choice.service";
+import ChoiceTable from "@/components/Choice/Table";
 
-  export default {
-    data() {
-      return {
-        choices: {},
-        tableData: []
-      };
-    },
-    created() {
-      ChoiceService.getAll(this.$route.params.orderId)
-        .then(choices => {
-          this.choices = choices.sort((a, b) => a.productId - b.productId)
-            .map(item => Object.assign({}, item,
-            {
-              userFullName : item.user.lastName + ' ' + item.user.firstName,
-              productName : item.product.name
-            }));
-          this.tableData = this.choices;
-        })
-        .catch(errors => {
-          console.log(errors);
-        });
-    },
-    components: {
-        ChoiceTable
-      }
+export default {
+  data() {
+    return {
+      choices: {},
+      tableData: []
     };
+  },
+  created() {
+    ChoiceService.getAll(this.$route.params.orderId)
+      .then(choices => {
+        this.choices = choices
+          .sort((a, b) => a.productId - b.productId)
+          .map(item =>
+            Object.assign({}, item, {
+              userFullName: item.user.lastName + " " + item.user.firstName,
+              productName: item.product.name
+            })
+          );
+        this.tableData = this.choices;
+      })
+      .catch(errors => {
+        console.log(errors);
+      });
+  },
+  components: {
+    ChoiceTable
+  }
+};
 </script>
 
 <style lang="scss" scoped>

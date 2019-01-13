@@ -49,132 +49,134 @@
 </template>
 
 <script>
-  import ProductsInputList from "@/components/Product/InputsList";
-  import OrderProvider from "@/provider/order.provider";
-  import ProductProvider from "@/provider/product.provider";
-  import ChoiceProvider from "@/provider/choice.provider";
-  import ChoiceService from "@/services/choice.service";
-  import Countdown from "@/components/Helpers/Countdown";
-  
-  export default {
-    data: () => {
-      return {
-        appErrors: [],
-        orders: [],
-        choice: {
-          order: {},
-          product: null,
-          comment: ''
-        },
-        noOrderMessage: "There is no restaurants available for today",
-        alertText: '',
-        alertClass: ''
-      };
-    },
-    methods: {
-      getProducts(vendor) {},
-      sendForm: function() {
-        if (this.choice.product) {
-          new ChoiceProvider().store(
-              this.$store.getters.user,
-              this.choice.order,
-              this.choice.product,
-              this.choice.comment
-            )
-            .then(choice => {
-              this.alertText = 'Your choice was added!';
-              this.alertClass = 'alert alert-success';
-              this.orders.find(x => x.id === choice.orderId).choice = {
-                id: choice.id,
-                product: this.choice.product,
-                comment: this.choice.comment
-              }
-              this.choice.comment = '';
-            })
-            .catch(errors => {
-              this.alertText = 'Something went wrong!';
-              this.alertClass = 'alert alert-danger';
-              this.appErrors.push(errors);
-            });
-        }
+import ProductsInputList from "@/components/Product/InputsList";
+import OrderProvider from "@/provider/order.provider";
+import ProductProvider from "@/provider/product.provider";
+import ChoiceProvider from "@/provider/choice.provider";
+import ChoiceService from "@/services/choice.service";
+import Countdown from "@/components/Helpers/Countdown";
+
+export default {
+  data: () => {
+    return {
+      appErrors: [],
+      orders: [],
+      choice: {
+        order: {},
+        product: null,
+        comment: ""
       },
-      removeChoice: function(order) {
-          new ChoiceProvider().remove(order, order.choice)
-            .then(data => {
-              this.alertText = 'Your choice was canceled!';
-              this.alertClass = 'alert alert-success';
-              this.choice.comment = '';
-              this.orders.find(x => x.id === order.id).choice = {
-                id: null,
-                product: null,
-                comment: ''
-              }
-            })
-            .catch(errors => {
-              this.alertText = 'Something went wrong!';
-              this.alertClass = 'alert alert-danger';
-              this.appErrors.push(errors);
-            });
-      },
-      productSelected: function(product, order) {
-        this.orders.find(x => x.id === order.id).choice.product = product;
-        this.choice.product = product;
-      },
-      orderSelected: function(order) {
-        this.choice.order = order;
-      },
-      beforeDeadline: function(order) {
-        console.log(new Date(order.deadlineAt) > new Date());
-        return new Date(order.deadlineAt) > new Date();
+      noOrderMessage: "There is no restaurants available for today",
+      alertText: "",
+      alertClass: ""
+    };
+  },
+  methods: {
+    getProducts(vendor) {},
+    sendForm: function() {
+      if (this.choice.product) {
+        new ChoiceProvider()
+          .store(
+            this.$store.getters.user,
+            this.choice.order,
+            this.choice.product,
+            this.choice.comment
+          )
+          .then(choice => {
+            this.alertText = "Your choice was added!";
+            this.alertClass = "alert alert-success";
+            this.orders.find(x => x.id === choice.orderId).choice = {
+              id: choice.id,
+              product: this.choice.product,
+              comment: this.choice.comment
+            };
+            this.choice.comment = "";
+          })
+          .catch(errors => {
+            this.alertText = "Something went wrong!";
+            this.alertClass = "alert alert-danger";
+            this.appErrors.push(errors);
+          });
       }
     },
-    computed: {
-            
-    },
-    created() {
-      new OrderProvider().getActive()
-        .then(results => {
-          if (results.length == 0) {
-            this.noOrderMessage = "There is no active order!";
-          }
-  
-          results.forEach(order => {
-            new ProductProvider().getAllActiveByVendor(order.vendor.id)
-              .then(products => {
-                if (products.length > 0) {
-                  order.vendor.products = products;
-                }
-
-                ChoiceService.getAll(order.id)
-                  .then(choices => {
-  
-                    let userChoice = choices.find(x => x.userId === this.$store.getters.user.id);
-
-                    order.choice = {
-                      id: userChoice ? userChoice.id : null,
-                      product: userChoice ? userChoice.product : null,
-                      comment: userChoice ? userChoice.orderComment : ''
-                    }
-  
-                    this.orders.push(order);
-                  })
-                  .catch(errors => {
-                    console.log(errors);
-                  });
-  
-              })
-              .catch(errors => {
-                this.appErrors.push(errors);
-              });
-          });
+    removeChoice: function(order) {
+      new ChoiceProvider()
+        .remove(order, order.choice)
+        .then(data => {
+          this.alertText = "Your choice was canceled!";
+          this.alertClass = "alert alert-success";
+          this.choice.comment = "";
+          this.orders.find(x => x.id === order.id).choice = {
+            id: null,
+            product: null,
+            comment: ""
+          };
         })
         .catch(errors => {
+          this.alertText = "Something went wrong!";
+          this.alertClass = "alert alert-danger";
           this.appErrors.push(errors);
         });
     },
-    components: {
-      ProductsInputList,
-      Countdown
+    productSelected: function(product, order) {
+      this.orders.find(x => x.id === order.id).choice.product = product;
+      this.choice.product = product;
+    },
+    orderSelected: function(order) {
+      this.choice.order = order;
+    },
+    beforeDeadline: function(order) {
+      console.log(new Date(order.deadlineAt) > new Date());
+      return new Date(order.deadlineAt) > new Date();
     }
-  };
+  },
+  computed: {},
+  created() {
+    new OrderProvider()
+      .getActive()
+      .then(results => {
+        if (results.length == 0) {
+          this.noOrderMessage = "There is no active order!";
+        }
+
+        results.forEach(order => {
+          new ProductProvider()
+            .getAllActiveByVendor(order.vendor.id)
+            .then(products => {
+              if (products.length > 0) {
+                order.vendor.products = products;
+              }
+
+              ChoiceService.getAll(order.id)
+                .then(choices => {
+                  let userChoice = choices.find(
+                    x => x.userId === this.$store.getters.user.id
+                  );
+
+                  order.choice = {
+                    id: userChoice ? userChoice.id : null,
+                    product: userChoice ? userChoice.product : null,
+                    comment: userChoice ? userChoice.orderComment : ""
+                  };
+
+                  this.orders.push(order);
+                })
+                .catch(errors => {
+                  console.log(errors);
+                });
+            })
+            .catch(errors => {
+              this.appErrors.push(errors);
+            });
+        });
+      })
+      .catch(errors => {
+        this.appErrors.push(errors);
+      });
+  },
+  components: {
+    ProductsInputList,
+    Countdown
+  }
+};
 </script>

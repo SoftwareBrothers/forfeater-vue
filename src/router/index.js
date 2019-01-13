@@ -167,11 +167,10 @@ export default new VueRouter({
       beforeEnter: Guard.isAuthenticated
     },
     {
-        path: "/orders/:id/score",
-        name: "ChoiceScore",
-        component: ChoiceScore,
-        beforeEnter: Guard.isAuthenticated
-    },
-
+      path: "/orders/:id/score",
+      name: "ChoiceScore",
+      component: ChoiceScore,
+      beforeEnter: Guard.isAuthenticated
+    }
   ]
 });

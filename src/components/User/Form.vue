@@ -46,70 +46,79 @@
 </template>
 
 <script>
-  import UserProvider from "@/provider/user.provider";
-  
-  export default {
-    props: {
-      User: {
-        type: Object,
-        required: false,
-        default: () => ({
-          firstName: null,
-          lastName: null,
-          role: null,
-          email: null,
-          password: null
-        }),
+import UserProvider from "@/provider/user.provider";
+
+export default {
+  props: {
+    User: {
+      type: Object,
+      required: false,
+      default: () => ({
+        firstName: null,
+        lastName: null,
+        role: null,
+        email: null,
+        password: null
+      })
+    }
+  },
+  methods: {
+    createUser: function() {
+      if (!this.errors.any()) {
+        this.userProvider
+          .store(this.User)
+          .then(user => {
+            this.$router.push("/users");
+          })
+          .catch(errors => {
+            this.errors.push(errors);
+          });
       }
     },
-    methods: {
-      createUser: function() {
-        if (!this.errors.any()) {
-          this.userProvider.store(this.User)
-            .then(user => {
-              this.$router.push('/users')
-            })
-            .catch(errors => {
-              this.errors.push(errors);
-            });
-        }
-      },
-      editUser: function() {
-        if (!this.errors.any()) {
-          this.userProvider.update(this.User)
-            .then(user => {
-              this.$router.push('/users')
-            })
-            .catch(errors => {
-              this.errors.push(errors);
-            });
-        }
-      },
-    },
-    created() {
-      this.userProvider = new UserProvider();
-    },
-  };
-  
-  (function() {
-    'use strict';
-    window.addEventListener('load', function() {
+    editUser: function() {
+      if (!this.errors.any()) {
+        this.userProvider
+          .update(this.User)
+          .then(user => {
+            this.$router.push("/users");
+          })
+          .catch(errors => {
+            this.errors.push(errors);
+          });
+      }
+    }
+  },
+  created() {
+    this.userProvider = new UserProvider();
+  }
+};
+
+(function() {
+  "use strict";
+  window.addEventListener(
+    "load",
+    function() {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.getElementsByClassName('needs-validation');
+      var forms = document.getElementsByClassName("needs-validation");
       // Loop over them and prevent submission
       var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-          if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add('was-validated');
-        }, false);
+        form.addEventListener(
+          "submit",
+          function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add("was-validated");
+          },
+          false
+        );
       });
-    }, false);
-  })();
+    },
+    false
+  );
+})();
 </script>
 
 <style lang="scss" scoped>
-  
 </style>

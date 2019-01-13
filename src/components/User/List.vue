@@ -16,30 +16,30 @@
 </template>
 
 <script>
-  import UserProvider from "@/provider/user.provider";
-  import UserTable from "@/components/User/Table";
-  
-  export default {
-    data() {
-      return {
-        users: {}
-      };
-    },
-    created() {
-      new UserProvider().getAll()
-        .then(users => {
-          this.users = users;
-        })
-        .catch(errors => {
-          console.log(errors);
-        });
-    },
-    components: {
-      UserTable
-    }
-  };
+import UserProvider from "@/provider/user.provider";
+import UserTable from "@/components/User/Table";
+
+export default {
+  data() {
+    return {
+      users: {}
+    };
+  },
+  created() {
+    new UserProvider()
+      .getAll()
+      .then(users => {
+        this.users = users;
+      })
+      .catch(errors => {
+        console.log(errors);
+      });
+  },
+  components: {
+    UserTable
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  
 </style>

@@ -41,28 +41,28 @@
 </template>
 
 <script>
-   import VendorProvider from "@/provider/vendor.provider";
+import VendorProvider from "@/provider/vendor.provider";
 
-    export default {
-        props: {
-            vendors: {
-                required: true
-            }
-        },
-        methods: {
-            remove: function(vendorId, key, event) {
-                new VendorProvider().remove(vendorId)
-                    .then(vendor => {
-                        this.vendors.splice(key, 1);
-                    })
-                    .catch(errors => {
-                        console.log(errors);
-                    });
-            }
-        }
+export default {
+  props: {
+    vendors: {
+      required: true
     }
+  },
+  methods: {
+    remove: function(vendorId, key, event) {
+      new VendorProvider()
+        .remove(vendorId)
+        .then(vendor => {
+          this.vendors.splice(key, 1);
+        })
+        .catch(errors => {
+          console.log(errors);
+        });
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-    
 </style>

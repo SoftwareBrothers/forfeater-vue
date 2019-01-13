@@ -43,28 +43,27 @@
 </template>
 
 <script>
-   import ProductService from "@/services/product.service";
+import ProductService from "@/services/product.service";
 
-    export default {
-        props: {
-            products: {
-                required: true
-            }
-        },
-        methods: {
-            remove: function(productId, key) {
-                ProductService.remove(this.$route.params.vendorId, productId)
-                    .then(products => {
-                        this.products.splice(key, 1);
-                    })
-                    .catch(errors => {
-                        // console.log(errors);
-                    });
-            }
-        }
+export default {
+  props: {
+    products: {
+      required: true
     }
+  },
+  methods: {
+    remove: function(productId, key) {
+      ProductService.remove(this.$route.params.vendorId, productId)
+        .then(products => {
+          this.products.splice(key, 1);
+        })
+        .catch(errors => {
+          // console.log(errors);
+        });
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-    
 </style>

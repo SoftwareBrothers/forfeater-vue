@@ -45,103 +45,103 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                username: "",
-                password: "",
-                error: null,
-                loading: false,
-                isClicked: false
-            };
-        },
-        methods: {
-            login() {
-                this.isClicked = true;
-                this.loading = true;
-                this.$store
-                    .dispatch("authenticate", {
-                        username: this.username,
-                        password: this.password
-                    })
-                    .then(token => {
-                        let componentName = this.$route.query.redirect;
-                        this.$router.push({
-                            name: componentName ? componentName : "Home"
-                        });
-                    })
-                    .catch(error => {
-                        this.error = 'Error, szwagier.'
-                        this.loading = false;
-                        this.isClicked = false;
-                    });
-            },
-            disabled() {
-                return (
-                    this.username.length === 0 ||
-                    this.password.length === 0 ||
-                    this.errors.any() ||
-                    this.isClicked
-                );
-            }
-        },
-        beforeCreate() {
-            if (this.$store.token) {
-                this.$router.push({name: "UserProfile"});
-            }
-        }
+export default {
+  data() {
+    return {
+      username: "",
+      password: "",
+      error: null,
+      loading: false,
+      isClicked: false
+    };
+  },
+  methods: {
+    login() {
+      this.isClicked = true;
+      this.loading = true;
+      this.$store
+        .dispatch("authenticate", {
+          username: this.username,
+          password: this.password
+        })
+        .then(token => {
+          let componentName = this.$route.query.redirect;
+          this.$router.push({
+            name: componentName ? componentName : "Home"
+          });
+        })
+        .catch(error => {
+          this.error = "Error, szwagier.";
+          this.loading = false;
+          this.isClicked = false;
+        });
+    },
+    disabled() {
+      return (
+        this.username.length === 0 ||
+        this.password.length === 0 ||
+        this.errors.any() ||
+        this.isClicked
+      );
     }
+  },
+  beforeCreate() {
+    if (this.$store.token) {
+      this.$router.push({ name: "UserProfile" });
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
-    .overlay {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.5);
-    }
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
 
-    .loading {
-        height: 100%;
-        padding: 0;
-        margin: 0;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+.loading {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    .dot {
-        display: inline-block;
-        width: 2rem;
-        height: 2rem;
-        margin: 0 1rem;
-        border-radius: 1rem;
-        background-color: orange;
-        &:nth-last-child(1) {
-            animation: loading 0.6s 0.1s linear infinite;
-        }
-        &:nth-last-child(2) {
-            animation: loading 0.6s 0.2s linear infinite;
-        }
-        &:nth-last-child(3) {
-            animation: loading 0.6s 0.3s linear infinite;
-        }
-    }
+.dot {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  margin: 0 1rem;
+  border-radius: 1rem;
+  background-color: orange;
+  &:nth-last-child(1) {
+    animation: loading 0.6s 0.1s linear infinite;
+  }
+  &:nth-last-child(2) {
+    animation: loading 0.6s 0.2s linear infinite;
+  }
+  &:nth-last-child(3) {
+    animation: loading 0.6s 0.3s linear infinite;
+  }
+}
 
-    @keyframes loading {
-        0% {
-            transform: translate(0, 0);
-        }
-        50% {
-            transform: translate(0, 15px);
-        }
-        100% {
-            transform: translate(0, 0);
-        }
-    }
+@keyframes loading {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, 15px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
 </style>

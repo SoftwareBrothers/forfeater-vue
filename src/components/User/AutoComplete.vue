@@ -27,7 +27,8 @@ export default {
     };
   },
   created() {
-    new UserProvider().getAll()
+    new UserProvider()
+      .getAll()
       .then(users => {
         this.users = users;
       })
@@ -54,7 +55,8 @@ export default {
     filterResults: function() {
       this.results = this.users.filter(item => {
         return (
-          item.lastName.toLowerCase().indexOf(this.input.toLowerCase()) > -1 || item.firstName.toLowerCase().indexOf(this.input.toLowerCase()) > -1 
+          item.lastName.toLowerCase().indexOf(this.input.toLowerCase()) > -1 ||
+          item.firstName.toLowerCase().indexOf(this.input.toLowerCase()) > -1
         );
       });
     }

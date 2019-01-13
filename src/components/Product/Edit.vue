@@ -28,31 +28,31 @@
 </template>
 
 <script>
-  import ProductService from "@/services/product.service";
-  import ProductForm from "@/components/Product/Form";
-  
-  export default {
-    data() {
-      return {
-        Product: {
-          name: null,
-          active: null
-        }
-      };
-    },
-    beforeCreate() {
-      ProductService.find(this.$route.params.vendorId, this.$route.params.id)
-        .then(product => {
-          this.Product = product;
-        })
-        .catch(errors => {
-          console.log(errors);
-        });
-    },
-    components: {
-      ProductForm
-    }
-  };
+import ProductService from "@/services/product.service";
+import ProductForm from "@/components/Product/Form";
+
+export default {
+  data() {
+    return {
+      Product: {
+        name: null,
+        active: null
+      }
+    };
+  },
+  beforeCreate() {
+    ProductService.find(this.$route.params.vendorId, this.$route.params.id)
+      .then(product => {
+        this.Product = product;
+      })
+      .catch(errors => {
+        console.log(errors);
+      });
+  },
+  components: {
+    ProductForm
+  }
+};
 </script>
 
 <style lang="scss" scoped>
