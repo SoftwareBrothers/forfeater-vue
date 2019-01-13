@@ -11,12 +11,13 @@ import "bootstrap/dist/js/bootstrap.min.js";
 
 import {ServerTable, ClientTable, Event} from 'vue-tables-2';
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faEdit, faTrash, faList, faComment } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash, faList, faComment, faPrint } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(faEdit);
 library.add(faTrash);
 library.add(faList);
 library.add(faComment);
+library.add(faPrint);
 
 Vue.use(VeeValidate);
 Vue.use(ClientTable, {}, false, 'bootstrap4', 'default');
