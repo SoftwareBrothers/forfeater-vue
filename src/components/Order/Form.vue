@@ -61,6 +61,7 @@
       return {
         vendors: {},
         // products: {},
+        user: null,
         checkedProducts: [],
         config: {
           wrap: true, // set wrap to true only when using 'input-group'
@@ -73,6 +74,7 @@
       };
     },
     created() {
+      this.user = this.$store.getters.user;
       new VendorProvider().getAll()
         .then(vendors => {
           this.vendors = vendors
@@ -97,7 +99,7 @@
               this.$router.push('/orders')
             })
             .catch(errors => {
-              this.errors.push(errors);
+
             });
         }
       },
@@ -161,9 +163,17 @@
       }
   
     },
+
     computed: {
       user() {
         return this.$store.getters.user;
+      }
+    },
+    watch: {
+      user: function() {
+        if (this.Order.id === undefined) {
+          this.Order.userId = this.user.id;
+        }
       }
     },
     components: {
