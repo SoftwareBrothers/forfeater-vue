@@ -66,9 +66,7 @@ class OrderService extends ApiService {
         resolve(response.data);
       })
       .catch(errors => {
-        console.log(errors)
-        this.errors.push(errors);
-        reject(this.errors);
+        reject('Could not create order');
       });
     });
   }

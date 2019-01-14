@@ -51,7 +51,7 @@
         required: false,
         default: () => ({
           vendorId: null,
-          userId: 1,
+          userId: null,
           deadlineAt: null,
           deliveryAt: null
         }),
@@ -61,6 +61,7 @@
       return {
         vendors: {},
         // products: {},
+        user: null,
         checkedProducts: [],
         config: {
           wrap: true, // set wrap to true only when using 'input-group'
@@ -73,6 +74,7 @@
       };
     },
     created() {
+      this.user = this.$store.getters.user;
       new VendorProvider().getAll()
         .then(vendors => {
           this.vendors = vendors;
@@ -94,7 +96,7 @@
               this.$router.push('/orders')
             })
             .catch(errors => {
-              this.errors.push(errors);
+
             });
         }
       },
@@ -157,6 +159,13 @@
   
       }
   
+    },
+    watch: {
+      user: function() {
+        if (this.Order.id === undefined) {
+          this.Order.userId = this.user.id;
+        }
+      }
     },
     components: {
       ProductCheckboxList,
