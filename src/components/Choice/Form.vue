@@ -30,7 +30,7 @@
                 <div class="form-row">
                     <div class="form-group custom-control">
                         <label for="name">Product</label>
-                        <select v-model="selectedProduct" v-validate="'required'" name="productId"
+                        <select v-model="selectedProduct" v-validate="'required'" name="product"
                                 @change="loadProducts()" class="custom-select w-100">
                             <option :value="null" disabled>Select Product</option>
                             <option v-for="(product,key) in products" :key="key" :value="product">
@@ -73,7 +73,7 @@
                     orderId: null,
                     userId: null,
                     productId: null,
-                    orderComment: ''
+                    orderComment: '',
                 }),
             }
         },
@@ -116,6 +116,9 @@
         },
         created() {
             this.choice.orderId = this.$route.params.orderId;
+            console.log('product!');
+            console.log(this.choice.product);
+          //  this.selectedProduct = this.choice.product;
         },
         methods: {
 
@@ -134,12 +137,6 @@
                         .then(choice => {
                             this.alertText = 'Your choice was added!';
                             this.alertClass = 'alert alert-success';
-                            this.orders.find(x => x.id === choice.orderId).choice = {
-                                id: choice.id,
-                                product: this.choice.product,
-                                comment: this.choice.comment
-                            }
-                            this.choice.comment = '';
                         })
                         .catch(errors => {
                             this.alertText = 'Something went wrong!';
@@ -157,9 +154,9 @@
 
                 this.products = null;
 
-                if (this.selectedProduct) {
-                    this.choice.productId = this.selectedProduct.id;
-                }
+                // if (this.selectedProduct) {
+                //     this.choice.productId = this.selectedProduct.id;
+                // }
 
                 ProductService.getAll(this.order.vendorId)
                     .then(products => {
