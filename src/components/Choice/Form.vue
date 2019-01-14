@@ -126,7 +126,7 @@
                 if (isValid && !this.errors.any()) {
 
                     new ChoiceProvider().store(
-                        this.$store.getters.user,
+                        this.selectedUser,
                         this.order,
                         this.selectedProduct,
                         this.choice.orderComment
