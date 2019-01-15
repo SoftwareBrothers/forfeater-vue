@@ -51,7 +51,7 @@ export default {
       required: false,
       default: () => ({
         vendorId: null,
-        userId: 1,
+        userId: null,
         deadlineAt: null,
         deliveryAt: null
       })
@@ -61,6 +61,7 @@ export default {
     return {
       vendors: {},
       // products: {},
+      user: null,
       checkedProducts: [],
       config: {
         wrap: true, // set wrap to true only when using 'input-group'
@@ -73,6 +74,7 @@ export default {
     };
   },
   created() {
+    this.user = this.$store.getters.user;
     new VendorProvider()
       .getAll()
       .then(vendors => {
@@ -89,13 +91,13 @@ export default {
       this.sendProducts();
 
       if (isValid && !this.errors.any()) {
+        this.Order.userId = this.user.id;
+
         OrderService.store(this.Order)
           .then(order => {
             this.$router.push("/orders");
           })
-          .catch(errors => {
-            this.errors.push(errors);
-          });
+          .catch(errors => {});
       }
     },
     edit: async function() {
@@ -147,6 +149,19 @@ export default {
           .catch(errors => {
             console.log(errors);
           });
+      }
+    }
+  },
+
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    }
+  },
+  watch: {
+    user: function() {
+      if (this.Order.id === undefined) {
+        this.Order.userId = this.user.id;
       }
     }
   },

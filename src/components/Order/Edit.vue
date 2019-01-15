@@ -34,7 +34,7 @@ export default {
       products: null,
       Order: {
         vendorId: null,
-        userId: 1,
+        userId: null,
         deadlineAt: null,
         deliveryAt: null
       }

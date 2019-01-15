@@ -1,7 +1,7 @@
 <template>
     <div class="container pt-5">
         <div class="row">
-            <div class="col-sm-4 mx-auto w-100">
+            <div class="col-12 col-md-8 col-lg-4 mx-auto w-100">
                 <div class="alert alert-danger" v-if="error">
                     {{error}}
                 </div>
@@ -9,7 +9,7 @@
                     <div class="form-group">
                         <div class="col-sm">
                             <label for="username">Username</label>
-                            <input v-model="username" :class="{'is-invalid': errors.has('username')}"
+                            <input id="username" v-model="username" :class="{'is-invalid': errors.has('username')}"
                                    v-validate="'required|email'" type="text" class="form-control" name="username"
                                    placeholder="Your e-mail address">
                             <small class="invalid-feedback" :if="errors.has('username')">{{errors.first('username')}}
@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <div class="col-sm">
                             <label for="password">Password</label>
-                            <input v-model="password" :class="{'is-invalid': errors.has('password')}"
+                            <input id="password" v-model="password" :class="{'is-invalid': errors.has('password')}"
                                    v-validate="'required'" type="password" class="form-control" name="password"
                                    placeholder="Your e-mail address">
                             <small class="invalid-feedback" :if="errors.has('password')">{{errors.first('password')}}

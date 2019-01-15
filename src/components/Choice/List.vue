@@ -15,6 +15,15 @@
                 <li class="breadcrumb-item active" aria-current="page">Choices</li>
             </ol>
         </nav>
+        <div class="row">
+            <div class="col-auto mr-auto"></div>
+            <div class="col-auto">
+                <Print>
+                    <template slot="buttonText">Print Order</template>
+                </Print>
+            </div>
+        </div>
+        <hr>
         <div class="row pt-3">
             <div class="col-sm">
                 <h1 class="text-center">Choices list</h1>
@@ -27,6 +36,7 @@
 <script>
 import ChoiceService from "@/services/choice.service";
 import ChoiceTable from "@/components/Choice/Table";
+import Print from "@/components/Print";
 
 export default {
   data() {
@@ -53,10 +63,8 @@ export default {
       });
   },
   components: {
-    ChoiceTable
+    ChoiceTable,
+    Print
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

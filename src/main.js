@@ -15,13 +15,17 @@ import {
   faEdit,
   faTrash,
   faList,
-  faComment
+  faComment,
+  faPlus,
+  faPrint
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(faEdit);
 library.add(faTrash);
 library.add(faList);
 library.add(faComment);
+library.add(faPlus);
+library.add(faPrint);
 
 Vue.use(VeeValidate);
 Vue.use(ClientTable, {}, false, "bootstrap4", "default");

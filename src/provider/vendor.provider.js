@@ -32,7 +32,6 @@ export default class VendorProvider extends ApiProvider {
         .then(response => {
           this.vendors = response.data;
           resolve(this.vendors);
-          console.log(this.vendors);
         })
         .catch(errors => {
           this.errors.push(errors);

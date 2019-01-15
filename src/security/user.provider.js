@@ -15,7 +15,7 @@ class UserProvider {
         password: credential.password,
         client_id: process.env.VUE_APP_API_CLIENT_ID || "forfeaterWeb",
         client_secret:
-          process.env.VUE_APP_API_CLIENT_SECRET || "forfeaterSecrect"
+          process.env.VUE_APP_API_CLIENT_SECRET || "forfeaterSecret"
       };
       axios
         .post(
