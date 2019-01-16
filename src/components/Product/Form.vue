@@ -1,29 +1,28 @@
 <template>
   <form class="needs-validation" novalidate>
     <div class="form-row">
-      <div class="form-group custom-control col-sm-9 col-md-10">
-        <div><label for="name">Name</label></div>
-        <input v-validate="'required'" v-model="Product.name" type="text" class="form-control" name="name" placeholder="name">
-        <div class="invalid-feedback-not-work">{{ errors.first('name')}}</div>
-      </div>
-
-      <div class="form-group custom-control col-sm-3 col-md-2">
-        <div><label for="name">Active</label></div>
-        <div class="form-check form-check-inline">
-          <input v-model="Product.active" class="form-check-input" type="radio" name="active" id="active1" value="1" checked>
-          <label class="form-check-label" for="active1">Yes</label>
+      <div class="col">
+        <label class="sr-only" for="inlineFormInputGroup">Name</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Name:</div>
+          </div>
+          <input
+            v-validate="'required'"
+            v-model="Product.name"
+            type="text"
+            class="form-control"
+            name="name"
+            placeholder="eg. pizza"
+          >
+          <div class="input-group-append">
+            <button class="btn" :class="{'btn-danger': product.active, 'btn-success': !product.active}" type="button">Deactivate</button>
+          </div>
+          <div class="invalid-feedback-not-work">{{ errors.first('name')}}</div>
+          <div class="invalid-feedback-not-work">{{ errors.first('active')}}</div>
         </div>
-        <div class="form-check form-check-inline">
-          <input v-model="Product.active" class="form-check-input" type="radio" name="active" id="active0" value="0">
-          <label class="form-check-label" for="active0">No</label>
-        </div>
-        <div class="invalid-feedback-not-work">{{ errors.first('active')}}</div>
       </div>
-
     </div>
-
-    <button v-if="!Product.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="create">Create</button>
-    <button v-if="Product.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="edit">Save</button>
   </form>
 </template>
 
@@ -32,8 +31,8 @@ import ProductService from "@/services/product.service";
 
 export default {
   props: {
-    Product: {
-      type: Object,
+    product: {
+      type: {},
       required: false,
       default: () => ({
         vendorId: null,
@@ -42,32 +41,8 @@ export default {
       })
     }
   },
-  created() {
-    this.Product.vendorId = this.$route.params.vendorId;
-  },
   methods: {
-    create: function() {
-      if (!this.errors.any()) {
-        ProductService.store(this.Product)
-          .then(product => {
-            this.$router.push("/vendors/" + product.vendorId + "/products");
-          })
-          .catch(errors => {
-            this.errors.push(errors);
-          });
-      }
-    },
-    edit: function() {
-      if (!this.errors.any()) {
-        ProductService.update(this.Product)
-          .then(product => {
-            this.$router.push("/vendors/" + product.vendorId + "/products");
-          })
-          .catch(errors => {
-            this.errors.push(errors);
-          });
-      }
-    }
+
   }
 };
 </script>
