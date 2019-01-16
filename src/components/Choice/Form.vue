@@ -8,7 +8,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <label>Vendor</label>
-                                <div v-if="vendorName">{{ this.vendorName }}</div>
+                                <div v-if="vendorName">{{ vendorName }}</div>
                             </div>
                             <div class="col-sm-4">
                                 <label>Deadline</label>
@@ -24,16 +24,16 @@
                 <div class="form-row">
                     <div class="form-group custom-control w-100">
                         <label for="name">User</label>
-                        <UserAutoComplete @userSelected="userSelected"></UserAutoComplete>
+                        <UserAutoComplete :user.sync="choice.user"></UserAutoComplete>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group custom-control">
                         <label for="name">Product</label>
-                        <select v-model="selectedProduct" v-validate="'required'" name="product"
+                        <select v-model="choice.productId" v-validate="'required'" name="product"
                                 @change="loadProducts()" class="custom-select w-100">
                             <option :value="null" disabled>Select Product</option>
-                            <option v-for="(product,key) in products" :key="key" :value="product">
+                            <option v-for="(product,key) in products" :key="key" :value="product.id">
                                 {{ product.name }}
                             </option>
                         </select>
@@ -49,10 +49,10 @@
         </div>
 
         <button v-if="!choice.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()"
-                @click="create">Create
+                @click="update">Create
         </button>
         <button v-if="choice.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()"
-                @click="edit">Save
+                @click="update">Save
         </button>
     </form>
 </template>
@@ -92,7 +92,17 @@ import VendorProvider from "@/provider/vendor.provider";
                     }),
                 },
                 selectedProduct: null,
-                selectedUser: null
+                productId: null,
+                user: {
+                    type: Object,
+                    required: false,
+                    default: () => ({
+                        id: null,
+                        firstName: null,
+                        lastName: null,
+                        email: null,
+                    }),
+                }
             };
         },
         beforeCreate() {
@@ -117,63 +127,73 @@ import VendorProvider from "@/provider/vendor.provider";
         created() {
             this.choice.orderId = this.$route.params.orderId;
             console.log('product!');
-            console.log(this.choice.product);
-          //  this.selectedProduct = this.choice.product;
+          console.log('created');
+          console.log(this.choice.product);
+          //   this.selectedProduct = this.choice.product;
         },
         methods: {
 
-            create: async function()
+            update: async function()
             {
                 let isValid = await this.$validator.validateAll();
 
                 if (isValid && !this.errors.any()) {
 
                     new ChoiceProvider().store(
-                        this.selectedUser,
+                        this.choice.user,
                         this.order,
                         this.selectedProduct,
                         this.choice.orderComment
                     )
                         .then(choice => {
-                            this.alertText = 'Your choice was added!';
+                            console.log('success!');
+                            console.log(choice);
+                            this.alertText = 'Your choice was saved!';
                             this.alertClass = 'alert alert-success';
                         })
                         .catch(errors => {
+                            console.log('error');
+                            console.log(errors);
                             this.alertText = 'Something went wrong!';
                             this.alertClass = 'alert alert-danger';
-                            this.appErrors.push(errors);
                         });
                 }
-            },
 
-            edit: async function() {
-
+                console.log(isValid);
+                console.log(this.errors.any());
             },
 
             loadProducts: function () {
-                this.products = null;
-                // if (this.selectedProduct) {
-                //     this.choice.productId = this.selectedProduct.id;
-                // }
                 ProductService.getAll(this.order.vendorId)
                     .then(products => {
-                        this.checkedProducts = products.map(
-                            product => {
-                                return product.id
-                            }
-                        );
-
                         this.products = products;
-                        console.log(this.products)
                     })
                     .catch(errors => {
                         console.log(errors);
                     });
             },
-            userSelected: function(user) {
-                this.selectedUser = user;
-                this.choice.userId = user.id
+
+            // product: (product) => {
+            //     return `${user.firstName} ${user.lastName} (${user.email})`;
+            // }
+        },
+        watch: {
+            selectedProduct: function (productId) {
+
+                console.log(productId);
+                this.selectedProduct = this.products
+                    .filter(product => {
+                        return product.id === productId;
+                    });
             },
+            // choice.productId: function (productId) {
+            //
+            //     console.log(productId)
+            //     this.selectedProduct = this.products
+            //         .filter(product => {
+            //             return product.id === productId;
+            //         });
+            // }
         },
         components: {
             UserAutoComplete
