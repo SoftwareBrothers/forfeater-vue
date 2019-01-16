@@ -10,23 +10,21 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      products: {
-        required: true
-      },
-      checkedProducts: {
-        required: true,
-        default: () => ([]),
-      }
+export default {
+  props: {
+    products: {
+      required: true
     },
-   
-    methods: {
-      onChange: function() {
-        this.$emit("productsSelected", this.checkedProducts);
-      }
-    },
-  
+    checkedProducts: {
+      required: true,
+      default: () => []
+    }
+  },
 
-  };
+  methods: {
+    onChange: function() {
+      this.$emit("productsSelected", this.checkedProducts);
+    }
+  }
+};
 </script>

@@ -16,30 +16,30 @@
 </template>
 
 <script>
-  import VendorProvider from "@/provider/vendor.provider";
-  import VendorTable from "@/components/Vendor/Table";
-  
-  export default {
-    data() {
-      return {
-        vendors: {}
-      };
-    },
-    created() {
-      new VendorProvider().getAll()
-        .then(vendors => {
-          this.vendors = vendors;
-        })
-        .catch(errors => {
-          console.log(errors);
-        });
-    },
-    components: {
-      VendorTable
-    }
-  };
+import VendorProvider from "@/provider/vendor.provider";
+import VendorTable from "@/components/Vendor/Table";
+
+export default {
+  data() {
+    return {
+      vendors: {}
+    };
+  },
+  created() {
+    new VendorProvider()
+      .getAll()
+      .then(vendors => {
+        this.vendors = vendors;
+      })
+      .catch(errors => {
+        console.log(errors);
+      });
+  },
+  components: {
+    VendorTable
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  
 </style>

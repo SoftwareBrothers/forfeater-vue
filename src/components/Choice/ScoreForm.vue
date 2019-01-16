@@ -19,27 +19,24 @@
 </template>
 
 <script>
-
-  export default {
-
-      props: {
-          score: {
-              score: null,
-              comment: null
-          },
-          Choice: {
-              type: Object,
-              required: false,
-              default: () => ({
-                  orderId: null,
-                  userId: null,
-                  productId: null,
-                  orderComment: null,
-                  score: null,
-                  scoreComment: null
-              }),
-          }
-      },
-
-  };
+export default {
+  props: {
+    score: {
+      score: null,
+      comment: null
+    },
+    Choice: {
+      type: Object,
+      required: false,
+      default: () => ({
+        orderId: null,
+        userId: null,
+        productId: null,
+        orderComment: null,
+        score: null,
+        scoreComment: null
+      })
+    }
+  }
+};
 </script>

@@ -5,23 +5,23 @@
     </button>
 </template>
 <script>
-    export default {
-        name: "Print",
-        methods: {
-            doPrint() {
-                window.print();
-            },
-        }
+export default {
+  name: "Print",
+  methods: {
+    doPrint() {
+      window.print();
     }
+  }
+};
 </script>
 <style lang="scss" scoped>
-    @page {
-        margin: 0;
-    }
+@page {
+  margin: 0;
+}
 
-    button {
-        svg {
-            margin-left: 0.5rem;
-        }
-    }
+button {
+  svg {
+    margin-left: 0.5rem;
+  }
+}
 </style>

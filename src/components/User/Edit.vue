@@ -24,36 +24,36 @@
 </template>
 
 <script>
-  import UserProvider from "@/provider/user.provider";
-  import UserForm from "@/components/User/Form";
-  
-  export default {
-    data() {
-      return {
-        User: {
-          firstName: null,
-          lastName: null,
-          role: null,
-          email: null,
-          password: null
-        }
-      };
-    },
-    beforeCreate() {
-      new UserProvider().find(this.$route.params.id)
-        .then(user => {     
-          this.User = user;       
-        })
-        .catch(errors => {
-          console.log(errors);
-        });
-    },
-    components: {
-      UserForm
-    }
-  };
+import UserProvider from "@/provider/user.provider";
+import UserForm from "@/components/User/Form";
+
+export default {
+  data() {
+    return {
+      User: {
+        firstName: null,
+        lastName: null,
+        role: null,
+        email: null,
+        password: null
+      }
+    };
+  },
+  beforeCreate() {
+    new UserProvider()
+      .find(this.$route.params.id)
+      .then(user => {
+        this.User = user;
+      })
+      .catch(errors => {
+        console.log(errors);
+      });
+  },
+  components: {
+    UserForm
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  
 </style>

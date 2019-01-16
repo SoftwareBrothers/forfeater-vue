@@ -21,7 +21,7 @@ export default {
     onSelect: function(product) {
       this.$emit("productSelected", product, this.order);
     }
-  },
+  }
 };
 </script>
 

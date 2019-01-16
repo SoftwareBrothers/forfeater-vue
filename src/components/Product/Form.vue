@@ -28,50 +28,49 @@
 </template>
 
 <script>
-  import ProductService from "@/services/product.service";
-  
-  export default {
-    props: {
-      Product: {
-        type: Object,
-        required: false,
-        default: () => ({
-          vendorId: null,
-          name: null,
-          active: null
-        }),
+import ProductService from "@/services/product.service";
+
+export default {
+  props: {
+    Product: {
+      type: Object,
+      required: false,
+      default: () => ({
+        vendorId: null,
+        name: null,
+        active: null
+      })
+    }
+  },
+  created() {
+    this.Product.vendorId = this.$route.params.vendorId;
+  },
+  methods: {
+    create: function() {
+      if (!this.errors.any()) {
+        ProductService.store(this.Product)
+          .then(product => {
+            this.$router.push("/vendors/" + product.vendorId + "/products");
+          })
+          .catch(errors => {
+            this.errors.push(errors);
+          });
       }
     },
-    created() {
-      this.Product.vendorId = this.$route.params.vendorId
-    },
-    methods: {
-      create: function() {
-        if (!this.errors.any()) {
-          ProductService.store(this.Product)
-            .then(product => {
-              this.$router.push('/vendors/' + product.vendorId + '/products')
-            })
-            .catch(errors => {
-              this.errors.push(errors);
-            });
-        }
-      },
-      edit: function() {
-        if (!this.errors.any()) {
-          ProductService.update(this.Product)
-            .then(product => {
-              this.$router.push('/vendors/' + product.vendorId + '/products')
-            })
-            .catch(errors => {
-              this.errors.push(errors);
-            });
-        }
-      },
+    edit: function() {
+      if (!this.errors.any()) {
+        ProductService.update(this.Product)
+          .then(product => {
+            this.$router.push("/vendors/" + product.vendorId + "/products");
+          })
+          .catch(errors => {
+            this.errors.push(errors);
+          });
+      }
     }
-  };
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  
 </style>

@@ -24,18 +24,17 @@
 </template>
 
 <script>
-  import UserForm from "@/components/User/Form";
-  
-  export default {
-    data() {
-      return {};
-    },
-    components: {
-      UserForm
-    }
-  };
+import UserForm from "@/components/User/Form";
+
+export default {
+  data() {
+    return {};
+  },
+  components: {
+    UserForm
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  
 </style>

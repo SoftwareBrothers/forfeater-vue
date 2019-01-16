@@ -47,93 +47,85 @@
 </template>
 
 <script>
-    import UserAutoComplete from "@/components/User/AutoComplete";
-    import OrderService from "@/services/order.service";
-    import ProductService from "@/services/product.service";
-    import VendorProvider from "@/provider/vendor.provider";
+import UserAutoComplete from "@/components/User/AutoComplete";
+import OrderService from "@/services/order.service";
+import ProductService from "@/services/product.service";
+import VendorProvider from "@/provider/vendor.provider";
 
-    export default {
-        props: {
-            Choice: {
-                type: Object,
-                required: false,
-                default: () => ({
-                    orderId: null,
-                    userId: null,
-                    productId: null,
-                    orderComment: null,
-                    score: null,
-                    scoreComment: null
-                }),
-            }
-        },
-        data() {
-            return {
-                products: null,
-                vendorName: null,
-                Order: {
-                    type: Object,
-                    required: false,
-                    default: () => ({
-                        vendorId: null,
-                        userId: null,
-                        deadlineAt: null,
-                        deliveryAt: null
-                    }),
-                }
-            };
-        },
-        beforeCreate() {
-            OrderService.find(this.$route.params.orderId)
-                .then(order => {
-                    this.Order = order;
-                    this.loadProducts();
-
-                    new VendorProvider().find(this.Order.vendorId)
-                        .then(vendor => {
-                            this.vendorName = vendor.name;
-                        })
-                        .catch(errors => {
-                            console.log(errors);
-                        });
-                })
-                .catch(errors => {
-                    console.log(errors);
-                });
-        },
-        methods: {
-
-            create: async function() {
-
-            },
-            edit: async function() {
-
-            },
-
-            loadProducts: function () {
-
-                this.products = null;
-
-                ProductService.getAll(this.Order.vendorId)
-                    .then(products => {
-                        this.checkedProducts = products.map(
-                            product => {
-                                return product.id
-                            }
-                        )
-
-                        this.products = products;
-                        console.log(this.products)
-                    })
-                    .catch(errors => {
-                        console.log(errors);
-                    });
-
-            },
-        },
-
-        components: {
-            UserAutoComplete
-        }
+export default {
+  props: {
+    Choice: {
+      type: Object,
+      required: false,
+      default: () => ({
+        orderId: null,
+        userId: null,
+        productId: null,
+        orderComment: null,
+        score: null,
+        scoreComment: null
+      })
+    }
+  },
+  data() {
+    return {
+      products: null,
+      vendorName: null,
+      Order: {
+        type: Object,
+        required: false,
+        default: () => ({
+          vendorId: null,
+          userId: null,
+          deadlineAt: null,
+          deliveryAt: null
+        })
+      }
     };
+  },
+  beforeCreate() {
+    OrderService.find(this.$route.params.orderId)
+      .then(order => {
+        this.Order = order;
+        this.loadProducts();
+
+        new VendorProvider()
+          .find(this.Order.vendorId)
+          .then(vendor => {
+            this.vendorName = vendor.name;
+          })
+          .catch(errors => {
+            console.log(errors);
+          });
+      })
+      .catch(errors => {
+        console.log(errors);
+      });
+  },
+  methods: {
+    create: async function() {},
+    edit: async function() {},
+
+    loadProducts: function() {
+      this.products = null;
+
+      ProductService.getAll(this.Order.vendorId)
+        .then(products => {
+          this.checkedProducts = products.map(product => {
+            return product.id;
+          });
+
+          this.products = products;
+          console.log(this.products);
+        })
+        .catch(errors => {
+          console.log(errors);
+        });
+    }
+  },
+
+  components: {
+    UserAutoComplete
+  }
+};
 </script>

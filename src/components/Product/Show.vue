@@ -44,41 +44,40 @@
 </template>
 
 <script>
-  import ProductService from "@/services/product.service";
-  import ChoiceProvider from "@/provider/choice.provider";
+import ProductService from "@/services/product.service";
+import ChoiceProvider from "@/provider/choice.provider";
 
-  export default {
-    data() {
-      return {
-        Product: {
-          name: null,
-          active: null
-        },
-        choices: []
-      };
-    },
-    beforeCreate() {
-      ProductService.find(this.$route.params.vendorId, this.$route.params.id)
-        .then(product => {
-          this.Product = product;
+export default {
+  data() {
+    return {
+      Product: {
+        name: null,
+        active: null
+      },
+      choices: []
+    };
+  },
+  beforeCreate() {
+    ProductService.find(this.$route.params.vendorId, this.$route.params.id)
+      .then(product => {
+        this.Product = product;
 
-          new ChoiceProvider().getFromProduct(this.Product)
-            .then(choices => {
-              this.choices = choices.filter(function (item) {
-                return item.score != null || item.scoreComment != null;
-              });
-            })
-            .catch(errors => {
-              // console.log(errors);
+        new ChoiceProvider()
+          .getFromProduct(this.Product)
+          .then(choices => {
+            this.choices = choices.filter(function(item) {
+              return item.score != null || item.scoreComment != null;
             });
-
-        })
-        .catch(errors => {
-          // console.log(errors);
-        });
-
-    }
-  };
+          })
+          .catch(errors => {
+            // console.log(errors);
+          });
+      })
+      .catch(errors => {
+        // console.log(errors);
+      });
+  }
+};
 </script>
 
 <style lang="scss" scoped>
