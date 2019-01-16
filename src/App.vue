@@ -9,21 +9,21 @@
 </template>
 
 <script>
-  import Header from './components/Header.vue'
-  import Footer from './components/Footer.vue'
-  
-  export default {
-    name: 'app',
-    components: {
-      Header,
-      Footer
-    }
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
+
+export default {
+  name: "app",
+  components: {
+    Header,
+    Footer
   }
+};
 </script>
 
 <style scoped>
-  @import './assets/css/styles.css';
-  body {
-    background: #fafafa;
-  }
+@import "./assets/css/styles.css";
+body {
+  background: #fafafa;
+}
 </style>

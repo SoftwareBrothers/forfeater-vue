@@ -58,11 +58,11 @@
 </template>
 
 <script>
-    import UserAutoComplete from "@/components/User/AutoComplete";
-    import OrderService from "@/services/order.service";
-    import ChoiceProvider from "@/provider/choice.provider";
-    import ProductService from "@/services/product.service";
-    import VendorProvider from "@/provider/vendor.provider";
+import UserAutoComplete from "@/components/User/AutoComplete";
+import OrderService from "@/services/order.service";
+import ChoiceProvider from "@/provider/choice.provider";
+import ProductService from "@/services/product.service";
+import VendorProvider from "@/provider/vendor.provider";
 
     export default {
         props: {
@@ -151,20 +151,17 @@
             },
 
             loadProducts: function () {
-
                 this.products = null;
-
                 // if (this.selectedProduct) {
                 //     this.choice.productId = this.selectedProduct.id;
                 // }
-
                 ProductService.getAll(this.order.vendorId)
                     .then(products => {
                         this.checkedProducts = products.map(
                             product => {
                                 return product.id
                             }
-                        )
+                        );
 
                         this.products = products;
                         console.log(this.products)
@@ -172,14 +169,12 @@
                     .catch(errors => {
                         console.log(errors);
                     });
-
             },
             userSelected: function(user) {
                 this.selectedUser = user;
                 this.choice.userId = user.id
             },
         },
-
         components: {
             UserAutoComplete
         }

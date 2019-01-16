@@ -25,17 +25,17 @@
 </template>
 
 <script>
-  import ProductService from "@/services/product.service";
-  import ProductForm from "@/components/Product/Form";
-  
-  export default {
-    data() {
-      return {};
-    },
-    components: {
-      ProductForm
-    }
-  };
+import ProductService from "@/services/product.service";
+import ProductForm from "@/components/Product/Form";
+
+export default {
+  data() {
+    return {};
+  },
+  components: {
+    ProductForm
+  }
+};
 </script>
 
 <style lang="scss" scoped>

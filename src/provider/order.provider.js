@@ -5,7 +5,7 @@ export default class OderProvider extends ApiProvider {
     return new Promise((resolve, reject) => {
       this.axios
         .get("/orders", {
-          params: { active: 1 },
+          params: { active: 1 }
         })
         .then(response => {
           if (response.data) {

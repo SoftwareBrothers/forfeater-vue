@@ -67,14 +67,14 @@ export default {
 }
 
 .nav-user {
-    display: inline;
-    margin-right: 10px;
-    color: #fff;
+  display: inline;
+  margin-right: 10px;
+  color: #fff;
 
-    a {
-      display: inline;
-      color: #fff;
-      padding: 0;
-    }
+  a {
+    display: inline;
+    color: #fff;
+    padding: 0;
+  }
 }
 </style>

@@ -99,7 +99,11 @@ export default class UserProvider extends ApiProvider {
   changePassword(user, password) {
     return new Promise((resolve, reject) => {
       this.axios
-        .put(this.uri + "/" + user.id + '/password', {"newPassword": password}, this.config)
+        .put(
+          this.uri + "/" + user.id + "/password",
+          { newPassword: password },
+          this.config
+        )
         .then(response => {
           status = response.data.status;
           console.log(response.data);
@@ -115,5 +119,4 @@ export default class UserProvider extends ApiProvider {
         });
     });
   }
-
 }

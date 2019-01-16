@@ -36,65 +36,64 @@
 </template>
 
 <script>
-    import ChoiceProvider from "@/provider/choice.provider";
+import ChoiceProvider from "@/provider/choice.provider";
 
-    import ScoreForm from "@/components/Choice/ScoreForm";
+import ScoreForm from "@/components/Choice/ScoreForm";
 
-    export default {
-        data() {
-            return {
-                score: {
-                    score: null,
-                    comment: ''
-                },
-                Choice: {
-                    orderId: null,
-                    userId: null,
-                    productId: null,
-                    orderComment: null,
-                    score: null,
-                    scoreComment: null,
-                    order: {},
-                    product: {}
-                },
-                alertText: '',
-                alertClass: ''
-            };
-        },
-        methods: {
-            sendForm: function() {
-                if (this.score.score) {
-                    new ChoiceProvider().rate(
-                        this.$route.params.id,
-                        this.score
-                    )
-                        .then(choice => {
-                            this.alertText = 'You scored and commented the order!';
-                            this.alertClass = 'alert alert-success';
-                            this.Choice = choice;
-                        })
-                        .catch(errors => {
-                            this.alertText = 'Something went wrong!';
-                            this.alertClass = 'alert alert-danger';
-                            this.appErrors.push(errors);
-                        });
-                }
-            }
-        },
-        beforeCreate() {
-            new ChoiceProvider().getFromOrder(this.$route.params.id)
-                .then(choice => {
-                    this.Choice = choice;
-                    console.log(choice);
-                })
-                .catch(errors => {
-                    console.log(errors);
-                });
-        },
-        components: {
-            ScoreForm
-        }
+export default {
+  data() {
+    return {
+      score: {
+        score: null,
+        comment: ""
+      },
+      Choice: {
+        orderId: null,
+        userId: null,
+        productId: null,
+        orderComment: null,
+        score: null,
+        scoreComment: null,
+        order: {},
+        product: {}
+      },
+      alertText: "",
+      alertClass: ""
     };
+  },
+  methods: {
+    sendForm: function() {
+      if (this.score.score) {
+        new ChoiceProvider()
+          .rate(this.$route.params.id, this.score)
+          .then(choice => {
+            this.alertText = "You scored and commented the order!";
+            this.alertClass = "alert alert-success";
+            this.Choice = choice;
+          })
+          .catch(errors => {
+            this.alertText = "Something went wrong!";
+            this.alertClass = "alert alert-danger";
+            this.appErrors.push(errors);
+          });
+      }
+    }
+  },
+  beforeCreate() {
+    new ChoiceProvider()
+      .getFromOrder(this.$route.params.id)
+      .then(choice => {
+        this.Choice = choice;
+        console.log(choice);
+      })
+      .catch(errors => {
+        console.log(errors);
+      });
+  },
+  components: {
+    ScoreForm
+  }
+};
 </script>
 
 <style lang="scss" scoped>

@@ -24,19 +24,18 @@
 </template>
 
 <script>
-  import ChoiceService from "@/services/choice.service";
-  import ChoiceForm from "@/components/Choice/Form";
-  
-  export default {
-    data() {
-      return {};
-    },
-    components: {
-      ChoiceForm
-    }
-  };
+import ChoiceService from "@/services/choice.service";
+import ChoiceForm from "@/components/Choice/Form";
+
+export default {
+  data() {
+    return {};
+  },
+  components: {
+    ChoiceForm
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  
 </style>

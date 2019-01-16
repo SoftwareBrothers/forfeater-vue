@@ -185,7 +185,6 @@ export default new VueRouter({
       name: "ChoiceScore",
       component: ChoiceScore,
       beforeEnter: Guard.isAuthenticated
-    },
-
+    }
   ]
 });

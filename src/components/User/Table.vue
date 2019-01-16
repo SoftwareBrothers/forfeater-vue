@@ -42,28 +42,28 @@
 </template>
 
 <script>
-   import UserProvider from "@/provider/user.provider";
+import UserProvider from "@/provider/user.provider";
 
-    export default {
-        props: {
-            users: {
-                required: true
-            }
-        },
-        methods: {
-            remove: function(userId, key, event) {
-                new UserProvider().remove(userId)
-                    .then(user => {
-                        this.users.splice(key, 1);
-                    })
-                    .catch(errors => {
-                        console.log(errors);
-                    });
-            }
-        }
+export default {
+  props: {
+    users: {
+      required: true
     }
+  },
+  methods: {
+    remove: function(userId, key, event) {
+      new UserProvider()
+        .remove(userId)
+        .then(user => {
+          this.users.splice(key, 1);
+        })
+        .catch(errors => {
+          console.log(errors);
+        });
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-    
 </style>
