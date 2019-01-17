@@ -24,7 +24,8 @@
                 <div class="form-row">
                     <div class="form-group custom-control w-100">
                         <label for="name">User</label>
-                        <UserAutoComplete :user.sync="choice.user"></UserAutoComplete>
+                        <UserAutoComplete :user.sync="choice.user" v-if="!choice.id"></UserAutoComplete>
+                        <div v-if="choice.id">{{ choice.user.firstName }} {{ choice.user.lastName }} ({{ choice.user.email }})</div>
                     </div>
                 </div>
                 <div class="form-row">
@@ -110,7 +111,6 @@ import VendorProvider from "@/provider/vendor.provider";
             OrderService.find(this.$route.params.orderId)
                 .then(order => {
                     this.order = order;
-                    this.loadProducts();
 
                     new VendorProvider().find(this.order.vendorId)
                         .then(vendor => {
@@ -119,17 +119,22 @@ import VendorProvider from "@/provider/vendor.provider";
                         .catch(errors => {
                             console.log(errors);
                         });
+
+                    ProductService.getAll(this.order.vendorId)
+                        .then(products => {
+                            this.products = products;
+                        })
+                        .catch(errors => {
+                            console.log(errors);
+                        });
                 })
                 .catch(errors => {
                     console.log(errors);
                 });
+
         },
         created() {
             this.choice.orderId = this.$route.params.orderId;
-            console.log('product!');
-          console.log('created');
-          console.log(this.choice.product);
-          //   this.selectedProduct = this.choice.product;
         },
         methods: {
 
@@ -139,10 +144,12 @@ import VendorProvider from "@/provider/vendor.provider";
 
                 if (isValid && !this.errors.any()) {
 
+                    let updatedProduct = this.selectedProduct ? this.selectedProduct : this.choice.product;
+
                     new ChoiceProvider().store(
                         this.choice.user,
                         this.order,
-                        this.selectedProduct,
+                        updatedProduct,
                         this.choice.orderComment
                     )
                         .then(choice => {
@@ -164,36 +171,16 @@ import VendorProvider from "@/provider/vendor.provider";
             },
 
             loadProducts: function () {
-                ProductService.getAll(this.order.vendorId)
-                    .then(products => {
-                        this.products = products;
-                    })
-                    .catch(errors => {
-                        console.log(errors);
-                    });
+                let $this = this;
+                let filtered = this.products.filter(function(product){
+                    if (product.id === $this.choice.productId) return product;
+                });
+
+                if(filtered.length > 0) {
+                    this.selectedProduct = filtered[0];
+                }
             },
 
-            // product: (product) => {
-            //     return `${user.firstName} ${user.lastName} (${user.email})`;
-            // }
-        },
-        watch: {
-            selectedProduct: function (productId) {
-
-                console.log(productId);
-                this.selectedProduct = this.products
-                    .filter(product => {
-                        return product.id === productId;
-                    });
-            },
-            // choice.productId: function (productId) {
-            //
-            //     console.log(productId)
-            //     this.selectedProduct = this.products
-            //         .filter(product => {
-            //             return product.id === productId;
-            //         });
-            // }
         },
         components: {
             UserAutoComplete
