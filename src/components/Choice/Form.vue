@@ -1,6 +1,10 @@
 <template>
     <form class="needs-validation">
 
+        <div v-if="alertText" :class="alertClass" role="alert">
+            {{ alertText }}
+        </div>
+
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-row">
@@ -93,7 +97,6 @@ import VendorProvider from "@/provider/vendor.provider";
                     }),
                 },
                 selectedProduct: null,
-                productId: null,
                 user: {
                     type: Object,
                     required: false,
@@ -103,7 +106,9 @@ import VendorProvider from "@/provider/vendor.provider";
                         lastName: null,
                         email: null,
                     }),
-                }
+                },
+                alertText: "",
+                alertClass: ""
             };
         },
         beforeCreate() {
