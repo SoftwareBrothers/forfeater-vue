@@ -158,21 +158,15 @@ import VendorProvider from "@/provider/vendor.provider";
                         this.choice.orderComment
                     )
                         .then(choice => {
-                            console.log('success!');
-                            console.log(choice);
                             this.alertText = 'Your choice was saved!';
                             this.alertClass = 'alert alert-success';
                         })
                         .catch(errors => {
-                            console.log('error');
-                            console.log(errors);
                             this.alertText = 'Something went wrong!';
                             this.alertClass = 'alert alert-danger';
                         });
                 }
 
-                console.log(isValid);
-                console.log(this.errors.any());
             },
 
             loadProducts: function () {

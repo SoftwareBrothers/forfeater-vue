@@ -43,7 +43,6 @@
       new ChoiceProvider().find(this.$route.params.choiceId)
               .then(choice => {
                 this.choice = choice;
-                console.log(this.choice);
               })
               .catch(errors => {
                 console.log(errors);

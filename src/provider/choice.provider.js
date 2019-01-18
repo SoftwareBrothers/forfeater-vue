@@ -100,10 +100,10 @@ export default class ChoiceProvider extends ApiProvider {
     });
   }
 
-  remove(Order) {
+  remove(orderId, choiceId) {
     return new Promise((resolve, reject) => {
       this.axios
-        .delete("/orders/" + Order.id + "/choices/" + Order.choice.id)
+        .delete("/orders/" + orderId + "/choices/" + choiceId)
         .then(response => {
           if (response.data) {
             resolve(response.data);

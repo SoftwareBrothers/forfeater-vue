@@ -101,7 +101,7 @@ export default {
     },
     removeChoice: function(order) {
       new ChoiceProvider()
-        .remove(order, order.choice)
+        .remove(order.id, order.choice.id)
         .then(data => {
           this.alertText = "Your choice was canceled!";
           this.alertClass = "alert alert-success";

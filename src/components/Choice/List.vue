@@ -50,8 +50,9 @@ export default {
       .then(choices => {
         this.choices = choices
           .sort((a, b) => a.productId - b.productId)
-          .map(item =>
+          .map( (item, key) =>
             Object.assign({}, item, {
+              index: key,
               userFullName: item.user.lastName + " " + item.user.firstName,
               productName: item.product.name
             })
