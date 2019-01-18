@@ -10,6 +10,7 @@ import PageNotFound from "@/components/PageNotFound";
 
 import ChoiceAdd from "@/components/Choice/Add";
 import ChoiceCreate from "@/components/Choice/Create";
+import ChoiceEdit from "@/components/Choice/Edit";
 import ChoiceScore from "@/components/Choice/Score";
 
 import UserList from "@/components/User/List";
@@ -171,6 +172,12 @@ export default new VueRouter({
       path: "/orders/:orderId/choices/create",
       name: "ChoiceCreate",
       component: ChoiceCreate,
+      beforeEnter: Guard.isAuthenticated
+    },
+    {
+      path: "/orders/:orderId/choices/:choiceId/edit",
+      name: "ChoiceEdit",
+      component: ChoiceEdit,
       beforeEnter: Guard.isAuthenticated
     },
     {

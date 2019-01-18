@@ -1,12 +1,12 @@
 <template>
   <div>
-    <input v-model="input" v-bind:class="{'is-invalid': error}" type="text" class="form-control" name="input" placeholder="Enter Name" @input="onChange">
+    <input v-model="input" :class="{'is-invalid': error}" type="text" class="form-control" name="input" placeholder="Enter Name" @input="onChange">
     <div class="invalid-feedback" v-show="error">{{ error }}</div>
     <ul class="autocomplete-results" v-show="isOpen">
       <li class="autocomplete-result" v-show="results.length > 0" v-for="(user, i) in results" :key="i" @click="onSelect(user)">
-        {{user.firstName}} {{user.lastName}} ({{user.email}})
+        {{ fullName(user) }}
       </li>
-      <li class="autocomplete-error" v-show="results.length == 0 && input.length > 3">
+      <li class="autocomplete-error" v-show="results.length === 0 && input.length > 3">
         No result found
       </li>
     </ul>
@@ -16,11 +16,23 @@
 <script>
 import UserProvider from "@/provider/user.provider";
 export default {
+  props: {
+    user: {
+      type: Object,
+      required: false,
+      default: () => ({
+        id: null,
+        firstName: null,
+        lastName: null,
+        email: null,
+      }),
+    }
+  },
   data: function() {
     return {
+      input: this.user.email ? this.fullName(this.user) : '',
       appErrors: [],
       users: [],
-      input: "",
       results: [],
       isOpen: false,
       error: false
@@ -33,14 +45,15 @@ export default {
         this.users = users;
       })
       .catch(errors => {
-        appErrors.push(errors);
+        this.appErrors.push(errors);
       });
   },
   methods: {
     onSelect: function(user) {
       this.isOpen = false;
-      this.input = `${user.firstName} ${user.lastName} (${user.email})`;
-      this.$emit("userSelected", user);
+      console.log('onSelect');
+      console.log(user);
+      this.$emit("update:user", user);
     },
     onChange: function() {
       if (this.input.length <= 3) {
@@ -59,6 +72,14 @@ export default {
           item.firstName.toLowerCase().indexOf(this.input.toLowerCase()) > -1
         );
       });
+    },
+    fullName: (user) => {
+      return `${user.firstName} ${user.lastName} (${user.email})`;
+    }
+  },
+  watch:{
+    user: function (user) {
+      this.input = this.fullName(user);
     }
   }
 };

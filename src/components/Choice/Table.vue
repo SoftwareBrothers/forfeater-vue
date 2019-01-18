@@ -1,6 +1,12 @@
 <template>
     <div v-if="choices.length > 0">
-        <v-client-table :data="tableData" :columns="columns" :options="options"></v-client-table>
+        <v-client-table :data="tableData" :columns="columns" :options="options">
+            <router-link slot="actions" slot-scope="props" class="btn-action d-inline"
+                         v-if="user && user.role === 'admin'"
+                         :to="{ name: 'ChoiceEdit', params: { orderId: props.row.orderId, choiceId: props.row.id } }">
+                <font-awesome-icon icon="edit" />
+            </router-link>
+        </v-client-table>
         <!--<div class="row">-->
             <!--<div class="col-sm"></div>-->
             <!--<div class="col-sm-12">-->
@@ -36,45 +42,52 @@
 </template>
 
 <script>
-import ChoiceService from "@/services/choice.service";
+  import ChoiceService from "@/services/choice.service";
 
-export default {
-  props: {
-    choices: {
-      required: true
-    },
-    tableData: {
-      required: true
-    }
-  },
-  data() {
-    return {
-      columns: ["userFullName", "productName", "orderComment", "actions"],
-      options: {
-        headings: {
-          userFullName: "User",
-          productName: "Product",
-          orderComment: "Comment"
-        },
-        perPage: 30,
-        perPageValues: [10, 30, 50, 100],
-        skin: "table table-sm table-hover table-bordered table-striped"
+  export default {
+    props: {
+      choices: {
+        required: true
+      },
+      tableData: {
+        required: true
       }
-    };
-  },
-  methods: {
-    remove: function(orderId, key, event) {
-      ChoiceService.remove(this.$route.params.orderId, choiceId)
-        .then(choices => {
-          this.choices.splice(key, 1);
-        })
-        .catch(errors => {
-          console.log(errors);
-        });
-    }
+    },
+    data() {
+      return {
+        columns: ['userFullName', 'productName', 'orderComment', 'actions'],
+        options: {
+          headings: {
+            userFullName: 'User',
+            productName: 'Product',
+            orderComment: 'Comment',
+            actions: "Actions"
+          },
+          perPage: 30,
+          perPageValues: [10, 30, 50, 100],
+          skin: 'table table-sm table-hover table-bordered table-striped'
+        }
+      };
+    },
+    methods: {
+      remove: function (orderId, key, event) {
+        ChoiceService.remove(this.$route.params.orderId, choiceId)
+          .then(choices => {
+            this.choices.splice(key, 1);
+          })
+          .catch(errors => {
+            console.log(errors);
+          });
+      }
+    },
+      computed: {
+          user() {
+              return this.$store.getters.user;
+          }
+      },
   }
-};
 </script>
 
 <style lang="scss" scoped>
+
 </style>

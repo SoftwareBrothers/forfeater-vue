@@ -1,6 +1,23 @@
 import ApiProvider from "@/provider/api.provider";
 
 export default class ChoiceProvider extends ApiProvider {
+  find(id) {
+    return new Promise((resolve, reject) => {
+      this.axios
+        .get("/choices/" + id)
+        .then(response => {
+          if (response.data) {
+            resolve(response.data);
+            return;
+          }
+          reject("There is no choice!");
+        })
+        .catch(errors => {
+          reject(errors);
+        });
+    });
+  }
+
   getFromOrder(orderId) {
     return new Promise((resolve, reject) => {
       this.axios
