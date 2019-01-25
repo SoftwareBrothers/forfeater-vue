@@ -16,14 +16,14 @@
       <div class="form-group col-md-6 custom-control">
         <label for="name">Deadline</label>
         <div>
-          <flat-pickr v-model="Order.deadlineAt" v-validate="'date_format:YYYY-MM-DD HH:mm|required'" :config="config" class="form-control" placeholder="Select date" name="deadlineAt" ref="deadlineAt"></flat-pickr>
+          <flat-pickr v-model="Order.deadlineAt" v-validate="'required'" :config="config" class="form-control" placeholder="Select date" name="deadlineAt" ref="deadlineAt"></flat-pickr>
         </div>
         <div class="invalid-feedback-not-work">{{ errors.first('deadlineAt')}}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="name">Delivery</label>
         <div>
-          <flat-pickr v-model="Order.deliveryAt" v-validate="'date_format:YYYY-MM-DD HH:mm|after:deadlineAt'" :config="config" class="form-control" placeholder="Select date" name="deliveryAt"></flat-pickr>
+          <flat-pickr v-model="Order.deliveryAt" :config="config" class="form-control" placeholder="Select date" name="deliveryAt"></flat-pickr>
           <div class="invalid-feedback-not-work">{{ errors.first('deliveryAt')}}</div>
         </div>
       </div>
@@ -67,9 +67,9 @@ export default {
         wrap: true, // set wrap to true only when using 'input-group'
         altFormat: "Y-m-d H:i",
         altInput: true,
-        dateFormat: "Y-m-d H:i",
+        dateFormat: "Z",
         enableTime: true,
-        time_24hr: true
+        time_24hr: true,
       }
     };
   },
@@ -85,6 +85,7 @@ export default {
       });
   },
   methods: {
+
     create: async function() {
       var isValid = await this.$validator.validateAll();
 
