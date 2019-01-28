@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "fix": "eslint --fix ."
+    "fix": "eslint --fix .",
+    "test": "jest"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.6.3",
@@ -18,7 +19,7 @@
     "dotenv": "^6.2.0",
     "dotenv-webpack": "^1.6.0",
     "jquery": "^3.3.1",
-    "moment": "^2.23.0",
+    "moment": "^2.24.0",
     "popper.js": "^1.14.4",
     "qs": "^6.6.0",
     "vee-validate": "^2.1.5",
@@ -29,30 +30,22 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
     "@vue/cli-plugin-babel": "^3.3.0",
     "@vue/cli-plugin-eslint": "^3.3.0",
     "@vue/cli-service": "^3.3.0",
+    "@vue/test-utils": "^1.0.0-beta.28",
+    "babel-jest": "^24.0.0",
     "eslint-config-prettier": "^3.4.0",
+    "eslint-plugin-jest": "^22.1.3",
     "eslint-plugin-prettier": "^3.0.1",
+    "jest": "^24.0.0",
     "js-beautify": "^1.7.5",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
+    "vue-jest": "^3.0.2",
     "vue-template-compiler": "^2.5.21"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "plugin:prettier/recommended",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
   },
   "postcss": {
     "plugins": {

@@ -21,3 +21,5 @@ yarn-error.log*
 *.sln
 *.sw*
 
+# jest testing framework
+/coverage

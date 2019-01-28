@@ -1,6 +1,15 @@
+import { isExpired } from "@/helper/date.helper";
+import store from "@/security/store";
+
 class Auth {
   check() {
-    return localStorage.getItem("token");
+    const token = localStorage.getItem("token") || false;
+    const date = localStorage.getItem("token_expire") || false;
+    if (token && !isExpired(date)) {
+      return true;
+    }
+    store.dispatch("logout");
+    return false;
   }
 }
 
