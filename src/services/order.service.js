@@ -20,21 +20,6 @@ class OrderService extends ApiService {
     });
   }
 
-  getAll() {
-    return new Promise((resolve, reject) => {
-      axios
-        .get(this.base + "/orders", this.config)
-        .then(response => {
-          this.orders = response.data;
-          resolve(this.orders);
-        })
-        .catch(errors => {
-          this.errors.push(errors);
-          reject(this.errors);
-        });
-    });
-  }
-
   remove(orderId) {
     return new Promise((resolve, reject) => {
       axios
