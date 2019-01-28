@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import UserProvider from "@/security/user.provider";
-import { getExpireDate } from "@/helper/date.helper";
 
 Vue.use(Vuex);
 
@@ -61,7 +60,6 @@ const actions = {
       })
         .then(data => {
           localStorage.setItem("token", data.access_token);
-          localStorage.setItem("token_expire", getExpireDate(data.expires_in));
           context.commit(AUTH_SUCCESS, data.access_token);
           resolve(data.access_token);
         })
@@ -75,10 +73,13 @@ const actions = {
     context.commit(LOGOUT);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    localStorage.removeItem("token_expire");
   },
   getUser: (context, token) => {
-    const access_token = token || localStorage.getItem("token") || false;
+    const access_token = token
+      ? token
+      : localStorage.getItem("token")
+        ? localStorage.getItem("token")
+        : false;
     if (access_token) {
       return new Promise((resolve, reject) => {
         UserProvider.provide(access_token)

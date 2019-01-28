@@ -46,7 +46,7 @@ class UserProvider {
           if (response.status === 200) {
             return resolve(response.data);
           }
-          reject(`${response.code}: Can't get user data`);
+          reject(`${res.code}: Can't get user data`);
         })
         .catch(error => reject(error));
     });
