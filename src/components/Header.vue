@@ -9,7 +9,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
+          <li class="nav-item" v-if="user">
             <router-link class="nav-link" :to="{ name: 'OrderList' }">Orders</router-link>
           </li>
           <li v-if="user && user.role == 'admin'" class="nav-item">

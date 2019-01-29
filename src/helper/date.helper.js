@@ -1,10 +1,12 @@
+import moment from "moment";
+
 export function getExpireDate(seconds) {
-  const now = new Date().getTime();
-  const date = new Date(now + seconds * 1000);
-  return date.toISOString();
+  return moment()
+    .add(seconds, "seconds")
+    .toISOString();
 }
 
-export function isExpired(date) {
-  const expire = new Date(date);
-  return Date.now() >= expire;
+export function isExpired(dateStringISO) {
+  const expire = moment(dateStringISO);
+  return moment().isAfter(expire);
 }

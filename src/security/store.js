@@ -53,44 +53,30 @@ const mutations = {
 };
 
 const actions = {
-  authenticate: (context, payload) => {
-    return new Promise((resolve, reject) => {
-      UserProvider.authorize({
-        username: payload.username,
-        password: payload.password
-      })
-        .then(data => {
-          localStorage.setItem("token", data.access_token);
-          localStorage.setItem("token_expire", getExpireDate(data.expires_in));
-          context.commit(AUTH_SUCCESS, data.access_token);
-          resolve(data.access_token);
-        })
-        .catch(error => {
-          context.commit(AUTH_FAILED, error);
-          reject(error);
-        });
+  authenticate: async (context, payload) => {
+    const data = await UserProvider.authorize({
+      username: payload.username,
+      password: payload.password
     });
+    let token = data.access_token;
+    context.commit(AUTH_SUCCESS, token);
+    localStorage.setItem("token", token);
+    localStorage.setItem("token_expires_at", getExpireDate(data.expires_in));
+    return token;
   },
   logout: context => {
     context.commit(LOGOUT);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    localStorage.removeItem("token_expire");
+    localStorage.removeItem("token_expires_at");
   },
   getUser: (context, token) => {
-    const access_token = token || localStorage.getItem("token") || false;
+    const access_token = token || localStorage.getItem("token") || null;
     if (access_token) {
-      return new Promise((resolve, reject) => {
-        UserProvider.provide(access_token)
-          .then(user => {
-            context.commit(LOGIN, user);
-            localStorage.setItem("user", JSON.stringify(user));
-            resolve(user);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
+      const user = UserProvider.provide(access_token);
+      context.commit(LOGIN, user);
+      localStorage.setItem("user", JSON.stringify(user));
+      return user;
     }
   }
 };

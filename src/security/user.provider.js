@@ -1,55 +1,30 @@
-import axios from "axios";
+import client from "@/config/client";
 var qs = require("qs");
 
-const config = {
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded"
-  }
-};
 class UserProvider {
   authorize(credential) {
-    return new Promise((resolve, reject) => {
-      const data = {
-        grant_type: "password",
-        username: credential.username,
-        password: credential.password,
-        client_id: process.env.VUE_APP_API_CLIENT_ID || "forfeaterWeb",
-        client_secret:
-          process.env.VUE_APP_API_CLIENT_SECRET || "forfeaterSecret"
-      };
-      axios
-        .post(
-          `${process.env.VUE_APP_API_URL}/auth/login`,
-          qs.stringify(data),
-          config
-        )
-        .then(response => {
-          if (response.status === 200) {
-            return resolve(response.data);
-          }
-          return reject("Can't log in user");
-        })
-        .catch(err => {
-          return reject(err);
-        });
-    });
+    const data = {
+      grant_type: "password",
+      username: credential.username,
+      password: credential.password,
+      client_id: process.env.VUE_APP_API_CLIENT_ID || "forfeaterWeb",
+      client_secret: process.env.VUE_APP_API_CLIENT_SECRET || "forfeaterSecret"
+    };
+    try {
+      return client.post("/auth/login", qs.stringify(data));
+    } catch (error) {
+      throw error;
+    }
   }
-  provide(access_token) {
-    return new Promise((resolve, reject) => {
-      Object.assign(config.headers, {
-        Authorization: `Bearer ${access_token}`
-      });
 
-      axios
-        .get(`${process.env.VUE_APP_API_URL}/auth/user`, config)
-        .then(response => {
-          if (response.status === 200) {
-            return resolve(response.data);
-          }
-          reject(`${response.code}: Can't get user data`);
-        })
-        .catch(error => reject(error));
-    });
+  provide(access_token) {
+    try {
+      return client.get("auth/user", {
+        headers: { Authorization: `Bearer ${access_token}` }
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

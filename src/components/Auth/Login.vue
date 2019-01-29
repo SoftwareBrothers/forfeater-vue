@@ -1,47 +1,63 @@
 <template>
-    <div class="container pt-5">
-        <div class="row">
-            <div class="col-12 col-md-8 col-lg-4 mx-auto w-100">
-                <div class="alert alert-danger" v-if="error">
-                    {{error}}
-                </div>
-                <form @submit.prevent="login()">
-                    <div class="form-group">
-                        <div class="col-sm">
-                            <label for="username">Username</label>
-                            <input id="username" v-model="username" :class="{'is-invalid': errors.has('username')}"
-                                   v-validate="'required|email'" type="text" class="form-control" name="username"
-                                   placeholder="Your e-mail address">
-                            <small class="invalid-feedback" :if="errors.has('username')">{{errors.first('username')}}
-                            </small>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm">
-                            <label for="password">Password</label>
-                            <input id="password" v-model="password" :class="{'is-invalid': errors.has('password')}"
-                                   v-validate="'required'" type="password" class="form-control" name="password"
-                                   placeholder="Your e-mail address">
-                            <small class="invalid-feedback" :if="errors.has('password')">{{errors.first('password')}}
-                            </small>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm text-center">
-                            <button type="submit" class="btn btn-warning" :disabled="disabled()">Send</button>
-                        </div>
-                    </div>
-                </form>
+  <div class="container pt-5">
+    <div class="row">
+      <div class="col-12 col-md-8 col-lg-4 mx-auto w-100">
+        <div class="alert alert-danger" v-if="error">{{error}}</div>
+        <form @submit.prevent="login()">
+          <div class="form-group">
+            <div class="col-sm">
+              <label for="username">Username</label>
+              <input
+                id="username"
+                v-model="username"
+                :class="{'is-invalid': errors.has('username')}"
+                v-validate="'required|email'"
+                type="text"
+                class="form-control"
+                name="username"
+                placeholder="Your e-mail address"
+              >
+              <small
+                class="invalid-feedback"
+                :if="errors.has('username')"
+              >{{errors.first('username')}}</small>
             </div>
-        </div>
-        <div class="overlay" v-if="loading">
-            <div class="loading">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm">
+              <label for="password">Password</label>
+              <input
+                id="password"
+                v-model="password"
+                :class="{'is-invalid': errors.has('password')}"
+                v-validate="'required'"
+                type="password"
+                class="form-control"
+                name="password"
+                placeholder="Your e-mail address"
+              >
+              <small
+                class="invalid-feedback"
+                :if="errors.has('password')"
+              >{{errors.first('password')}}</small>
             </div>
-        </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm text-center">
+              <button type="submit" class="btn btn-warning" :disabled="disabled()">Send</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+    <div class="overlay" v-if="loading">
+      <div class="loading">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -56,25 +72,26 @@ export default {
     };
   },
   methods: {
-    login() {
+    async login() {
       this.isClicked = true;
       this.loading = true;
-      this.$store
-        .dispatch("authenticate", {
+      try {
+        let token = await this.$store.dispatch("authenticate", {
           username: this.username,
           password: this.password
-        })
-        .then(token => {
+        });
+
+        if (token !== undefined) {
           let componentName = this.$route.query.redirect;
           this.$router.push({
             name: componentName ? componentName : "Home"
           });
-        })
-        .catch(error => {
-          this.error = "Error, szwagier.";
-          this.loading = false;
-          this.isClicked = false;
-        });
+        }
+      } catch (error) {
+        this.error = error.message;
+      }
+      this.loading = false;
+      this.isClicked = false;
     },
     disabled() {
       return (
