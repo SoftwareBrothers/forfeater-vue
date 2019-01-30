@@ -20,6 +20,9 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+/out
 
 # jest testing framework
 /coverage
+
+

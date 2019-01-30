@@ -4,11 +4,7 @@
     "node": true,
     "jest": true
   },
-  "extends": [
-    "plugin:vue/essential",
-    "plugin:prettier/recommended",
-    "eslint:recommended"
-  ],
+  "extends": ["plugin:vue/essential", "plugin:prettier/recommended", "eslint:recommended"],
   "rules": {
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
@@ -19,5 +15,8 @@
   "parserOptions": {
     "parser": "babel-eslint"
   },
-  "plugins": ["jest"]
+  "plugins": ["jest", "prettier"],
+  "settings": {
+    "import/resolver": "webpack"
+  }
 }
