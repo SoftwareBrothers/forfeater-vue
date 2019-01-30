@@ -1,13 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
 const headers = {
-  "Content-Type": "application/json",
-  Accept: "application/json",
-  "Access-Control-Allow-Origin": "*"
+  'Content-Type': 'application/json',
+  Accept: 'application/json',
+  'Access-Control-Allow-Origin': '*'
 };
-if (localStorage.getItem("token")) {
+if (localStorage.getItem('token')) {
   Object.assign(headers, {
-    Authorization: `Bearer ${localStorage.getItem("token")}`
+    Authorization: `Bearer ${localStorage.getItem('token')}`
   });
 }
 

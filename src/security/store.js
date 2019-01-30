@@ -1,24 +1,24 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import UserProvider from "@/security/user.provider";
-import { getExpireDate } from "@/helper/date.helper";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import UserProvider from '@/security/user.provider';
+import { getExpireDate } from '@/helper/date.helper';
 
 Vue.use(Vuex);
 
-const LOGIN = "LOGIN";
-const LOGOUT = "LOGOUT";
-const AUTH_SUCCESS = "AUTH_SUCCESS";
-const AUTH_FAILED = "AUTH_FAILED";
+const LOGIN = 'LOGIN';
+const LOGOUT = 'LOGOUT';
+const AUTH_SUCCESS = 'AUTH_SUCCESS';
+const AUTH_FAILED = 'AUTH_FAILED';
 const STATUS = {
-  FAILED: "failed",
-  SUCCESS: "success",
-  AUTH_FAILED: "failed_auth",
-  AUTH_SUCCESS: "success_auth"
+  FAILED: 'failed',
+  SUCCESS: 'success',
+  AUTH_FAILED: 'failed_auth',
+  AUTH_SUCCESS: 'success_auth'
 };
 
 const state = {
-  user: JSON.parse(localStorage.getItem("user")) || null,
-  token: localStorage.getItem("token") || null,
+  user: JSON.parse(localStorage.getItem('user')) || null,
+  token: localStorage.getItem('token') || null,
   status: null,
   error: null
 };
@@ -54,28 +54,29 @@ const mutations = {
 
 const actions = {
   authenticate: async (context, payload) => {
-    const data = await UserProvider.authorize({
+    const response = await UserProvider.authorize({
       username: payload.username,
       password: payload.password
     });
+    const data = response.data;
     let token = data.access_token;
     context.commit(AUTH_SUCCESS, token);
-    localStorage.setItem("token", token);
-    localStorage.setItem("token_expires_at", getExpireDate(data.expires_in));
+    localStorage.setItem('token', token);
+    localStorage.setItem('token_expires_at', getExpireDate(data.expires_in));
     return token;
   },
   logout: context => {
     context.commit(LOGOUT);
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    localStorage.removeItem("token_expires_at");
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('token_expires_at');
   },
   getUser: (context, token) => {
-    const access_token = token || localStorage.getItem("token") || null;
+    const access_token = token || localStorage.getItem('token') || null;
     if (access_token) {
       const user = UserProvider.provide(access_token);
       context.commit(LOGIN, user);
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify(user));
       return user;
     }
   }

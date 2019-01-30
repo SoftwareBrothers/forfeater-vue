@@ -1,8 +1,8 @@
-import moment from "moment";
+import moment from 'moment';
 
 export function getExpireDate(seconds) {
   return moment()
-    .add(seconds, "seconds")
+    .add(seconds, 'seconds')
     .toISOString();
 }
 
