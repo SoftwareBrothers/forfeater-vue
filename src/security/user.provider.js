@@ -10,17 +10,19 @@ class UserProvider {
       client_id: process.env.VUE_APP_API_CLIENT_ID || "forfeaterWeb",
       client_secret: process.env.VUE_APP_API_CLIENT_SECRET || "forfeaterSecret"
     };
-    try {
-      return client.post("/auth/login", qs.stringify(data));
-    } catch (error) {
-      throw error;
-    }
+    return client.post("/auth/login", qs.stringify(data), {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    });
   }
 
   provide(access_token) {
     try {
       return client.get("auth/user", {
-        headers: { Authorization: `Bearer ${access_token}` }
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
       });
     } catch (error) {
       throw error;
