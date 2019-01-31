@@ -71,10 +71,11 @@ const actions = {
     localStorage.removeItem('user');
     localStorage.removeItem('token_expires_at');
   },
-  getUser: (context, token) => {
+  getUser: async (context, token) => {
     const access_token = token || localStorage.getItem('token') || null;
     if (access_token) {
-      const user = UserProvider.provide(access_token);
+      const data = await UserProvider.provide(access_token);
+      const user = data.data;
       context.commit(LOGIN, user);
       localStorage.setItem('user', JSON.stringify(user));
       return user;

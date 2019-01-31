@@ -18,15 +18,11 @@ class UserProvider {
   }
 
   provide(access_token) {
-    try {
-      return client.get('auth/user', {
-        headers: {
-          Authorization: `Bearer ${access_token}`
-        }
-      });
-    } catch (error) {
-      throw error;
-    }
+    return client.get('auth/user', {
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      }
+    });
   }
 }
 
