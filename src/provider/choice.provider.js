@@ -1,119 +1,39 @@
-import ApiProvider from "@/provider/api.provider";
+import { ApiProvider } from '@/provider/api.provider';
 
-export default class ChoiceProvider extends ApiProvider {
+export class ChoiceProvider extends ApiProvider {
+  constructor() {
+    super();
+    this.uri = 'choices';
+  }
   find(id) {
-    return new Promise((resolve, reject) => {
-      this.axios
-        .get("/choices/" + id)
-        .then(response => {
-          if (response.data) {
-            resolve(response.data);
-            return;
-          }
-          reject("There is no choice!");
-        })
-        .catch(errors => {
-          reject(errors);
-        });
-    });
+    this.client.get(`${this.uri}/${id}`);
   }
 
   getFromOrder(orderId) {
-    return new Promise((resolve, reject) => {
-      this.axios
-        .get("/orders/" + orderId + "/choice")
-        .then(response => {
-          if (response.data) {
-            resolve(response.data);
-            return;
-          }
-          reject("There is no choice!");
-        })
-        .catch(errors => {
-          reject(errors);
-        });
-    });
+    return this.client.get(`orders/${orderId}/choice`);
   }
 
   getFromProduct(Product) {
-    return new Promise((resolve, reject) => {
-      this.axios
-        .get(
-          "/vendors/" +
-            Product.vendorId +
-            "/products/" +
-            Product.id +
-            "/choices"
-        )
-        .then(response => {
-          if (response.data) {
-            resolve(response.data);
-            return;
-          }
-          reject("There is no choice!");
-        })
-        .catch(errors => {
-          reject(errors);
-        });
-    });
+    return this.client.get(`vendors/${Product.vendorId}/products/${Product.id}/choices`);
   }
 
   store(User, Order, Product, comment) {
-    return new Promise((resolve, reject) => {
-      this.axios
-        .put("/orders/" + Order.id + "/choices", {
-          orderId: Order.id,
-          userId: User.id,
-          productId: Product.id,
-          orderComment: comment
-        })
-        .then(response => {
-          if (response.data) {
-            resolve(response.data);
-            return;
-          }
-          reject("Choice was not saved in database");
-        })
-        .catch(errors => {
-          reject(errors);
-        });
+    return this.client.put(`orders/${Order.id}/choices`, {
+      orderId: Order.id,
+      userId: User.id,
+      productId: Product.id,
+      orderComment: comment
     });
   }
 
   rate(orderId, Score) {
-    return new Promise((resolve, reject) => {
-      this.axios
-        .patch("/orders/" + orderId + "/ratings", {
-          mark: Score.score,
-          scoreComment: Score.comment
-        })
-        .then(response => {
-          if (response.data) {
-            resolve(response.data);
-            return;
-          }
-          reject("Your rate is not saved");
-        })
-        .catch(errors => {
-          reject(errors);
-        });
+    return this.client.patch(`orders/${orderId}/ratings`, {
+      mark: Score.score,
+      scoreComment: Score.comment
     });
   }
 
   remove(orderId, choiceId) {
-    return new Promise((resolve, reject) => {
-      this.axios
-        .delete("/orders/" + orderId + "/choices/" + choiceId)
-        .then(response => {
-          if (response.data) {
-            resolve(response.data);
-            return;
-          }
-          reject("Choice was not deleted");
-        })
-        .catch(errors => {
-          reject(errors);
-        });
-    });
+    return this.client.delete(`orders/${orderId}/choices/${choiceId}`);
   }
 }

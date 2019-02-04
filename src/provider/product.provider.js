@@ -1,26 +1,17 @@
-import ApiProvider from "@/provider/api.provider";
+import { ApiProvider } from '@/provider/api.provider';
 
 export default class ProductProvider extends ApiProvider {
-  products = [];
-  error = [];
+  constructor() {
+    super();
+    this.uri = 'vendors';
+  }
 
   getAllActiveByVendor(vendorId) {
-    return new Promise((resolve, reject) => {
-      this.axios
-        .get(`/vendors/${vendorId}/products`, {
-          params: {
-            active: 1,
-            vendorId: vendorId
-          }
-        })
-        .then(response => {
-          this.products = response.data ? response.data : null;
-          resolve(this.products);
-        })
-        .catch(errors => {
-          this.errors.push(errors);
-          reject(this.errors);
-        });
+    return this.client.get(`${this.uri}/${vendorId}/products`, {
+      params: {
+        active: 1,
+        vendorId: vendorId
+      }
     });
   }
 }

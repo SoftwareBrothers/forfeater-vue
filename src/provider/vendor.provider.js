@@ -1,4 +1,4 @@
-import ApiProvider from '@/provider/api.provider';
+import { ApiProvider } from '@/provider/api.provider';
 
 export default class VendorProvider extends ApiProvider {
   constructor() {
@@ -6,12 +6,12 @@ export default class VendorProvider extends ApiProvider {
     this.uri = '/vendors';
   }
 
-  async find(id) {
-    return await this.client.get(`${this.uri}/${id}`);
+  find(id) {
+    return this.client.get(`${this.uri}/${id}`);
   }
 
-  async getAll() {
-    return await this.client.get(this.uri);
+  getAll() {
+    return this.client.get(this.uri);
   }
 
   getTodayVendor() {
@@ -19,15 +19,15 @@ export default class VendorProvider extends ApiProvider {
     return vendors[0] || null;
   }
 
-  async remove(id) {
-    return await this.client.delete(`${this.uri}/${id}`);
+  remove(id) {
+    return this.client.delete(`${this.uri}/${id}`);
   }
 
-  async store(vendor) {
-    return await this.client.post(this.uri, vendor);
+  store(vendor) {
+    return this.client.post(this.uri, vendor);
   }
 
-  async update(vendor) {
-    return await this.client.patch(`${this.uri}/${vendor.id}`, vendor);
+  update(vendor) {
+    return this.client.patch(`${this.uri}/${vendor.id}`, vendor);
   }
 }

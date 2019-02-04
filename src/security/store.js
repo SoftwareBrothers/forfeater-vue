@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import UserProvider from '@/security/user.provider';
+import { UserProvider } from '@/security/user.provider';
 import { getExpireDate } from '@/helper/date.helper';
 
 Vue.use(Vuex);
+
+const provider = new UserProvider();
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
@@ -54,7 +56,7 @@ const mutations = {
 
 const actions = {
   authenticate: async (context, payload) => {
-    const response = await UserProvider.authorize({
+    const response = await provider.authorize({
       username: payload.username,
       password: payload.password
     });
@@ -74,7 +76,7 @@ const actions = {
   getUser: async (context, token) => {
     const access_token = token || localStorage.getItem('token') || null;
     if (access_token) {
-      const data = await UserProvider.provide(access_token);
+      const data = await provider.provide(access_token);
       const user = data.data;
       context.commit(LOGIN, user);
       localStorage.setItem('user', JSON.stringify(user));

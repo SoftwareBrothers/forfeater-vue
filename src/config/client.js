@@ -5,6 +5,7 @@ const headers = {
   Accept: 'application/json',
   'Access-Control-Allow-Origin': '*'
 };
+
 if (localStorage.getItem('token')) {
   Object.assign(headers, {
     Authorization: `Bearer ${localStorage.getItem('token')}`

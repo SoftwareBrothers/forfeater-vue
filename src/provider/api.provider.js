@@ -1,6 +1,6 @@
 import client from '@/config/client';
 
-export default class ApiProvider {
+export class ApiProvider {
   constructor() {
     this.client = client;
   }

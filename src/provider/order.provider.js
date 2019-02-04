@@ -1,4 +1,4 @@
-import ApiProvider from '@/provider/api.provider';
+import { ApiProvider } from '@/provider/api.provider';
 
 export default class OderProvider extends ApiProvider {
   constructor() {
@@ -6,8 +6,8 @@ export default class OderProvider extends ApiProvider {
     this.uri = '/orders';
   }
 
-  async getActive() {
-    return await this.client.get(this.uri, {
+  getActive() {
+    return this.client.get(this.uri, {
       params: { active: 1 }
     });
   }
