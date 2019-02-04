@@ -2,7 +2,7 @@
   <div class="container pt-5">
     <div class="row">
       <div class="col-12 col-md-8 col-lg-4 mx-auto w-100">
-        <div class="alert alert-danger" v-if="error">{{error}}</div>
+        <ErrorAlert :title="null" :content="$t(error)" v-if="error"/>
         <form @submit.prevent="login()">
           <div class="form-group">
             <div class="col-sm">
@@ -50,22 +50,19 @@
         </form>
       </div>
     </div>
-    <div class="overlay" v-if="loading">
-      <div class="loading">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
-    </div>
+    <Loading :active="loading"></Loading>
   </div>
 </template>
 
 <script>
+import Loading from 'buefy/src/components/loading/Loading.vue';
+import ErrorAlert from '@/components/Alerts/Error';
+
 export default {
   data() {
     return {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
       error: null,
       loading: false,
       isClicked: false
@@ -76,7 +73,7 @@ export default {
       this.isClicked = true;
       this.loading = true;
       try {
-        let token = await this.$store.dispatch("authenticate", {
+        let token = await this.$store.dispatch('authenticate', {
           username: this.username,
           password: this.password
         });
@@ -84,11 +81,11 @@ export default {
         if (token !== undefined) {
           let componentName = this.$route.query.redirect;
           this.$router.push({
-            name: componentName ? componentName : "Home"
+            name: componentName ? componentName : 'Home'
           });
         }
       } catch (error) {
-        this.error = error.message;
+        this.error = 'errors.auth.general';
       }
       this.loading = false;
       this.isClicked = false;
@@ -104,61 +101,9 @@ export default {
   },
   beforeCreate() {
     if (this.$store.token) {
-      this.$router.push({ name: "UserProfile" });
+      this.$router.push({ name: 'UserProfile' });
     }
-  }
+  },
+  components: { Loading, ErrorAlert }
 };
 </script>
-<style lang="scss" scoped>
-.overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.loading {
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dot {
-  display: inline-block;
-  width: 2rem;
-  height: 2rem;
-  margin: 0 1rem;
-  border-radius: 1rem;
-  background-color: orange;
-  &:nth-last-child(1) {
-    animation: loading 0.6s 0.1s linear infinite;
-  }
-  &:nth-last-child(2) {
-    animation: loading 0.6s 0.2s linear infinite;
-  }
-  &:nth-last-child(3) {
-    animation: loading 0.6s 0.3s linear infinite;
-  }
-}
-
-@keyframes loading {
-  0% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(0, 15px);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-}
-</style>

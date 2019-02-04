@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VeeValidate from 'vee-validate';
 import Message from 'buefy/dist/components/message';
-
+import Table from 'buefy/dist/components/table';
 import router from '@/router';
 import store from '@/security/store';
 import { i18n } from '@/config/i18n';
@@ -33,6 +33,7 @@ library.add(faPrint);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(Message);
+Vue.use(Table);
 Vue.use(VeeValidate);
 Vue.use(ClientTable, {}, false, 'bootstrap4', 'default');
 

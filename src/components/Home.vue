@@ -3,15 +3,12 @@
 </template>
 
 <script>
-import ChoiceAdd from "@/components/Choice/Add.vue";
+import ChoiceAdd from '@/components/Choice/Add';
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
     ChoiceAdd
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>
