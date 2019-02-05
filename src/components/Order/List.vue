@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import OrderService from "@/services/order.service";
+import OrderProvider from "@/provider/order.provider";
 import OrderTable from "@/components/Order/Table";
 import ChoiceService from "@/services/choice.service";
 
@@ -27,30 +27,32 @@ export default {
     };
   },
   created() {
-    OrderService.getAll()
-      .then(orders => {
-        orders.forEach(order => {
-          ChoiceService.getAll(order.id)
-            .then(choices => {
-              let userChoice = choices.find(
-                x => x.userId === this.$store.getters.user.id
-              );
 
-              order.choice = {
-                product: userChoice ? userChoice.product : null,
-                comment: userChoice ? userChoice.comment : ""
-              };
+      new OrderProvider()
+          .getAll()
+          .then(orders => {
+              orders.forEach(order => {
+                  ChoiceService.getAll(order.id)
+                      .then(choices => {
+                          let userChoice = choices.find(
+                              x => x.userId === this.$store.getters.user.id
+                          );
 
-              this.orders.push(order);
-            })
-            .catch(errors => {
+                          order.choice = {
+                              product: userChoice ? userChoice.product : null,
+                              comment: userChoice ? userChoice.comment : ""
+                          };
+
+                          this.orders.push(order);
+                      })
+                      .catch(errors => {
+                          console.log(errors);
+                      });
+              });
+          })
+          .catch(errors => {
               console.log(errors);
-            });
-        });
-      })
-      .catch(errors => {
-        console.log(errors);
-      });
+          });
   },
   components: {
     OrderTable
