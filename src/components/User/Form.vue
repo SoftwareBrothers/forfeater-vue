@@ -3,12 +3,26 @@
     <div class="form-row">
       <div class="form-group col-md-6 custom-control">
         <label for="firstName">First name</label>
-        <input v-validate="'required|alpha'" v-model="User.firstName" type="text" class="form-control" name="firstName" placeholder="First name">
+        <input
+          v-validate="'required|alpha'"
+          v-model="User.firstName"
+          type="text"
+          class="form-control"
+          name="firstName"
+          placeholder="First name"
+        >
         <div class="invalid-feedback-not-work">{{ errors.first('firstName')}}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="lastName">Last name</label>
-        <input v-validate="'required|alpha'" v-model="User.lastName" type="text" class="form-control" name="lastName" placeholder="Last name">
+        <input
+          v-validate="'required|alpha'"
+          v-model="User.lastName"
+          type="text"
+          class="form-control"
+          name="lastName"
+          placeholder="Last name"
+        >
         <div class="invalid-feedback-not-work">{{ errors.first('lastName')}}</div>
       </div>
     </div>
@@ -24,29 +38,61 @@
       </div>
       <div class="form-group col-md-6">
         <label for="email">Email</label>
-        <input v-validate="'required|email'" v-model="User.email" type="email" class="form-control" name="email" placeholder="Email">
+        <input
+          v-validate="'required|email'"
+          v-model="User.email"
+          type="email"
+          class="form-control"
+          name="email"
+          placeholder="Email"
+        >
         <div class="invalid-feedback-not-work">{{ errors.first('email')}}</div>
       </div>
     </div>
     <div class="form-row" v-if="!User.id">
       <div class="form-group col-md-6">
         <label for="password">Password</label>
-        <input v-validate="'required|confirmed:confirmation'" v-model="User.password" type="password" class="form-control" name="password" placeholder="Password">
+        <input
+          v-validate="'required|confirmed:confirmation'"
+          v-model="User.password"
+          type="password"
+          class="form-control"
+          name="password"
+          placeholder="Password"
+        >
         <div class="invalid-feedback-not-work">{{ errors.first('password')}}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="confirmation">Confirmation</label>
-        <input type="password" class="form-control" name="confirmation" ref="confirmation" placeholder="Password">
+        <input
+          type="password"
+          class="form-control"
+          name="confirmation"
+          ref="confirmation"
+          placeholder="Password"
+        >
         <div class="invalid-feedback-not-work">{{ errors.first('confirmation')}}</div>
       </div>
     </div>
-    <button v-if="!User.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="createUser">Create</button>
-    <button v-if="User.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="editUser">Save</button>
+    <button
+      v-if="!User.id"
+      type="button"
+      class="btn btn-warning col-white"
+      :disabled="errors.has()"
+      @click="createUser"
+    >Create</button>
+    <button
+      v-if="User.id"
+      type="button"
+      class="btn btn-warning col-white"
+      :disabled="errors.has()"
+      @click="editUser"
+    >Save</button>
   </form>
 </template>
 
 <script>
-import UserProvider from "@/provider/user.provider";
+import { UserProvider } from '@/provider/user.provider';
 
 export default {
   props: {
@@ -68,7 +114,7 @@ export default {
         this.userProvider
           .store(this.User)
           .then(user => {
-            this.$router.push("/users");
+            this.$router.push('/users');
           })
           .catch(errors => {
             this.errors.push(errors);
@@ -80,7 +126,7 @@ export default {
         this.userProvider
           .update(this.User)
           .then(user => {
-            this.$router.push("/users");
+            this.$router.push('/users');
           })
           .catch(errors => {
             this.errors.push(errors);
@@ -94,22 +140,22 @@ export default {
 };
 
 (function() {
-  "use strict";
+  'use strict';
   window.addEventListener(
-    "load",
+    'load',
     function() {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.getElementsByClassName("needs-validation");
+      var forms = document.getElementsByClassName('needs-validation');
       // Loop over them and prevent submission
       var validation = Array.prototype.filter.call(forms, function(form) {
         form.addEventListener(
-          "submit",
+          'submit',
           function(event) {
             if (form.checkValidity() === false) {
               event.preventDefault();
               event.stopPropagation();
             }
-            form.classList.add("was-validated");
+            form.classList.add('was-validated');
           },
           false
         );

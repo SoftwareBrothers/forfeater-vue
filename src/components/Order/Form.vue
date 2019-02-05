@@ -3,12 +3,22 @@
     <div class="form-row">
       <div class="form-group col-md-12 custom-control">
         <label for="name">Vendor</label>
-        <select v-model="Order.vendorId" v-validate="'required'" name="vendorId" @change="loadProducts()" class="custom-select">
-                <option :value="null" disabled>Select Vendor</option>
-                <option v-for="(vendor,key) in vendors" :key="key" :value="vendor.id">{{ vendor.name }}</option>
-              </select>
+        <select
+          v-model="Order.vendorId"
+          v-validate="'required'"
+          name="vendorId"
+          @change="loadProducts()"
+          class="custom-select"
+        >
+          <option :value="null" disabled>Select Vendor</option>
+          <option v-for="(vendor,key) in vendors" :key="key" :value="vendor.id">{{ vendor.name }}</option>
+        </select>
         <div class="invalid-feedback-not-work">{{ errors.first('vendorId')}}</div>
-        <ProductCheckboxList :products="products" :checkedProducts="checkedProducts" @productsSelected="productsSelected"></ProductCheckboxList>
+        <ProductCheckboxList
+          :products="products"
+          :checkedProducts="checkedProducts"
+          @productsSelected="productsSelected"
+        ></ProductCheckboxList>
         <input type="hidden" v-validate:length="'min_value:1'" name="checkedProducts">
       </div>
     </div>
@@ -16,30 +26,56 @@
       <div class="form-group col-md-6 custom-control">
         <label for="name">Deadline</label>
         <div>
-          <flat-pickr v-model="Order.deadlineAt" v-validate="'required'" :config="config" class="form-control" placeholder="Select date" name="deadlineAt" ref="deadlineAt"></flat-pickr>
+          <flat-pickr
+            v-model="Order.deadlineAt"
+            v-validate="'required'"
+            :config="config"
+            class="form-control"
+            placeholder="Select date"
+            name="deadlineAt"
+            ref="deadlineAt"
+          ></flat-pickr>
         </div>
         <div class="invalid-feedback-not-work">{{ errors.first('deadlineAt')}}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="name">Delivery</label>
         <div>
-          <flat-pickr v-model="Order.deliveryAt" :config="config" class="form-control" placeholder="Select date" name="deliveryAt"></flat-pickr>
+          <flat-pickr
+            v-model="Order.deliveryAt"
+            :config="config"
+            class="form-control"
+            placeholder="Select date"
+            name="deliveryAt"
+          ></flat-pickr>
           <div class="invalid-feedback-not-work">{{ errors.first('deliveryAt')}}</div>
         </div>
       </div>
     </div>
-    <button v-if="!Order.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="create">Create</button>
-    <button v-if="Order.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="edit">Save</button>
+    <button
+      v-if="!Order.id"
+      type="button"
+      class="btn btn-warning col-white"
+      :disabled="errors.has()"
+      @click="create"
+    >Create</button>
+    <button
+      v-if="Order.id"
+      type="button"
+      class="btn btn-warning col-white"
+      :disabled="errors.has()"
+      @click="edit"
+    >Save</button>
   </form>
 </template>
 
 <script>
-import OrderService from "@/services/order.service";
-import VendorProvider from "@/provider/vendor.provider";
-import ProductService from "@/services/product.service";
-import ProductCheckboxList from "@/components/Product/CheckboxList";
-import flatPickr from "vue-flatpickr-component";
-import "flatpickr/dist/flatpickr.css";
+import OrderService from '@/services/order.service';
+import { VendorProvider } from '@/provider/vendor.provider';
+import ProductService from '@/services/product.service';
+import ProductCheckboxList from '@/components/Product/CheckboxList';
+import flatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
 
 export default {
   props: {
@@ -65,11 +101,11 @@ export default {
       checkedProducts: [],
       config: {
         wrap: true, // set wrap to true only when using 'input-group'
-        altFormat: "Y-m-d H:i",
+        altFormat: 'Y-m-d H:i',
         altInput: true,
-        dateFormat: "Z",
+        dateFormat: 'Z',
         enableTime: true,
-        time_24hr: true,
+        time_24hr: true
       }
     };
   },
@@ -77,15 +113,14 @@ export default {
     this.user = this.$store.getters.user;
     new VendorProvider()
       .getAll()
-      .then(vendors => {
-        this.vendors = vendors;
+      .then(response => {
+        this.vendors = response.data;
       })
       .catch(errors => {
         console.log(errors);
       });
   },
   methods: {
-
     create: async function() {
       var isValid = await this.$validator.validateAll();
 
@@ -96,7 +131,7 @@ export default {
 
         OrderService.store(this.Order)
           .then(order => {
-            this.$router.push("/orders");
+            this.$router.push('/orders');
           })
           .catch(errors => {});
       }
@@ -107,7 +142,7 @@ export default {
       if (isValid && !this.errors.any()) {
         OrderService.update(this.Order)
           .then(order => {
-            this.$router.push("/orders");
+            this.$router.push('/orders');
           })
           .catch(errors => {
             this.errors.push(errors);

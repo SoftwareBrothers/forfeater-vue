@@ -5,6 +5,7 @@ export class ChoiceProvider extends ApiProvider {
     super();
     this.uri = 'choices';
   }
+
   find(id) {
     this.client.get(`${this.uri}/${id}`);
   }

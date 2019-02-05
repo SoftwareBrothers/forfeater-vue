@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import Header from './components/Header.vue';
-import Footer from './components/Footer.vue';
+import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
 
 export default {
-  name: 'app',
+  name: 'layout',
   components: {
     Header,
     Footer
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style scoped>
-@import './assets/css/styles.css';
+@import '~@/assets/css/styles.css';
 body {
   background: #fafafa;
 }

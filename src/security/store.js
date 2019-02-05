@@ -19,7 +19,7 @@ const STATUS = {
 };
 
 const state = {
-  user: JSON.parse(localStorage.getItem('user')) || null,
+  user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
   token: localStorage.getItem('token') || null,
   status: null,
   error: null

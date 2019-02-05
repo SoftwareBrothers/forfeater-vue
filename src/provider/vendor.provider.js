@@ -1,6 +1,6 @@
 import { ApiProvider } from '@/provider/api.provider';
 
-export default class VendorProvider extends ApiProvider {
+export class VendorProvider extends ApiProvider {
   constructor() {
     super();
     this.uri = '/vendors';
