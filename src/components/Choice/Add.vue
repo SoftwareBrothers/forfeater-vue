@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div v-if="orders.length">
+    <div v-if="orders.length > 0">
       <div v-if="alertText" :class="alertClass" role="alert">{{ alertText }}</div>
       <div class="mt-3 d-flex flex-row justify-content-center">
         <div
@@ -60,7 +60,7 @@
         >Send</button>
       </div>
     </div>
-    <ErrorAlert :content="$t('orders.lack')"/>
+    <h2 class="alert alert-danger text-center" v-if="orders.length == 0">{{ noOrderMessage }}</h2>
   </div>
 </template>
 
@@ -68,39 +68,39 @@
 import ProductsInputList from '@/components/Product/InputsList';
 import OrderProvider from '@/provider/order.provider';
 import ProductProvider from '@/provider/product.provider';
-import ChoiceProvider from '@/provider/choice.provider';
+import { ChoiceProvider } from '@/provider/choice.provider';
 import ChoiceService from '@/services/choice.service';
 import Countdown from '@/components/Helpers/Countdown';
-import ErrorAlert from '@/components/Alerts/Error';
 
 export default {
   data: () => {
     return {
+      appErrors: [],
       orders: [],
       choice: {
         order: {},
         product: null,
         comment: ''
       },
-      noOrderMessage: '',
+      provider: new ChoiceProvider(),
+      noOrderMessage: 'There is no restaurants available for today',
       alertText: '',
-      alertClass: '',
-      provider: null,
-      alert
+      alertClass: ''
     };
   },
   methods: {
     getProducts(vendor) {},
     sendForm: function() {
       if (this.choice.product) {
-        new ChoiceProvider()
+        this.provider
           .store(
             this.$store.getters.user,
             this.choice.order,
             this.choice.product,
             this.choice.comment
           )
-          .then(choice => {
+          .then(response => {
+            const choice = response.data;
             this.alertText = 'Your choice was added!';
             this.alertClass = 'alert alert-success';
             this.orders.find(x => x.id === choice.orderId).choice = {
@@ -111,6 +111,8 @@ export default {
             this.choice.comment = '';
           })
           .catch(errors => {
+            console.log(errors);
+
             this.alertText = 'Something went wrong!';
             this.alertClass = 'alert alert-danger';
             this.appErrors.push(errors);
@@ -118,7 +120,7 @@ export default {
       }
     },
     removeChoice: function(order) {
-      new ChoiceProvider()
+      this.provider
         .remove(order.id, order.choice.id)
         .then(data => {
           this.alertText = 'Your choice was canceled!';
@@ -144,57 +146,46 @@ export default {
       this.choice.order = order;
     },
     beforeDeadline: function(order) {
-      console.log(new Date(order.deadlineAt) > new Date());
       return new Date(order.deadlineAt) > new Date();
     }
   },
-  beforeCreate() {
-    this.provider = new OrderProvider();
-  },
+  computed: {},
   created() {
-    try {
-      this.provider.getActive();
-    } catch {}
-    // .getActive()
-    // .then(results => {
-    //   if (results.length == 0) {
-    //     this.noOrderMessage = 'There is no active order!';
-    //   }
+    new OrderProvider()
+      .getActive()
+      .then(response => {
+        response.data.forEach(order => {
+          new ProductProvider()
+            .getAllActiveByVendor(order.vendor.id)
+            .then(resposne => {
+              order.vendor.products = resposne.data || [];
+              ChoiceService.getAll(order.id)
+                .then(choices => {
+                  let userChoice = choices.find(x => x.userId === this.$store.getters.user.id);
+                  order.choice = {
+                    id: userChoice ? userChoice.id : null,
+                    product: userChoice ? userChoice.product : null,
+                    comment: userChoice ? userChoice.orderComment : ''
+                  };
 
-    //   results.forEach(order => {
-    //     new ProductProvider()
-    //       .getAllActiveByVendor(order.vendor.id)
-    //       .then(products => {
-    //         if (products.length > 0) {
-    //           order.vendor.products = products;
-    //         }
-
-    //         ChoiceService.getAll(order.id)
-    //           .then(choices => {
-    //             let userChoice = choices.find(x => x.userId === this.$store.getters.user.id);
-
-    //             order.choice = {
-    //               id: userChoice ? userChoice.id : null,
-    //               product: userChoice ? userChoice.product : null,
-    //               comment: userChoice ? userChoice.orderComment : ''
-    //             };
-
-    //             this.orders.push(order);
-    //           })
-    //           .catch(errors => {
-    //             console.log(errors);
-    //           });
-    //       })
-    //       .catch(errors => {
-    //         this.appErrors.push(errors);
-    //       });
-    //   });
-    // })
+                  this.orders.push(order);
+                })
+                .catch(errors => {
+                  console.log(errors);
+                });
+            })
+            .catch(errors => {
+              this.appErrors.push(errors);
+            });
+        });
+      })
+      .catch(errors => {
+        this.appErrors.push(errors);
+      });
   },
   components: {
     ProductsInputList,
-    Countdown,
-    ErrorAlert
+    Countdown
   }
 };
 </script>

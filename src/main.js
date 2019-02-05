@@ -7,7 +7,6 @@ import store from '@/security/store';
 import { i18n } from '@/config/i18n';
 
 import '@/filters/index';
-import 'buefy/dist/buefy.css';
 
 import App from './App.vue';
 import 'bootstrap/dist/css/bootstrap.css';
