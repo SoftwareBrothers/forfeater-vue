@@ -64,8 +64,9 @@
 <script>
 import ProductsInputList from '@/components/Product/InputsList';
 import Countdown from '@/components/Helpers/Countdown';
-import { ChoiceService } from '@/services/choice.service';
 
+import { ChoiceService } from '@/services/choice.service';
+import { OrderService } from '@/services/order.service';
 
 export default {
   data: () => {
@@ -76,7 +77,8 @@ export default {
         product: null,
         comment: ''
       },
-      service: new ChoiceService()
+      service: new ChoiceService(),
+      orderService: new OrderService()
     };
   },
   methods: {
@@ -115,7 +117,7 @@ export default {
   },
   computed: {},
   async created() {
-    this.orders = await new OrderProvider().getAllWithProductChoices();
+    this.orders = await this.orderService.getAllWithProductChoices();
   },
   components: { ProductsInputList, Countdown }
 };

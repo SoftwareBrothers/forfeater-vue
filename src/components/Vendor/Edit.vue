@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { VendorProvider } from '@/provider/vendor.provider';
+import { VendorService } from '@/services/vendor.service';
 import VendorForm from '@/components/Vendor/Form';
 
 export default {
@@ -39,12 +39,12 @@ export default {
         name: null,
         url: null
       },
-      provider: new VendorProvider()
+      service: new VendorService()
     };
   },
   async mounted() {
     try {
-      const response = await this.provider.find(this.$route.params.id);
+      const response = await this.service.find(this.$route.params.id);
       this.Vendor = response.data;
     } catch (error) {}
   },
@@ -53,6 +53,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

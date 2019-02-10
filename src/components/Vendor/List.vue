@@ -18,27 +18,21 @@
 </template>
 
 <script>
-import { VendorProvider } from '@/provider/vendor.provider';
 import VendorTable from '@/components/Vendor/Table';
 
 export default {
   data() {
     return {
       vendors: {},
-      provider: new VendorProvider()
+      service: new VendorService()
     };
   },
   async mounted() {
     try {
-      const response = await this.provider.getAll();
+      const response = await this.service.getAll();
       this.vendors = response.data;
     } catch (error) {}
   },
-  components: {
-    VendorTable
-  }
+  components: { VendorTable }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

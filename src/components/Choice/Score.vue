@@ -66,7 +66,7 @@ export default {
         order: {},
         product: {}
       },
-      service = new ChoiceService()
+      service: new ChoiceService()
     };
   },
   methods: {
@@ -79,16 +79,10 @@ export default {
     }
   },
   beforeCreate() {
-    this.service.getFromOrder(this.$route.params.id)
-      .then(response => {
-        this.Choice = response.data;
-      })
+    this.service.getFromOrder(this.$route.params.id).then(response => {
+      this.Choice = response.data;
+    });
   },
-  components: {
-    ScoreForm
-  }
+  components: { ScoreForm }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

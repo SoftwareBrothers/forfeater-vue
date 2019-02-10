@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { UserProvider } from '@/provider/user.provider';
+import { UserService } from '@/services/user.service';
 
 export default {
   props: {
@@ -58,12 +58,12 @@ export default {
   },
   data() {
     return {
-      provider: new UserProvider()
+      service: new UserService()
     };
   },
   methods: {
     remove: function(userId, key) {
-      this.provider
+      this.service
         .remove(userId)
         .then(user => {
           this.users.splice(key, 1);

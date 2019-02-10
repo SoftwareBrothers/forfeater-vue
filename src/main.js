@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VeeValidate from 'vee-validate';
 import router from '@/config/router';
-import store from '@/security/store';
+import store from '@/config/store';
 import { i18n } from '@/config/i18n';
 
 import '@/filters/index';

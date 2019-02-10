@@ -27,7 +27,8 @@
 </template>
 
 <script>
-import { UserProvider } from '@/provider/user.provider';
+import { UserService } from '@/services/user.service';
+
 export default {
   props: {
     user: {
@@ -48,24 +49,16 @@ export default {
       users: [],
       results: [],
       isOpen: false,
-      error: false
+      service: new UserService()
     };
   },
-  created() {
-    new UserProvider()
-      .getAll()
-      .then(users => {
-        this.users = users;
-      })
-      .catch(errors => {
-        this.appErrors.push(errors);
-      });
+  async created() {
+    const response = this.service.getAll();
+    this.users = response.data();
   },
   methods: {
     onSelect: function(user) {
       this.isOpen = false;
-      console.log('onSelect');
-      console.log(user);
       this.$emit('update:user', user);
     },
     onChange: function() {
@@ -74,7 +67,6 @@ export default {
         this.error = 'Please provide at least 4 characters';
         return;
       }
-      this.error = false;
       this.filterResults();
       this.isOpen = true;
     },

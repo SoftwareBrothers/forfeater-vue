@@ -49,30 +49,24 @@
 </template>
 
 <script>
-import { UserProvider } from '@/provider/user.provider';
 import ErrorAlert from '@/components/Alerts/Error';
+import { UserService } from '@/services/user.service';
 
 export default {
   data() {
     return {
-      User: {
-        type: Object,
-        required: true
-      },
+      User: null,
       newPassword: null,
-      provider: new UserProvider(),
+      service: new UserService(),
       alert: ''
     };
   },
   methods: {
     changePassword: function() {
       if (!this.errors.any()) {
-        this.provider
-          .changePassword(this.User, this.newPassword)
-          .then(response => {
-            this.$router.go('-1');
-          })
-          .catch(error => (this.alert = error.message));
+        this.service.changePassword(this.User, this.newPassword).then(response => {
+          this.$router.go('-1');
+        });
       }
     }
   },

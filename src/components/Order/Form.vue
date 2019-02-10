@@ -57,14 +57,14 @@
       type="button"
       class="btn btn-warning col-white"
       :disabled="errors.has()"
-      @click="create"
+      @click="save(`store`)"
     >Create</button>
     <button
       v-if="Order.id"
       type="button"
       class="btn btn-warning col-white"
       :disabled="errors.has()"
-      @click="edit"
+      @click="save(`update`)"
     >Save</button>
   </form>
 </template>
@@ -72,6 +72,8 @@
 <script>
 import { OrderService } from '@/services/order.service';
 import { ProductService } from '@/services/product.service';
+import { VendorService } from '@/services/vendor.service';
+
 import ProductCheckboxList from '@/components/Product/CheckboxList';
 import flatPickr from 'vue-flatpickr-component';
 
@@ -104,68 +106,43 @@ export default {
         dateFormat: 'Z',
         enableTime: true,
         time_24hr: true
-      }
+      },
+      service: new OrderService(),
+      vendorService: new VendorService(),
+      productService: new ProductService()
     };
   },
-  created() {
+  async created() {
     this.user = this.$store.getters.user;
-    new VendorProvider()
-      .getAll()
-      .then(response => {
-        this.vendors = response.data;
-      })
-      .catch(errors => {
-        console.log(errors);
-      });
+    response = await this.vendorService.getAll();
+    this.vendors = response.data;
   },
   methods: {
-    create: async function() {
+    save: async function(type) {
       var isValid = await this.$validator.validateAll();
-
       this.sendProducts();
-
       if (isValid && !this.errors.any()) {
         this.Order.userId = this.user.id;
 
-        OrderService.store(this.Order)
-          .then(order => {
-            this.$router.push('/orders');
-          })
-          .catch(errors => {});
+        await this.service[type](this.Order).then(() => {
+          this.$router.push('/orders');
+        });
       }
     },
-    edit: async function() {
-      var isValid = await this.$validator.validateAll();
-
-      if (isValid && !this.errors.any()) {
-        OrderService.update(this.Order)
-          .then(order => {
-            this.$router.push('/orders');
-          })
-          .catch(errors => {
-            this.errors.push(errors);
-          });
-      }
-    },
-
     loadProducts: function() {
       this.products = null;
 
-      ProductService.getAll(this.Order.vendorId)
-        .then(products => {
-          this.checkedProducts = products
-            .filter(product => {
-              return product.active;
-            })
-            .map(product => {
-              return product.id;
-            });
+      ProductService.getAll(this.Order.vendorId).then(products => {
+        this.checkedProducts = products
+          .filter(product => {
+            return product.active;
+          })
+          .map(product => {
+            return product.id;
+          });
 
-          this.products = products;
-        })
-        .catch(errors => {
-          console.log(errors);
-        });
+        this.products = products;
+      });
     },
 
     productsSelected: function(productIds) {
@@ -178,11 +155,7 @@ export default {
 
         product.active = this.checkedProducts.indexOf(product.id) >= 0 ? 1 : 0;
 
-        ProductService.update(product)
-          .then(product => {})
-          .catch(errors => {
-            console.log(errors);
-          });
+        ProductService.update(product).then(product => {});
       }
     }
   },
@@ -199,12 +172,9 @@ export default {
       }
     }
   },
-  components: {
-    ProductCheckboxList,
-    flatPickr
-  }
+  components: { ProductCheckboxList, flatPickr }
 };
 </script>
 <style scoped>
-@import 'flatpickr/dist/flatpickr.css';
+@import '~flatpickr/dist/flatpickr.css';
 </style>

@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { VendorProvider } from '@/provider/vendor.provider';
+import { VendorService } from '@/services/vendor.service';
 
 export default {
   props: {
@@ -64,12 +64,12 @@ export default {
   },
   data() {
     return {
-      provider: new VendorProvider()
+      service: new VendorService()
     };
   },
   methods: {
     remove: function(vendorId, key) {
-      this.provider
+      this.service
         .remove(vendorId)
         .then(vendor => {
           this.vendors.splice(key, 1);

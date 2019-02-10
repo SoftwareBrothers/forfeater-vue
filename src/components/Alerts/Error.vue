@@ -3,7 +3,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import Message from 'buefy/src/components/mesage/Message.vue';
+import Message from 'buefy/src/components/message/Message.vue';
 
 export default Vue.extend({
   name: 'ErrorAlert',

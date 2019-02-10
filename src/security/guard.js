@@ -1,5 +1,5 @@
-import Auth from "@/security/auth";
-import store from "@/security/store";
+import Auth from '@/security/auth';
+import store from '@/config/store';
 
 class Guard {
   isGuest(to, from, next) {
@@ -7,12 +7,14 @@ class Guard {
   }
 
   isAdmin(to, from, next) {
-    next(Auth.isValid() || store.getters.user.role === "admin");
+    next(Auth.isValid() && store.getters.user.role === 'admin');
   }
 
   async isAuthenticated(to, from, next) {
+    next(redirectToLogin);
+
     let redirectToLogin = {
-      name: "Login",
+      name: 'Login',
       query: {
         redirect: to.name
       }
@@ -22,7 +24,7 @@ class Guard {
       next(redirectToLogin);
     }
 
-    next(await store.dispatch("getUser"));
+    next(await store.dispatch('getUser'));
   }
 }
 

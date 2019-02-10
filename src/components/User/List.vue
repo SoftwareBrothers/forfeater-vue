@@ -18,23 +18,22 @@
 </template>
 
 <script>
-import { UserProvider } from '@/provider/user.provider';
+import { UserService } from '@/services/user.service';
+
 import UserTable from '@/components/User/Table';
 
 export default {
   data() {
     return {
       users: null,
-      provider: new UserProvider()
+      service: new UserService()
     };
   },
   async created() {
     try {
-      const response = await this.provider.getAll();
+      const response = await this.service.getAll();
       this.users = response.data;
-    } catch (error) {
-      this.alert = error.message || "Couldn't get users";
-    }
+    } catch (error) {}
   },
   components: {
     UserTable

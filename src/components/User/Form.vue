@@ -79,21 +79,20 @@
       type="button"
       class="btn btn-warning col-white"
       :disabled="errors.has()"
-      @click="createUser"
+      @click="save(`store`)"
     >Create</button>
     <button
       v-if="User.id"
       type="button"
       class="btn btn-warning col-white"
       :disabled="errors.has()"
-      @click="editUser"
+      @click="save(`update`)"
     >Save</button>
   </form>
 </template>
 
 <script>
-import { UserProvider } from '@/provider/user.provider';
-
+import { UserService } from '@/services/user.service';
 export default {
   props: {
     User: {
@@ -108,23 +107,15 @@ export default {
       })
     }
   },
+  data() {
+    return {
+      service: new UserService()
+    };
+  },
   methods: {
-    createUser: function() {
+    save: function(type) {
       if (!this.errors.any()) {
-        this.userProvider
-          .store(this.User)
-          .then(user => {
-            this.$router.push('/users');
-          })
-          .catch(errors => {
-            this.errors.push(errors);
-          });
-      }
-    },
-    editUser: function() {
-      if (!this.errors.any()) {
-        this.userProvider
-          .update(this.User)
+        this.service[type](this.User)
           .then(user => {
             this.$router.push('/users');
           })
@@ -133,38 +124,6 @@ export default {
           });
       }
     }
-  },
-  created() {
-    this.userProvider = new UserProvider();
   }
 };
-
-(function() {
-  'use strict';
-  window.addEventListener(
-    'load',
-    function() {
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.getElementsByClassName('needs-validation');
-      // Loop over them and prevent submission
-      var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener(
-          'submit',
-          function(event) {
-            if (form.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-          },
-          false
-        );
-      });
-    },
-    false
-  );
-})();
 </script>
-
-<style lang="scss" scoped>
-</style>

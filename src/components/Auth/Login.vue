@@ -104,5 +104,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~buefy/src/scss/components/_loading.scss';
+@import '~buefy/dist/buefy.css';
 </style>

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { VendorProvider } from '@/provider/vendor.provider';
+import { VendorService } from '@/services/vendor.service';
 
 export default {
   props: {
@@ -59,13 +59,13 @@ export default {
   },
   data() {
     return {
-      provider: new VendorProvider()
+      service: new VendorService()
     };
   },
   methods: {
     save: function(type) {
       if (!this.errors.any()) {
-        this.provider[type](this.Vendor)
+        this.service[type](this.Vendor)
           .then(vendor => {
             this.$router.push('/vendors');
           })
@@ -74,33 +74,4 @@ export default {
     }
   }
 };
-
-(function() {
-  'use strict';
-  window.addEventListener(
-    'load',
-    function() {
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.getElementsByClassName('needs-validation');
-      // Loop over them and prevent submission
-      var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener(
-          'submit',
-          function(event) {
-            if (form.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-          },
-          false
-        );
-      });
-    },
-    false
-  );
-})();
 </script>
-
-<style lang="scss" scoped>
-</style>

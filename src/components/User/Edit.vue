@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import { UserProvider } from '@/provider/user.provider';
 import UserForm from '@/components/User/Form';
+import { UserService } from '@/services/user.service';
 
 export default {
   data() {
@@ -41,17 +41,15 @@ export default {
         email: null,
         password: null
       },
-      provider: new UserProvider()
+      service: new UserService()
     };
   },
   async mounted() {
     try {
-      const response = await this.provider.find(this.$route.params.id);
+      const response = await this.service.find(this.$route.params.id);
       this.User = response.data;
     } catch (error) {}
   },
-  components: {
-    UserForm
-  }
+  components: { UserForm }
 };
 </script>
