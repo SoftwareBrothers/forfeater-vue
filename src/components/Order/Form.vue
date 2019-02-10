@@ -70,12 +70,11 @@
 </template>
 
 <script>
-import OrderService from '@/services/order.service';
+import { OrderService } from '@/services/order.service';
 import { VendorProvider } from '@/provider/vendor.provider';
-import ProductService from '@/services/product.service';
+import { ProductService } from '@/services/product.service';
 import ProductCheckboxList from '@/components/Product/CheckboxList';
 import flatPickr from 'vue-flatpickr-component';
-import 'flatpickr/dist/flatpickr.css';
 
 export default {
   props: {
@@ -207,3 +206,6 @@ export default {
   }
 };
 </script>
+<style scoped>
+@import 'flatpickr/dist/flatpickr.css';
+</style>

@@ -1,24 +1,44 @@
-import axios from "axios";
-import ApiService from "./api.service";
+import { ApiService } from '@/services/api.service';
 
-class ChoiceService extends ApiService {
-  choices = [];
-  error = [];
+export class ChoiceService extends ApiService {
+  constructor() {
+    super();
+    this.uri = 'choices';
+  }
 
-  getAll(orderId) {
-    return new Promise((resolve, reject) => {
-      axios
-        .get(this.base + "/orders/" + orderId + "/choices", this.config)
-        .then(response => {
-          this.choices = response.data;
-          resolve(this.choices);
-        })
-        .catch(errors => {
-          this.errors.push(errors);
-          reject(this.errors);
-        });
+  getAllFromOrder(orderId) {
+    return this.client.get(`orders/${orderId}/${this.uri}`);
+  }
+
+  find(id) {
+    return this.client.get(`${this.uri}/${id}`);
+  }
+
+  getFromOrder(orderId) {
+    return this.client.get(`orders/${orderId}/choice`);
+  }
+
+  getFromProduct(Product) {
+    return this.client.get(`vendors/${Product.vendorId}/products/${Product.id}/choices`);
+  }
+
+  store(User, Order, Product, comment) {
+    return this.client.put(`orders/${Order.id}/choices`, {
+      orderId: Order.id,
+      userId: User.id,
+      productId: Product.id,
+      orderComment: comment
     });
   }
-}
 
-export default new ChoiceService();
+  rate(orderId, Score) {
+    return this.client.patch(`orders/${orderId}/ratings`, {
+      mark: Score.score,
+      scoreComment: Score.comment
+    });
+  }
+
+  remove(orderId, choiceId) {
+    return this.client.delete(`orders/${orderId}/choices/${choiceId}`);
+  }
+}

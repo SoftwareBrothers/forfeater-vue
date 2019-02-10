@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import UserProvider from '@/provider/user.provider';
+import { UserProvider } from '@/provider/user.provider';
 import ErrorAlert from '@/components/Alerts/Error';
 
 export default {

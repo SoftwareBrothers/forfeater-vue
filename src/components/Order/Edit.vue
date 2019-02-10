@@ -2,8 +2,12 @@
   <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link :to="{ name: 'Home' }">Home</router-link></li>
-        <li class="breadcrumb-item"><router-link :to="{ name: 'OrderList' }">Orders</router-link></li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'Home' }">Home</router-link>
+        </li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'OrderList' }">Orders</router-link>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">Edit</li>
       </ol>
     </nav>
@@ -24,9 +28,10 @@
 </template>
 
 <script>
-import OrderService from "@/services/order.service";
-import OrderForm from "@/components/Order/Form";
-import ProductService from "@/services/product.service";
+import { OrderService } from '@/services/order.service';
+import { ProductService } from '@/services/product.service';
+
+import OrderForm from '@/components/Order/Form';
 
 export default {
   data() {
@@ -37,46 +42,32 @@ export default {
         userId: null,
         deadlineAt: null,
         deliveryAt: null
-      }
+      },
+      service: new OrderService(),
+      productService: new ProductService()
     };
   },
   beforeCreate() {
-    OrderService.find(this.$route.params.id)
-      .then(order => {
-        this.Order = order;
-        this.loadProducts();
-      })
-      .catch(errors => {
-        console.log(errors);
-      });
+    this.service.find(this.$route.params.id).then(response => {
+      this.Order = response.data;
+      this.loadProducts();
+    });
   },
   methods: {
     loadProducts: function() {
-      this.products = null;
+      this.productService.getAll(this.Order.vendorId).then(resonse => {
+        this.checkedProducts = response.data
+          .filter(product => {
+            return product.active;
+          })
+          .map(product => {
+            return product.id;
+          });
 
-      ProductService.getAll(this.Order.vendorId)
-        .then(products => {
-          this.checkedProducts = products
-            .filter(product => {
-              return product.active;
-            })
-            .map(product => {
-              return product.id;
-            });
-
-          this.products = products;
-          console.log(this.products);
-        })
-        .catch(errors => {
-          console.log(errors);
-        });
+        this.products = response.data;
+      });
     }
   },
-  components: {
-    OrderForm
-  }
+  components: { OrderForm }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

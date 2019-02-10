@@ -1,6 +1,6 @@
-import { ApiProvider } from '@/provider/api.provider';
+import { ApiService } from '@/services/api.service';
 
-export class VendorProvider extends ApiProvider {
+export class VendorService extends ApiService {
   constructor() {
     super();
     this.uri = '/vendors';

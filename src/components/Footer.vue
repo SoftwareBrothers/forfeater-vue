@@ -1,13 +1,7 @@
 <template>
-<footer class="footer">
+  <footer class="footer">
     <div class="container">
-        <span class="">Made by Nodiro Team.</span>
+      <span class>Made by Nodiro Team.</span>
     </div>
-</footer>
+  </footer>
 </template>
-
-<script>
-</script>
-
-<style lang="scss" scoped>
-</style>

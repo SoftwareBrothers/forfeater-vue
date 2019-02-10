@@ -8,7 +8,7 @@
         <li class="breadcrumb-item">
           <router-link :to="{ name: 'OrderList' }">Orders</router-link>
         </li>
-        <!-- <li class="breadcrumb-item active" aria-current="page">Edit</li> -->
+        <li class="breadcrumb-item active" aria-current="page">Edit</li>
       </ol>
     </nav>
     <div class="row pt-3">
@@ -16,7 +16,6 @@
         <h1 class="text-center">Score your order</h1>
       </div>
     </div>
-    <div v-if="alertText" :class="alertClass" role="alert">{{ alertText }}</div>
     <div>
       <div class="row">
         <div class="col-sm-12">
@@ -47,16 +46,15 @@
 </template>
 
 <script>
-import { ChoiceProvider } from '@/provider/choice.provider';
-
 import ScoreForm from '@/components/Choice/ScoreForm';
+import { ChoiceService } from '@/services/choice.service';
 
 export default {
   data() {
     return {
       score: {
         score: null,
-        comment: ''
+        comment: null
       },
       Choice: {
         orderId: null,
@@ -68,38 +66,23 @@ export default {
         order: {},
         product: {}
       },
-      alertText: '',
-      alertClass: ''
+      service = new ChoiceService()
     };
   },
   methods: {
-    sendForm: function() {
+    sendForm: async function() {
       if (this.score.score) {
-        new ChoiceProvider()
-          .rate(this.$route.params.id, this.score)
-          .then(response => {
-            this.alertText = 'You scored and commented the order!';
-            this.alertClass = 'alert alert-success';
-            this.Choice = response.data;
-          })
-          .catch(errors => {
-            this.alertText = 'Something went wrong!';
-            this.alertClass = 'alert alert-danger';
-            this.appErrors.push(errors);
-          });
+        this.service.rate(this.$route.params.id, this.score).then(response => {
+          this.Choice = response.data;
+        });
       }
     }
   },
   beforeCreate() {
-    new ChoiceProvider()
-      .getFromOrder(this.$route.params.id)
+    this.service.getFromOrder(this.$route.params.id)
       .then(response => {
         this.Choice = response.data;
-        console.log(choice);
       })
-      .catch(errors => {
-        console.log(errors);
-      });
   },
   components: {
     ScoreForm

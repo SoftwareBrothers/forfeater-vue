@@ -91,12 +91,7 @@ export default {
       this.isClicked = false;
     },
     disabled() {
-      return (
-        this.username.length === 0 ||
-        this.password.length === 0 ||
-        this.errors.any() ||
-        this.isClicked
-      );
+      return this.username.length === 0 || this.password.length === 0 || this.errors.any() || this.isClicked;
     }
   },
   beforeCreate() {
@@ -107,3 +102,7 @@ export default {
   components: { Loading, ErrorAlert }
 };
 </script>
+
+<style lang="scss" scoped>
+@import '~buefy/src/scss/components/_loading.scss';
+</style>

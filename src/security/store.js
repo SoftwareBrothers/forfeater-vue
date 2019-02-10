@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { UserProvider } from '@/security/user.provider';
+import { AuthService } from '@/services/auth.service';
 import { getExpireDate } from '@/helper/date.helper';
 
 Vue.use(Vuex);
 
-const provider = new UserProvider();
+const provider = new AuthService();
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';

@@ -1,8 +1,7 @@
-var qs = require('qs');
+import { ApiService } from '@/services/api.service';
+import qs from 'qs';
 
-import { ApiProvider } from '@/provider/api.provider';
-
-export class UserProvider extends ApiProvider {
+export class AuthService extends ApiService {
   constructor() {
     super();
     this.uri = 'auth';
@@ -22,11 +21,8 @@ export class UserProvider extends ApiProvider {
     });
   }
 
-  provide(access_token) {
-    return this.client.get(`${this.uri}/user`, {
-      headers: {
-        Authorization: `Bearer ${access_token}`
-      }
-    });
+  provide() {
+    this.initToken();
+    return this.client.get(`${this.uri}/user`);
   }
 }

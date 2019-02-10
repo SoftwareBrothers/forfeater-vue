@@ -1,12 +1,10 @@
 <template>
   <div class="container">
-    <div v-if="orders.length > 0">
-      <div v-if="alertText" :class="alertClass" role="alert">{{ alertText }}</div>
+    <div v-if="orders.length">
       <div class="mt-3 d-flex flex-row justify-content-center">
         <div
           v-for="(order,key) in orders"
           :key="key"
-          v-if="order.vendor.products"
           @click="orderSelected(order)"
           class="card border-warning mx-2 my-2"
         >
@@ -60,83 +58,49 @@
         >Send</button>
       </div>
     </div>
-    <h2 class="alert alert-danger text-center" v-if="orders.length == 0">{{ noOrderMessage }}</h2>
   </div>
 </template>
 
 <script>
 import ProductsInputList from '@/components/Product/InputsList';
-import OrderProvider from '@/provider/order.provider';
-import ProductProvider from '@/provider/product.provider';
-import { ChoiceProvider } from '@/provider/choice.provider';
-import ChoiceService from '@/services/choice.service';
 import Countdown from '@/components/Helpers/Countdown';
+import { ChoiceService } from '@/services/choice.service';
+
 
 export default {
   data: () => {
     return {
-      appErrors: [],
       orders: [],
       choice: {
         order: {},
         product: null,
         comment: ''
       },
-      provider: new ChoiceProvider(),
-      noOrderMessage: 'There is no restaurants available for today',
-      alertText: '',
-      alertClass: ''
+      service: new ChoiceService()
     };
   },
   methods: {
     getProducts(vendor) {},
-    sendForm: function() {
+    sendForm: async function() {
       if (this.choice.product) {
-        this.provider
-          .store(
-            this.$store.getters.user,
-            this.choice.order,
-            this.choice.product,
-            this.choice.comment
-          )
-          .then(response => {
-            const choice = response.data;
-            this.alertText = 'Your choice was added!';
-            this.alertClass = 'alert alert-success';
-            this.orders.find(x => x.id === choice.orderId).choice = {
-              id: choice.id,
-              product: this.choice.product,
-              comment: this.choice.comment
-            };
-            this.choice.comment = '';
-          })
-          .catch(errors => {
-            console.log(errors);
-
-            this.alertText = 'Something went wrong!';
-            this.alertClass = 'alert alert-danger';
-            this.appErrors.push(errors);
-          });
+        const response = await this.service.store(this.$store.getters.user, this.choice.order, this.choice.product, this.choice.comment);
+        const choice = response.data;
+        this.orders.find(x => x.id === choice.orderId).choice = {
+          id: choice.id,
+          product: this.choice.product,
+          comment: this.choice.comment
+        };
+        this.choice.comment = '';
       }
     },
-    removeChoice: function(order) {
-      this.provider
-        .remove(order.id, order.choice.id)
-        .then(data => {
-          this.alertText = 'Your choice was canceled!';
-          this.alertClass = 'alert alert-success';
-          this.choice.comment = '';
-          this.orders.find(x => x.id === order.id).choice = {
-            id: null,
-            product: null,
-            comment: ''
-          };
-        })
-        .catch(errors => {
-          this.alertText = 'Something went wrong!';
-          this.alertClass = 'alert alert-danger';
-          this.appErrors.push(errors);
-        });
+    removeChoice: async function(order) {
+      const response = this.service.remove(order.id, order.choice.id);
+      this.choice.comment = '';
+      this.orders.find(x => x.id === order.id).choice = {
+        id: null,
+        product: null,
+        comment: ''
+      };
     },
     productSelected: function(product, order) {
       this.orders.find(x => x.id === order.id).choice.product = product;
@@ -150,42 +114,9 @@ export default {
     }
   },
   computed: {},
-  created() {
-    new OrderProvider()
-      .getActive()
-      .then(response => {
-        response.data.forEach(order => {
-          new ProductProvider()
-            .getAllActiveByVendor(order.vendor.id)
-            .then(resposne => {
-              order.vendor.products = resposne.data || [];
-              ChoiceService.getAll(order.id)
-                .then(choices => {
-                  let userChoice = choices.find(x => x.userId === this.$store.getters.user.id);
-                  order.choice = {
-                    id: userChoice ? userChoice.id : null,
-                    product: userChoice ? userChoice.product : null,
-                    comment: userChoice ? userChoice.orderComment : ''
-                  };
-
-                  this.orders.push(order);
-                })
-                .catch(errors => {
-                  console.log(errors);
-                });
-            })
-            .catch(errors => {
-              this.appErrors.push(errors);
-            });
-        });
-      })
-      .catch(errors => {
-        this.appErrors.push(errors);
-      });
+  async created() {
+    this.orders = await new OrderProvider().getAllWithProductChoices();
   },
-  components: {
-    ProductsInputList,
-    Countdown
-  }
+  components: { ProductsInputList, Countdown }
 };
 </script>
