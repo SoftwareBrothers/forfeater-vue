@@ -11,6 +11,7 @@ const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
 const AUTH = 'AUTH';
 const NOTIFICATION = 'NOTIFICATION';
+const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 
 const state = {
   user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
@@ -36,11 +37,12 @@ const mutations = {
   },
   [AUTH](state, token, date) {
     state.token = token;
-    localStorage.setItem('token', token);
-    localStorage.setItem('token_expires_at', getExpireDate(date));
   },
   [NOTIFICATION](state, notification) {
     state.notification = notification;
+  },
+  [CLEAR_NOTIFICATION](state) {
+    state.notification = null;
   }
 };
 
@@ -52,7 +54,9 @@ const actions = {
     });
     if (data) {
       let token = data.access_token;
-      context.commit(AUTH, token, data.expires_in);
+      context.commit(AUTH, token);
+      localStorage.setItem('token', token);
+      localStorage.setItem('token_expires_at', getExpireDate(data.expires_in));
       return token;
     }
     return false;
@@ -63,18 +67,23 @@ const actions = {
     localStorage.removeItem('user');
     localStorage.removeItem('token_expires_at');
   },
-  getUser: async (context, token) => {
-    const access_token = token || localStorage.getItem('token') || null;
-    if (access_token) {
-      const data = await service.provide(access_token);
-      const user = data.data;
-      context.commit(LOGIN, user);
-      localStorage.setItem('user', JSON.stringify(user));
-      return user;
+  getUser: async context => {
+    const token = localStorage.getItem('token') || null;
+    if (token) {
+      const user = await service.getUserProfile(token);
+      if (user) {
+        context.commit(LOGIN, user);
+        localStorage.setItem('user', JSON.stringify(user));
+        return user;
+      }
     }
+    return false;
   },
   setNotification: (context, notification) => {
     context.commit(NOTIFICATION, notification);
+  },
+  removeNotification: context => {
+    context.commit(CLEAR_NOTIFICATION);
   }
 };
 

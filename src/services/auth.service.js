@@ -24,13 +24,19 @@ export class AuthService extends ApiService {
       });
       return response.data;
     } catch (error) {
-      store.dispatch('setNotification', { type: 'error', message: `errors.auth.general` });
+      store.dispatch('setNotification', { type: 'error', message: error.message });
       return false;
     }
   }
 
-  provide() {
+  async getUserProfile() {
     this.initToken();
-    return this.client.get(`${this.uri}/user`);
+    try {
+      const response = await this.client.get(`${this.uri}/user`);
+      return response.data;
+    } catch (error) {
+      store.dispatch('setNotification', { type: 'error', message: error.message });
+      return false;
+    }
   }
 }

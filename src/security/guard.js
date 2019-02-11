@@ -11,8 +11,6 @@ class Guard {
   }
 
   async isAuthenticated(to, from, next) {
-    next(redirectToLogin);
-
     let redirectToLogin = {
       name: 'Login',
       query: {

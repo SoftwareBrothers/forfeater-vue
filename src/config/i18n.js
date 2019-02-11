@@ -5,7 +5,7 @@ import messages from '@/i18n';
 
 Vue.use(VueI18n);
 
-export const i18n = new VueI18n({
+export default new VueI18n({
   locale: process.env.VUE_APP_LOCALE || 'en',
   messages
 });

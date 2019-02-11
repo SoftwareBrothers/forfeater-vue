@@ -2,7 +2,6 @@
   <div class="container pt-5">
     <div class="row">
       <div class="col-12 col-md-8 col-lg-4 mx-auto w-100">
-        <ErrorAlert :title="null" :content="$t(error)" v-if="error"/>
         <form @submit.prevent="login()">
           <div class="form-group">
             <div class="col-sm">
@@ -44,62 +43,53 @@
           </div>
           <div class="form-group">
             <div class="col-sm text-center">
-              <button type="submit" class="btn btn-warning" :disabled="disabled()">Send</button>
+              <button
+                type="submit"
+                class="button is-warning"
+                :class="{'is-loading': loading}"
+                :disabled="disabled()"
+              >Send</button>
             </div>
           </div>
         </form>
       </div>
     </div>
-    <Loading :active="loading"></Loading>
   </div>
 </template>
 
 <script>
-import Loading from 'buefy/src/components/loading/Loading.vue';
-import ErrorAlert from '@/components/Alerts/Error';
-
 export default {
   data() {
     return {
       username: '',
       password: '',
-      error: null,
-      loading: false,
-      isClicked: false
+      loading: false
     };
   },
   methods: {
     async login() {
-      this.isClicked = true;
       this.loading = true;
-      try {
-        let token = await this.$store.dispatch('authenticate', {
-          username: this.username,
-          password: this.password
+      let token = await this.$store.dispatch('authenticate', {
+        username: this.username,
+        password: this.password
+      });
+      if (token) {
+        let componentName = this.$route.query.redirect;
+        this.$router.push({
+          name: componentName ? componentName : 'Home'
         });
-
-        if (token !== undefined) {
-          let componentName = this.$route.query.redirect;
-          this.$router.push({
-            name: componentName ? componentName : 'Home'
-          });
-        }
-      } catch (error) {
-        this.error = 'errors.auth.general';
       }
       this.loading = false;
-      this.isClicked = false;
     },
     disabled() {
-      return this.username.length === 0 || this.password.length === 0 || this.errors.any() || this.isClicked;
+      return this.username.length === 0 || this.password.length === 0 || this.errors.any() || this.loading;
     }
   },
   beforeCreate() {
     if (this.$store.token) {
       this.$router.push({ name: 'UserProfile' });
     }
-  },
-  components: { Loading, ErrorAlert }
+  }
 };
 </script>
 

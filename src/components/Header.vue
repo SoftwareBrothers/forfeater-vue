@@ -86,4 +86,8 @@ export default {
     padding: 0;
   }
 }
+
+header {
+  margin-bottom: 2rem;
+}
 </style>

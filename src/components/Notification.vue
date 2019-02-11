@@ -1,22 +1,32 @@
 <template>
-  <BNotification v-if="type" :type="type" has-icon>{{message}}</BNotification>
+  <div class="container" v-if="type">
+    <div class="columns">
+      <div class="column"></div>
+      <div class="column is-8">
+        <b-notification :type="type" has-icon auto-close @close="close()">{{message}}</b-notification>
+      </div>
+      <div class="column"></div>
+    </div>
+  </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import BNotification from 'buefy/src/components/notification/Notification.vue';
 
 export default Vue.extend({
   name: 'Notification',
   data() {
     return {
       notification: {
-          type: null,
-          message: null
+        type: null,
+        message: null
       }
     };
   },
   computed: {
     type() {
+      if (!this.notification) {
+        return null;
+      }
       switch (this.notification.type) {
         case 'error':
           return 'is-danger';
@@ -24,18 +34,24 @@ export default Vue.extend({
           return null;
       }
     },
-    message(){
-        return this.$t(this.notification.message);
+    message() {
+      return this.notification.message;
     }
   },
   mounted() {
-    this.$store.watch(function (state) {
-        return state.notification
-    }, (notification) => {
-      console.warn(notification);
-      this.notification = notification;
-    });
+    this.$store.watch(
+      function(state) {
+        return state.notification;
+      },
+      notification => {
+        this.notification = notification;
+      }
+    );
   },
-  components: { BNotification }
+  methods: {
+    close() {
+      this.$store.dispatch('removeNotification');
+    }
+  }
 });
 </script>
