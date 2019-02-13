@@ -2,9 +2,17 @@
   <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link :to="{ name: 'Home' }">Home</router-link></li>
-        <li class="breadcrumb-item"><router-link :to="{ name: 'VendorList' }">Vendors</router-link></li>
-        <li class="breadcrumb-item active"><router-link :to="{ name: 'ProductList', params: { vendorId: this.$route.params.vendorId }}">Products</router-link></li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'Home' }">Home</router-link>
+        </li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'VendorList' }">Vendors</router-link>
+        </li>
+        <li class="breadcrumb-item active">
+          <router-link
+            :to="{ name: 'ProductList', params: { vendorId: this.$route.params.vendorId }}"
+          >Products</router-link>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">Edit</li>
       </ol>
     </nav>
@@ -18,8 +26,8 @@
 </template>
 
 <script>
-import ProductService from "@/services/product.service";
-import ProductTable from "@/components/Product/Table";
+import { ProductService } from '@/services/product.service';
+import ProductTable from '@/components/Product/Table';
 
 export default {
   data() {
@@ -27,20 +35,9 @@ export default {
       products: {}
     };
   },
-  created() {
-    ProductService.getAll(this.$route.params.vendorId)
-      .then(products => {
-        this.products = products;
-      })
-      .catch(errors => {
-        // console.log(errors);
-      });
+  async created() {
+    this.products = await ProductService.getAll(this.$route.params.vendorId);
   },
-  components: {
-    ProductTable
-  }
+  components: { ProductTable }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

@@ -68,23 +68,20 @@ export default {
     };
   },
   async created() {
-    this.orderService.find(this.$route.params.orderId).then(response => {
-      this.order = response.data;
-      this.vendorService.find(this.order.vendorId).then(response => (this.vendor = response.data));
-    });
+    this.order = await this.orderService.find(this.$route.params.orderId);
+    this.vendor = await this.vendorService.find(this.order.vendorId);
 
-    this.service.getAll(this.$route.params.orderId).then(response => {
-      this.choices = response.data
-        .sort((a, b) => a.productId - b.productId)
-        .map((item, key) =>
-          Object.assign({}, item, {
-            index: key,
-            userFullName: `${item.user.lastName} ${item.user.firstName}`,
-            productName: item.product.name
-          })
-        );
-      this.tableData = this.choices;
-    });
+    this.choices = await this.service
+      .getAll(this.$route.params.orderId)
+      .sort((a, b) => a.productId - b.productId)
+      .map((item, key) =>
+        Object.assign({}, item, {
+          index: key,
+          userFullName: `${item.user.lastName} ${item.user.firstName}`,
+          productName: item.product.name
+        })
+      );
+    this.tableData = this.choices;
   },
   components: { ChoiceTable, Print }
 };

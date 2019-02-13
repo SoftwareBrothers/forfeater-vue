@@ -28,10 +28,7 @@ export default {
     };
   },
   async mounted() {
-    try {
-      const response = await this.service.getAll();
-      this.vendors = response.data;
-    } catch (error) {}
+    this.vendors = await this.service.getAll();
   },
   components: { VendorTable }
 };

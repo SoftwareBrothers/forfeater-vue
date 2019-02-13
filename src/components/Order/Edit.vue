@@ -47,25 +47,20 @@ export default {
       productService: new ProductService()
     };
   },
-  beforeCreate() {
-    this.service.find(this.$route.params.id).then(response => {
-      this.Order = response.data;
-      this.loadProducts();
-    });
+  async beforeCreate() {
+    this.Order = await this.service.find(this.$route.params.id);
+    this.loadProducts();
   },
   methods: {
-    loadProducts: function() {
-      this.productService.getAll(this.Order.vendorId).then(resonse => {
-        this.checkedProducts = response.data
-          .filter(product => {
-            return product.active;
-          })
-          .map(product => {
-            return product.id;
-          });
-
-        this.products = response.data;
-      });
+    loadProducts: async function() {
+      this.products = await this.productService.getAll(this.Order.vendorId);
+      this.checkedProducts = this.products
+        .filter(product => {
+          return product.active;
+        })
+        .map(product => {
+          return product.id;
+        });
     }
   },
   components: { OrderForm }

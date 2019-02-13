@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     remove: function(choiceId, key) {
-      this.service.remove(this.$route.params.orderId, choiceId).then(response => {
+      this.service.remove(this.$route.params.orderId, choiceId).then(() => {
         this.choices.splice(key, 1);
       });
     }

@@ -30,10 +30,7 @@ export default {
     };
   },
   async created() {
-    try {
-      const response = await this.service.getAll();
-      this.users = response.data;
-    } catch (error) {}
+    this.users = await this.service.getAll();
   },
   components: {
     UserTable

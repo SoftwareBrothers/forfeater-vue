@@ -113,15 +113,10 @@ export default {
     };
   },
   methods: {
-    save: function(type) {
+    save: async function(type) {
       if (!this.errors.any()) {
-        this.service[type](this.User)
-          .then(user => {
-            this.$router.push('/users');
-          })
-          .catch(errors => {
-            this.errors.push(errors);
-          });
+        await this.service[type](this.User);
+        this.$router.push('/users');
       }
     }
   }

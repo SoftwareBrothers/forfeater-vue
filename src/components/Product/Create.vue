@@ -2,9 +2,17 @@
   <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link :to="{ name: 'Home' }">Home</router-link></li>
-        <li class="breadcrumb-item"><router-link :to="{ name: 'VendorList' }">Vendors</router-link></li>
-        <li class="breadcrumb-item active"><router-link :to="{ name: 'ProductList', params: { vendorId: this.$route.params.vendorId }}">Products</router-link></li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'Home' }">Home</router-link>
+        </li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'VendorList' }">Vendors</router-link>
+        </li>
+        <li class="breadcrumb-item active">
+          <router-link
+            :to="{ name: 'ProductList', params: { vendorId: this.$route.params.vendorId }}"
+          >Products</router-link>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">Create</li>
       </ol>
     </nav>
@@ -25,18 +33,9 @@
 </template>
 
 <script>
-import ProductService from "@/services/product.service";
-import ProductForm from "@/components/Product/Form";
+import ProductForm from '@/components/Product/Form';
 
 export default {
-  data() {
-    return {};
-  },
-  components: {
-    ProductForm
-  }
+  components: { ProductForm }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

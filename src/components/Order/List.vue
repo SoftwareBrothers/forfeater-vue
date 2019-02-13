@@ -19,46 +19,19 @@
 
 <script>
 import { OrderService } from '@/services/order.service';
-import OrderTable from '@/components/Order/Table';
 import { ChoiceService } from '@/services/choice.service';
+import OrderTable from '@/components/Order/Table';
 
 export default {
   data() {
     return {
-      orders: []
+      orders: [],
+      service: new OrderService()
     };
   },
-  created() {
-    new OrderService()
-      .getAll()
-      .then(orders => {
-        orders.forEach(order => {
-          new ChoiceService()
-            .getAll(order.id)
-            .then(choices => {
-              const userChoice = choices.find(x => x.userId === this.$store.getters.user.id);
-
-              order.choice = {
-                product: userChoice ? userChoice.product : null,
-                comment: userChoice ? userChoice.comment : ''
-              };
-
-              this.orders.push(order);
-            })
-            .catch(errors => {
-              console.log(errors);
-            });
-        });
-      })
-      .catch(errors => {
-        console.log(errors);
-      });
+  async created() {
+    this.orders = await this.service.getAllWithProductChoices();
   },
-  components: {
-    OrderTable
-  }
+  components: { OrderTable }
 };
 </script>
-
-<style lang="scss">
-</style>

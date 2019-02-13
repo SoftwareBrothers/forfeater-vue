@@ -45,16 +45,15 @@ export default {
   data: function() {
     return {
       input: this.user.email ? this.fullName(this.user) : '',
-      appErrors: [],
       users: [],
       results: [],
       isOpen: false,
+      error: null,
       service: new UserService()
     };
   },
   async created() {
-    const response = this.service.getAll();
-    this.users = response.data();
+    this.users = await this.service.getAll();
   },
   methods: {
     onSelect: function(user) {

@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import store from '@/config/store';
 
 import { ApiService } from '@/services/api.service';
 import { ProductService } from '@/services/product.service';
@@ -26,6 +26,10 @@ export class OrderService extends ApiService {
     return this.client.get(this.uri);
   }
 
+  getOrderWithChoices(orderId) {
+    return this.client.get(`${this.uri}/${orderId}/choices`);
+  }
+
   remove(orderId) {
     return this.client.delete(`${this.uri}/${orderId}`);
   }
@@ -40,16 +44,15 @@ export class OrderService extends ApiService {
 
   async getAllWithProductChoices() {
     const orders = [];
-    const response = await this.getAll();
-    response.data.forEach(async order => {
-      const productResponse = await this.productService.getAllActiveByVendor(order.vendor.id);
-      order.vendor.products = productResponse.data || [];
-      const choiceResponse = this.choiceService.getAll(order.id);
-      let userChoice = choiceResponse.data.find(x => x.userId === Vue.$store.getters.user.id);
+    const data = await this.getAll();
+    data.forEach(async order => {
+      order.vendor.products = await this.productService.getAllActiveByVendor(order.vendor.id);
+      const choices = await this.getOrderWithChoices(order.id);
+      let userChoice = choices.find(x => x.userId === store.getters.user.id);
       order.choice = {
-        id: userChoice.id || null,
-        product: userChoice.product || null,
-        comment: userChoice.orderComment || ''
+        id: (userChoice && userChoice.id) || null,
+        product: (userChoice && userChoice.product) || null,
+        comment: (userChoice && userChoice.orderComment) || ''
       };
 
       orders.push(order);

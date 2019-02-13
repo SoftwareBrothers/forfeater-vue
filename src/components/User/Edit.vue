@@ -45,10 +45,7 @@ export default {
     };
   },
   async mounted() {
-    try {
-      const response = await this.service.find(this.$route.params.id);
-      this.User = response.data;
-    } catch (error) {}
+    this.User = await this.service.find(this.$route.params.id);
   },
   components: { UserForm }
 };

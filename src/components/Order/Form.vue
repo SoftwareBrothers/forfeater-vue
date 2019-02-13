@@ -96,7 +96,7 @@ export default {
   data() {
     return {
       vendors: {},
-      // products: {},
+      products: null,
       user: null,
       checkedProducts: [],
       config: {
@@ -114,8 +114,7 @@ export default {
   },
   async created() {
     this.user = this.$store.getters.user;
-    response = await this.vendorService.getAll();
-    this.vendors = response.data;
+    this.vendors = await this.vendorService.getAll();
   },
   methods: {
     save: async function(type) {
@@ -124,25 +123,20 @@ export default {
       if (isValid && !this.errors.any()) {
         this.Order.userId = this.user.id;
 
-        await this.service[type](this.Order).then(() => {
+        this.service[type](this.Order).then(() => {
           this.$router.push('/orders');
         });
       }
     },
-    loadProducts: function() {
-      this.products = null;
-
-      ProductService.getAll(this.Order.vendorId).then(products => {
-        this.checkedProducts = products
-          .filter(product => {
-            return product.active;
-          })
-          .map(product => {
-            return product.id;
-          });
-
-        this.products = products;
-      });
+    loadProducts: async function() {
+      this.products = await this.productService.getAll(this.Order.vendorId);
+      this.checkedProducts = this.products
+        .filter(product => {
+          return product.active;
+        })
+        .map(product => {
+          return product.id;
+        });
     },
 
     productsSelected: function(productIds) {
@@ -150,13 +144,11 @@ export default {
     },
 
     sendProducts: function() {
-      for (var index in this.products) {
-        var product = this.products[index];
-
-        product.active = this.checkedProducts.indexOf(product.id) >= 0 ? 1 : 0;
-
-        ProductService.update(product).then(product => {});
-      }
+      this.products = this.products.map(async product => {
+        product.active = Number(this.checkedProducts.indexOf(product.id) !== -1);
+        await this.productService.update(product);
+        return product;
+      });
     }
   },
 
@@ -176,5 +168,6 @@ export default {
 };
 </script>
 <style scoped>
+/* TODO: Move to seperate component */
 @import '~flatpickr/dist/flatpickr.css';
 </style>

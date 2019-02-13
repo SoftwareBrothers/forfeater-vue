@@ -85,8 +85,7 @@ export default {
     getProducts(vendor) {},
     sendForm: async function() {
       if (this.choice.product) {
-        const response = await this.service.store(this.$store.getters.user, this.choice.order, this.choice.product, this.choice.comment);
-        const choice = response.data;
+        const choice = await this.service.store(this.$store.getters.user, this.choice.order, this.choice.product, this.choice.comment);
         this.orders.find(x => x.id === choice.orderId).choice = {
           id: choice.id,
           product: this.choice.product,
@@ -96,7 +95,7 @@ export default {
       }
     },
     removeChoice: async function(order) {
-      const response = this.service.remove(order.id, order.choice.id);
+      await this.service.remove(order.id, order.choice.id);
       this.choice.comment = '';
       this.orders.find(x => x.id === order.id).choice = {
         id: null,

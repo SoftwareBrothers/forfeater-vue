@@ -72,16 +72,12 @@ export default {
   methods: {
     sendForm: async function() {
       if (this.score.score) {
-        this.service.rate(this.$route.params.id, this.score).then(response => {
-          this.Choice = response.data;
-        });
+        this.Choice = await this.service.rate(this.$route.params.id, this.score);
       }
     }
   },
-  beforeCreate() {
-    this.service.getFromOrder(this.$route.params.id).then(response => {
-      this.Choice = response.data;
-    });
+  async beforeCreate() {
+    this.Choice = await this.service.getFromOrder(this.$route.params.id);
   },
   components: { ScoreForm }
 };

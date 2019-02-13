@@ -65,11 +65,9 @@ export default {
   methods: {
     save: function(type) {
       if (!this.errors.any()) {
-        this.service[type](this.Vendor)
-          .then(vendor => {
-            this.$router.push('/vendors');
-          })
-          .catch(errors => {});
+        this.service[type](this.Vendor).then(vendor => {
+          this.$router.push('/vendors');
+        });
       }
     }
   }

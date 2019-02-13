@@ -62,11 +62,10 @@ export default {
     };
   },
   methods: {
-    changePassword: function() {
+    changePassword: async function() {
       if (!this.errors.any()) {
-        this.service.changePassword(this.User, this.newPassword).then(response => {
-          this.$router.go('-1');
-        });
+        await this.service.changePassword(this.User, this.newPassword);
+        this.$router.go('-1');
       }
     }
   },

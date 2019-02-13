@@ -1,7 +1,6 @@
 import qs from 'qs';
 
 import { ApiService } from '@/services/api.service';
-import store from '@/config/store';
 
 export class AuthService extends ApiService {
   constructor() {
@@ -16,27 +15,15 @@ export class AuthService extends ApiService {
       client_id: process.env.VUE_APP_API_CLIENT_ID || 'forfeaterWeb',
       client_secret: process.env.VUE_APP_API_CLIENT_SECRET || 'forfeaterSecret'
     };
-    try {
-      const response = await this.client.post(`${this.uri}/login`, qs.stringify(data), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      });
-      return response.data;
-    } catch (error) {
-      store.dispatch('setNotification', { type: 'error', message: error.message });
-      return false;
-    }
+    return await this.client.post(`${this.uri}/login`, qs.stringify(data), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
   }
 
   async getUserProfile() {
     this.initToken();
-    try {
-      const response = await this.client.get(`${this.uri}/user`);
-      return response.data;
-    } catch (error) {
-      store.dispatch('setNotification', { type: 'error', message: error.message });
-      return false;
-    }
+    return await this.client.get(`${this.uri}/user`);
   }
 }

@@ -63,13 +63,10 @@ export default {
   },
   methods: {
     remove: function(userId, key) {
-      this.service
-        .remove(userId)
-        .then(user => {
-          this.users.splice(key, 1);
-          this.$emit('users:update', this.users);
-        })
-        .catch(errors => {});
+      this.service.remove(userId).then(user => {
+        this.users.splice(key, 1);
+        this.$emit('users:update', this.users);
+      });
     }
   }
 };

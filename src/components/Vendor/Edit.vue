@@ -43,10 +43,7 @@ export default {
     };
   },
   async mounted() {
-    try {
-      const response = await this.service.find(this.$route.params.id);
-      this.Vendor = response.data;
-    } catch (error) {}
+    this.Vendor = await this.service.find(this.$route.params.id);
   },
   components: {
     VendorForm

@@ -35,7 +35,7 @@ const mutations = {
     state.user = null;
     state.token = null;
   },
-  [AUTH](state, token, date) {
+  [AUTH](state, token) {
     state.token = token;
   },
   [NOTIFICATION](state, notification) {

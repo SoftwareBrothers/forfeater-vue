@@ -24,27 +24,15 @@
           <div class="form-group custom-control w-100">
             <label for="name">User</label>
             <UserAutoComplete :user.sync="choice.user" v-if="!choice.id"></UserAutoComplete>
-            <div
-              v-if="choice.id"
-            >{{ choice.user.firstName }} {{ choice.user.lastName }} ({{ choice.user.email }})</div>
+            <div v-if="choice.id">{{ choice.user.firstName }} {{ choice.user.lastName }} ({{ choice.user.email }})</div>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group custom-control">
             <label for="name">Product</label>
-            <select
-              v-model="choice.productId"
-              v-validate="'required'"
-              name="product"
-              @change="loadProducts()"
-              class="custom-select w-100"
-            >
+            <select v-model="choice.productId" v-validate="'required'" name="product" @change="loadProducts()" class="custom-select w-100">
               <option :value="null" disabled>Select Product</option>
-              <option
-                v-for="(product,key) in products"
-                :key="key"
-                :value="product.id"
-              >{{ product.name }}</option>
+              <option v-for="(product, key) in products" :key="key" :value="product.id">{{ product.name }}</option>
             </select>
           </div>
         </div>
@@ -57,20 +45,8 @@
       </div>
     </div>
 
-    <button
-      v-if="!choice.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="update"
-    >Create</button>
-    <button
-      v-if="choice.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="update"
-    >Save</button>
+    <button v-if="!choice.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="update">Create</button>
+    <button v-if="choice.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="update">Save</button>
   </form>
 </template>
 
@@ -109,16 +85,15 @@ export default {
         firstName: null,
         lastName: null,
         email: null
-      }
+      },
+      service: new ChoiceService(),
+      orderService: new OrderService(),
+      productService: new ProductService()
     };
   },
-  async beforeCreate() {
-    const response = await OrderService.find(this.$route.params.orderId);
-    this.order = response.data;
-    const productResponse = await ProductService.getAll(this.order.vendorId);
-    this.products = productResponse.data;
-  },
-  created() {
+  async created() {
+    this.order = await this.orderService.find(this.$route.params.orderId);
+    this.products = await this.productService.getAll(this.order.vendorId);
     this.choice.orderId = this.$route.params.orderId;
   },
   methods: {
@@ -128,7 +103,7 @@ export default {
       if (isValid && !this.errors.any()) {
         let updatedProduct = this.selectedProduct ? this.selectedProduct : this.choice.product;
 
-        new ChoiceService().store(this.choice.user, this.order, updatedProduct, this.choice.orderComment);
+        await this.service.store(this.choice.user, this.order, updatedProduct, this.choice.orderComment);
       }
     },
 

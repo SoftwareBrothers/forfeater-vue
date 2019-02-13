@@ -69,13 +69,10 @@ export default {
   },
   methods: {
     remove: function(vendorId, key) {
-      this.service
-        .remove(vendorId)
-        .then(vendor => {
-          this.vendors.splice(key, 1);
-          this.$emit('vendors.update', this.vendors);
-        })
-        .catch(errors => {});
+      this.service.remove(vendorId).then(() => {
+        this.vendors.splice(key, 1);
+        this.$emit('vendors.update', this.vendors);
+      });
     }
   }
 };
