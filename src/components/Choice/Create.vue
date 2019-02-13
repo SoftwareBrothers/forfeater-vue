@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import ChoiceForm from "@/components/Choice/Form";
+import ChoiceForm from '@/components/Choice/Form';
 
 export default {
   components: {

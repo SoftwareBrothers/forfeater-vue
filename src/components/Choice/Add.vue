@@ -2,44 +2,37 @@
   <div class="container">
     <div v-if="orders.length">
       <div class="mt-3 d-flex flex-row justify-content-center">
-        <div
-          v-for="(order,key) in orders"
-          :key="key"
-          @click="orderSelected(order)"
-          class="card border-warning mx-2 my-2"
-        >
+        <div v-for="(order, key) in orders" :key="key" @click="orderSelected(order)" class="card border-warning mx-2 my-2">
           <div class="card-header text-center">
-            <h2>{{order.vendor.name}}</h2>
+            <h2>{{ order.vendor.name }}</h2>
             <small class="badge badge-warning">
               <Countdown v-if="order.deadlineAt" :end="order.deadlineAt"></Countdown>
             </small>
           </div>
           <div class="card-body text-dark">
-            <ProductsInputList
-              :products="order.vendor.products"
-              :order="order"
-              @productSelected="productSelected"
-            ></ProductsInputList>
+            <ProductsInputList :products="order.vendor.products" :order="order" @productSelected="productSelected"></ProductsInputList>
           </div>
           <div class="card-footer bg-transparent border-warning">
             <div>
               <strong>Deadline at:</strong>
-              <small>{{order.deadlineAt | moment}}</small>
+              <small>{{ order.deadlineAt | moment }}</small>
             </div>
             <div>
               <strong>Choice:</strong>
-              <small v-if="order.choice && order.choice.id">{{order.choice.product.name}}</small>
+              <small v-if="order.choice && order.choice.id">{{ order.choice.product.name }}</small>
             </div>
             <div v-if="order.choice && order.choice.comment">
               <strong>Comment:</strong>
-              <small v-if="order.choice">{{order.choice.comment}}</small>
+              <small v-if="order.choice">{{ order.choice.comment }}</small>
             </div>
             <div class="text-center mt-1">
               <button
                 v-if="order.choice.product && beforeDeadline(order)"
                 v-on:click="removeChoice(order)"
                 class="btn btn-sm btn-danger col-white"
-              >Cancel</button>
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
@@ -51,11 +44,7 @@
         </div>
       </div>
       <div class="d-flex justify-content-center mt-4">
-        <button
-          :disabled="!choice.product"
-          class="btn btn-lg btn-warning col-white"
-          v-on:click="sendForm"
-        >Send</button>
+        <button :disabled="!choice.product" class="btn btn-lg btn-warning col-white" v-on:click="sendForm">Send</button>
       </div>
     </div>
   </div>
@@ -82,7 +71,6 @@ export default {
     };
   },
   methods: {
-    getProducts(vendor) {},
     sendForm: async function() {
       if (this.choice.product) {
         const choice = await this.service.store(this.$store.getters.user, this.choice.order, this.choice.product, this.choice.comment);

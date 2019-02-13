@@ -9,9 +9,7 @@
           <router-link :to="{ name: 'VendorList' }">Vendors</router-link>
         </li>
         <li class="breadcrumb-item active">
-          <router-link
-            :to="{ name: 'ProductList', params: { vendorId: this.$route.params.vendorId }}"
-          >Products</router-link>
+          <router-link :to="{ name: 'ProductList', params: { vendorId: this.$route.params.vendorId } }">Products</router-link>
         </li>
         <li class="breadcrumb-item active" aria-current="page">Create</li>
       </ol>

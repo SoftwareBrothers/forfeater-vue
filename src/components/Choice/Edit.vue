@@ -44,7 +44,7 @@ export default {
     };
   },
   async beforeCreate() {
-    this.choice = await service.find(this.$route.params.choiceId);
+    this.choice = await this.service.find(this.$route.params.choiceId);
   },
   components: {
     ChoiceForm

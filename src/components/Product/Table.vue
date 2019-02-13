@@ -3,10 +3,7 @@
     <div class="row">
       <div class="col-sm"></div>
       <div class="col-sm-12">
-        <router-link
-          class="nav-link btn btn-warning btn-custom col-white"
-          :to="{ name: 'ProductCreate' }"
-        >Create product</router-link>
+        <router-link class="nav-link btn btn-warning btn-custom col-white" :to="{ name: 'ProductCreate' }">Create product</router-link>
         <div class="table-responsive">
           <table class="table table-sm table-hover table-bordered table-striped">
             <thead>
@@ -27,22 +24,18 @@
                 <td>
                   <router-link
                     class="btn-action d-inline text-warning"
-                    :to="{ name: 'ProductShow', params: { vendorId: product.vendorId, id: product.id}  }"
+                    :to="{ name: 'ProductShow', params: { vendorId: product.vendorId, id: product.id } }"
                   >
-                    <font-awesome-icon icon="list"/>
+                    <font-awesome-icon icon="list" />
                   </router-link>
                   <router-link
                     class="btn-action d-inline"
                     :to="{ name: 'ProductEdit', params: { vendorId: product.vendorId, id: product.id } }"
                   >
-                    <font-awesome-icon icon="edit"/>
+                    <font-awesome-icon icon="edit" />
                   </router-link>
-                  <a
-                    class="btn-action d-inline text-danger"
-                    href
-                    @click="remove(product.id, key, $event)"
-                  >
-                    <font-awesome-icon icon="trash"/>
+                  <a class="btn-action d-inline text-danger" href @click="remove(product.id, key, $event)">
+                    <font-awesome-icon icon="trash" />
                   </a>
                 </td>
               </tr>

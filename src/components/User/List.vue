@@ -32,11 +32,6 @@ export default {
   async created() {
     this.users = await this.service.getAll();
   },
-  components: {
-    UserTable
-  }
+  components: { UserTable }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

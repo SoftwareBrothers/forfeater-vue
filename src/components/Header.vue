@@ -2,7 +2,7 @@
   <header>
     <nav class="navbar navbar-expand-md navbar-dark justify-content-between">
       <router-link class="navbar-brand p-0" :to="{ name: 'Home' }">
-        <img src="@/assets/images/logo.png" alt="logo" class="navbar-logo"> Forfeater
+        <img src="@/assets/images/logo.png" alt="logo" class="navbar-logo" /> Forfeater
       </router-link>
       <button
         class="navbar-toggler"

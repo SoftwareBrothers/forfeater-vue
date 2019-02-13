@@ -5,7 +5,7 @@
         <label for="score">Rate</label>
         <select v-model="score.score" class="custom-select border-warning" name="score">
           <option :value="null" disabled>Please rate</option>
-          <option v-for="(value,key) in 6" :key="key" :value="value">{{ value }}</option>
+          <option v-for="(value, key) in 6" :key="key" :value="value">{{ value }}</option>
         </select>
       </div>
     </div>

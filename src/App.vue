@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <Header/>
-    <Notification/>
+    <Header />
+    <Notification />
     <main role="main">
-      <router-view/>
+      <router-view />
     </main>
-    <Footer/>
+    <Footer />
   </div>
 </template>
 

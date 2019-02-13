@@ -36,11 +36,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-center mt-4">
-      <button
-        :disabled="!score.score"
-        class="btn btn-lg btn-warning col-white"
-        v-on:click="sendForm"
-      >Send</button>
+      <button :disabled="!score.score" class="btn btn-lg btn-warning col-white" v-on:click="sendForm">Send</button>
     </div>
   </div>
 </template>

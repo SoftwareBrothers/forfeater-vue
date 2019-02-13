@@ -45,8 +45,6 @@ export default {
   async mounted() {
     this.Vendor = await this.service.find(this.$route.params.id);
   },
-  components: {
-    VendorForm
-  }
+  components: { VendorForm }
 };
 </script>

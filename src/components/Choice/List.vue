@@ -18,11 +18,13 @@
       <div class="col-auto mr-auto"></div>
       <div class="col-auto">
         <Print>
-          <template slot="buttonText">Print Order</template>
+          <template slot="buttonText">
+            Print Order
+          </template>
         </Print>
       </div>
     </div>
-    <hr>
+    <hr />
     <div class="row pt-3">
       <div class="col-sm">
         <h1 class="text-center">{{ vendor && vendor.name }} {{ order && order.deliveryAt | moment }}</h1>

@@ -3,23 +3,17 @@
     <div class="form-row">
       <div class="form-group col-md-12 custom-control">
         <label for="name">Vendor</label>
-        <select
-          v-model="Order.vendorId"
-          v-validate="'required'"
-          name="vendorId"
-          @change="loadProducts()"
-          class="custom-select"
-        >
+        <select v-model="Order.vendorId" v-validate="'required'" name="vendorId" @change="loadProducts()" class="custom-select">
           <option :value="null" disabled>Select Vendor</option>
-          <option v-for="(vendor,key) in vendors" :key="key" :value="vendor.id">{{ vendor.name }}</option>
+          <option v-for="(vendor, key) in vendors" :key="key" :value="vendor.id">{{ vendor.name }}</option>
         </select>
-        <div class="invalid-feedback-not-work">{{ errors.first('vendorId')}}</div>
+        <div class="invalid-feedback-not-work">{{ errors.first('vendorId') }}</div>
         <ProductCheckboxList
           :products="products"
           :checkedProducts="checkedProducts"
           @productsSelected="productsSelected"
         ></ProductCheckboxList>
-        <input type="hidden" v-validate:length="'min_value:1'" name="checkedProducts">
+        <input type="hidden" v-validate:length="'min_value:1'" name="checkedProducts" />
       </div>
     </div>
     <div class="form-row">
@@ -36,7 +30,7 @@
             ref="deadlineAt"
           ></flat-pickr>
         </div>
-        <div class="invalid-feedback-not-work">{{ errors.first('deadlineAt')}}</div>
+        <div class="invalid-feedback-not-work">{{ errors.first('deadlineAt') }}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="name">Delivery</label>
@@ -48,24 +42,12 @@
             placeholder="Select date"
             name="deliveryAt"
           ></flat-pickr>
-          <div class="invalid-feedback-not-work">{{ errors.first('deliveryAt')}}</div>
+          <div class="invalid-feedback-not-work">{{ errors.first('deliveryAt') }}</div>
         </div>
       </div>
     </div>
-    <button
-      v-if="!Order.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="save(`store`)"
-    >Create</button>
-    <button
-      v-if="Order.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="save(`update`)"
-    >Save</button>
+    <button v-if="!Order.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="save(`store`)">Create</button>
+    <button v-if="Order.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="save(`update`)">Save</button>
   </form>
 </template>
 
@@ -96,11 +78,9 @@ export default {
   data() {
     return {
       vendors: {},
-      products: null,
-      user: null,
       checkedProducts: [],
       config: {
-        wrap: true, // set wrap to true only when using 'input-group'
+        wrap: true,
         altFormat: 'Y-m-d H:i',
         altInput: true,
         dateFormat: 'Z',

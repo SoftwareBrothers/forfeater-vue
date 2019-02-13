@@ -3,7 +3,7 @@
     <div class="columns">
       <div class="column"></div>
       <div class="column is-8">
-        <b-notification :type="type" has-icon auto-close @close="close()">{{message}}</b-notification>
+        <b-notification :type="type" has-icon auto-close @close="close()">{{ message }}</b-notification>
       </div>
       <div class="column"></div>
     </div>

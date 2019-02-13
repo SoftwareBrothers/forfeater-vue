@@ -9,9 +9,7 @@
           <router-link :to="{ name: 'VendorList' }">Vendors</router-link>
         </li>
         <li class="breadcrumb-item active">
-          <router-link
-            :to="{ name: 'ProductList', params: { vendorId: this.$route.params.vendorId }}"
-          >Products</router-link>
+          <router-link :to="{ name: 'ProductList', params: { vendorId: this.$route.params.vendorId } }">Products</router-link>
         </li>
         <li class="breadcrumb-item active" aria-current="page">{{ Product.name }}</li>
       </ol>
@@ -24,7 +22,7 @@
     <div>
       <div class="row">
         <div class="col-sm-6">
-          <div>Name: {{ Product.name}}</div>
+          <div>Name: {{ Product.name }}</div>
           <div v-if="Product.vendor">Vendor: {{ Product.vendor.name }}</div>
           <div>Rate: {{ Product.avgScore }}</div>
           <div>Votes: {{ Product.rankCount }}</div>
@@ -58,7 +56,7 @@ export default {
     };
   },
   async beforeCreate() {
-    this.Product = await productService.find(this.$route.params.vendorId, this.$route.params.id);
+    this.Product = await this.productService.find(this.$route.params.vendorId, this.$route.params.id);
     this.choices = await this.service.getFromProduct(this.Product).filter(item => {
       return item.score != null || item.scoreComment != null;
     });

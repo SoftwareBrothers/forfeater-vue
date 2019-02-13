@@ -1,14 +1,14 @@
 <template>
   <nav class="breadcrumb">
     <ul>
-      <li v-for="(item, index) in list" :key="index" :class="{'is-active': isLast(index)}">
+      <li v-for="(item, index) in list" :key="index" :class="{ 'is-active': isLast(index) }">
         <a href="#" v-if="isLast(index)">{{ showName(item) }}</a>
         <router-link :to="item.path" v-else>{{ showName(item) }}</router-link>
       </li>
     </ul>
   </nav>
 </template>
-<script >
+<script>
 export default {
   name: 'Breadcrumbs',
   data() {

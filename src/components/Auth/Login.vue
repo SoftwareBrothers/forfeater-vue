@@ -9,17 +9,14 @@
               <input
                 id="username"
                 v-model="username"
-                :class="{'is-invalid': errors.has('username')}"
+                :class="{ 'is-invalid': errors.has('username') }"
                 v-validate="'required|email'"
                 type="text"
                 class="form-control"
                 name="username"
                 placeholder="Your e-mail address"
-              >
-              <small
-                class="invalid-feedback"
-                :if="errors.has('username')"
-              >{{errors.first('username')}}</small>
+              />
+              <small class="invalid-feedback" :if="errors.has('username')">{{ errors.first('username') }}</small>
             </div>
           </div>
           <div class="form-group">
@@ -28,27 +25,19 @@
               <input
                 id="password"
                 v-model="password"
-                :class="{'is-invalid': errors.has('password')}"
+                :class="{ 'is-invalid': errors.has('password') }"
                 v-validate="'required'"
                 type="password"
                 class="form-control"
                 name="password"
                 placeholder="Your e-mail address"
-              >
-              <small
-                class="invalid-feedback"
-                :if="errors.has('password')"
-              >{{errors.first('password')}}</small>
+              />
+              <small class="invalid-feedback" :if="errors.has('password')">{{ errors.first('password') }}</small>
             </div>
           </div>
           <div class="form-group">
             <div class="col-sm text-center">
-              <button
-                type="submit"
-                class="button is-warning"
-                :class="{'is-loading': loading}"
-                :disabled="disabled()"
-              >Send</button>
+              <button type="submit" class="button is-warning" :class="{ 'is-loading': loading }" :disabled="disabled()">Send</button>
             </div>
           </div>
         </form>

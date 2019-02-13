@@ -13,12 +13,13 @@
         <h1 class="text-center">Vendor list</h1>
       </div>
     </div>
-    <VendorTable :vendors.sync="vendors"/>
+    <VendorTable :vendors.sync="vendors" />
   </div>
 </template>
 
 <script>
 import VendorTable from '@/components/Vendor/Table';
+import { VendorService } from '@/services/vendor.service';
 
 export default {
   data() {

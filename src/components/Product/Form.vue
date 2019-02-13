@@ -5,15 +5,8 @@
         <div>
           <label for="name">Name</label>
         </div>
-        <input
-          v-validate="'required'"
-          v-model="Product.name"
-          type="text"
-          class="form-control"
-          name="name"
-          placeholder="name"
-        >
-        <div class="invalid-feedback-not-work">{{ errors.first('name')}}</div>
+        <input v-validate="'required'" v-model="Product.name" type="text" class="form-control" name="name" placeholder="name" />
+        <div class="invalid-feedback-not-work">{{ errors.first('name') }}</div>
       </div>
 
       <div class="form-group custom-control col-sm-3 col-md-2">
@@ -21,46 +14,21 @@
           <label for="name">Active</label>
         </div>
         <div class="form-check form-check-inline">
-          <input
-            v-model="Product.active"
-            class="form-check-input"
-            type="radio"
-            name="active"
-            id="active1"
-            value="1"
-            checked
-          >
+          <input v-model="Product.active" class="form-check-input" type="radio" name="active" id="active1" value="1" checked />
           <label class="form-check-label" for="active1">Yes</label>
         </div>
         <div class="form-check form-check-inline">
-          <input
-            v-model="Product.active"
-            class="form-check-input"
-            type="radio"
-            name="active"
-            id="active0"
-            value="0"
-          >
+          <input v-model="Product.active" class="form-check-input" type="radio" name="active" id="active0" value="0" />
           <label class="form-check-label" for="active0">No</label>
         </div>
-        <div class="invalid-feedback-not-work">{{ errors.first('active')}}</div>
+        <div class="invalid-feedback-not-work">{{ errors.first('active') }}</div>
       </div>
     </div>
 
-    <button
-      v-if="!Product.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="save(`store`)"
-    >Create</button>
-    <button
-      v-if="Product.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="save(`update`)"
-    >Save</button>
+    <button v-if="!Product.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="save(`store`)">
+      Create
+    </button>
+    <button v-if="Product.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="save(`update`)">Save</button>
   </form>
 </template>
 
@@ -87,7 +55,7 @@ export default {
     save: async function(type) {
       if (!this.errors.any()) {
         await this.service[type](this.Product);
-        this.$router.push('/vendors/' + product.vendorId + '/products');
+        this.$router.push('/vendors/' + this.Product.vendorId + '/products');
       }
     }
   }

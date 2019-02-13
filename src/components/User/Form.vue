@@ -10,8 +10,8 @@
           class="form-control"
           name="firstName"
           placeholder="First name"
-        >
-        <div class="invalid-feedback-not-work">{{ errors.first('firstName')}}</div>
+        />
+        <div class="invalid-feedback-not-work">{{ errors.first('firstName') }}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="lastName">Last name</label>
@@ -22,8 +22,8 @@
           class="form-control"
           name="lastName"
           placeholder="Last name"
-        >
-        <div class="invalid-feedback-not-work">{{ errors.first('lastName')}}</div>
+        />
+        <div class="invalid-feedback-not-work">{{ errors.first('lastName') }}</div>
       </div>
     </div>
     <div class="form-row">
@@ -34,19 +34,12 @@
           <option value="admin">Administrator</option>
           <option value="user">User</option>
         </select>
-        <div class="invalid-feedback-not-work">{{ errors.first('role')}}</div>
+        <div class="invalid-feedback-not-work">{{ errors.first('role') }}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="email">Email</label>
-        <input
-          v-validate="'required|email'"
-          v-model="User.email"
-          type="email"
-          class="form-control"
-          name="email"
-          placeholder="Email"
-        >
-        <div class="invalid-feedback-not-work">{{ errors.first('email')}}</div>
+        <input v-validate="'required|email'" v-model="User.email" type="email" class="form-control" name="email" placeholder="Email" />
+        <div class="invalid-feedback-not-work">{{ errors.first('email') }}</div>
       </div>
     </div>
     <div class="form-row" v-if="!User.id">
@@ -59,35 +52,17 @@
           class="form-control"
           name="password"
           placeholder="Password"
-        >
-        <div class="invalid-feedback-not-work">{{ errors.first('password')}}</div>
+        />
+        <div class="invalid-feedback-not-work">{{ errors.first('password') }}</div>
       </div>
       <div class="form-group col-md-6">
         <label for="confirmation">Confirmation</label>
-        <input
-          type="password"
-          class="form-control"
-          name="confirmation"
-          ref="confirmation"
-          placeholder="Password"
-        >
-        <div class="invalid-feedback-not-work">{{ errors.first('confirmation')}}</div>
+        <input type="password" class="form-control" name="confirmation" ref="confirmation" placeholder="Password" />
+        <div class="invalid-feedback-not-work">{{ errors.first('confirmation') }}</div>
       </div>
     </div>
-    <button
-      v-if="!User.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="save(`store`)"
-    >Create</button>
-    <button
-      v-if="User.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="save(`update`)"
-    >Save</button>
+    <button v-if="!User.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="save(`store`)">Create</button>
+    <button v-if="User.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="save(`update`)">Save</button>
   </form>
 </template>
 

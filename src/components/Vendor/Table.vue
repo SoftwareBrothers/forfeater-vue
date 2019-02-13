@@ -3,10 +3,7 @@
     <div class="row">
       <div class="col-sm"></div>
       <div class="col-sm-12">
-        <router-link
-          class="nav-link btn btn-warning btn-custom col-white"
-          :to="{ name: 'VendorCreate' }"
-        >Create vendor</router-link>
+        <router-link class="nav-link btn btn-warning btn-custom col-white" :to="{ name: 'VendorCreate' }">Create vendor</router-link>
         <div class="table-responsive">
           <table class="table table-sm table-hover table-bordered table-striped">
             <thead>
@@ -23,24 +20,14 @@
                 <td>{{ vendor.name }}</td>
                 <td>{{ vendor.url }}</td>
                 <td>
-                  <router-link
-                    class="btn-action d-inline text-warning"
-                    :to="{ name: 'ProductList', params: { vendorId: vendor.id } }"
-                  >
-                    <font-awesome-icon icon="list"/>
+                  <router-link class="btn-action d-inline text-warning" :to="{ name: 'ProductList', params: { vendorId: vendor.id } }">
+                    <font-awesome-icon icon="list" />
                   </router-link>
-                  <router-link
-                    class="btn-action d-inline"
-                    :to="{ name: 'VendorEdit', params: { id: vendor.id } }"
-                  >
-                    <font-awesome-icon icon="edit"/>
+                  <router-link class="btn-action d-inline" :to="{ name: 'VendorEdit', params: { id: vendor.id } }">
+                    <font-awesome-icon icon="edit" />
                   </router-link>
-                  <button
-                    class="btn btn-action d-inline text-danger"
-                    href
-                    @click="remove(vendor.id, key)"
-                  >
-                    <font-awesome-icon icon="trash"/>
+                  <button class="btn btn-action d-inline text-danger" href @click="remove(vendor.id, key)">
+                    <font-awesome-icon icon="trash" />
                   </button>
                 </td>
               </tr>

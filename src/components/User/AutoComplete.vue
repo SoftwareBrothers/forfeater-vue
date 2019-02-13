@@ -2,26 +2,19 @@
   <div>
     <input
       v-model="input"
-      :class="{'is-invalid': error}"
+      :class="{ 'is-invalid': error }"
       type="text"
       class="form-control"
       name="input"
       placeholder="Enter Name"
       @input="onChange"
-    >
+    />
     <div class="invalid-feedback" v-show="error">{{ error }}</div>
     <ul class="autocomplete-results" v-show="isOpen">
-      <li
-        class="autocomplete-result"
-        v-show="results.length > 0"
-        v-for="(user, i) in results"
-        :key="i"
-        @click="onSelect(user)"
-      >{{ fullName(user) }}</li>
-      <li
-        class="autocomplete-error"
-        v-show="results.length === 0 && input.length > 3"
-      >No result found</li>
+      <li class="autocomplete-result" v-show="results.length > 0" v-for="(user, i) in results" :key="i" @click="onSelect(user)">
+        {{ fullName(user) }}
+      </li>
+      <li class="autocomplete-error" v-show="results.length === 0 && input.length > 3">No result found</li>
     </ul>
   </div>
 </template>

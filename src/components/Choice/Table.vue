@@ -8,7 +8,7 @@
         v-if="user && user.role === 'admin'"
         :to="{ name: 'ChoiceEdit', params: { orderId: props.row.orderId, choiceId: props.row.id } }"
       >
-        <font-awesome-icon icon="edit"/>
+        <font-awesome-icon icon="edit" />
       </router-link>
       <a
         slot="delete"
@@ -18,7 +18,7 @@
         @click="remove(props.row.id, props.row.index)"
         href="#"
       >
-        <font-awesome-icon icon="trash"/>
+        <font-awesome-icon icon="trash" />
       </a>
     </v-client-table>
   </div>
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { ChoiceService } from '@/services/choice.service';
+
 export default {
   props: {
     choices: {

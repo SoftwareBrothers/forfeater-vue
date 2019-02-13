@@ -3,10 +3,7 @@
     <div class="row">
       <div class="col-sm"></div>
       <div class="col-sm-12">
-        <router-link
-          class="nav-link btn btn-warning btn-custom col-white"
-          :to="{ name: 'UserCreate' }"
-        >Create user</router-link>
+        <router-link class="nav-link btn btn-warning btn-custom col-white" :to="{ name: 'UserCreate' }">Create user</router-link>
         <div class="table-responsive">
           <table class="table table-sm table-hover table-bordered table-striped">
             <thead>
@@ -24,17 +21,14 @@
                 <th scope="row">{{ user.id }}</th>
                 <td>{{ user.firstName }}</td>
                 <td>{{ user.lastName }}</td>
-                <td>{{ user.email}}</td>
-                <td>{{ user.role}}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
                 <td>
-                  <router-link
-                    class="btn-action d-inline"
-                    :to="{ name: 'UserEdit', params: { id: user.id } }"
-                  >
-                    <font-awesome-icon icon="edit"/>
+                  <router-link class="btn-action d-inline" :to="{ name: 'UserEdit', params: { id: user.id } }">
+                    <font-awesome-icon icon="edit" />
                   </router-link>
                   <button class="btn btn-action d-inline text-danger" @click="remove(user.id, key)">
-                    <font-awesome-icon icon="trash"/>
+                    <font-awesome-icon icon="trash" />
                   </button>
                 </td>
               </tr>
@@ -63,7 +57,7 @@ export default {
   },
   methods: {
     remove: function(userId, key) {
-      this.service.remove(userId).then(user => {
+      this.service.remove(userId).then(() => {
         this.users.splice(key, 1);
         this.$emit('users:update', this.users);
       });

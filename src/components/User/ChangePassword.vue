@@ -8,7 +8,7 @@
     <div>
       <div class="row">
         <div class="col-sm-12">
-          <ErrorAlert v-if="alert" :message="alert" :title="null"/>
+          <ErrorAlert v-if="alert" :message="alert" :title="null" />
           <form class="needs-validation" novalidate>
             <div class="form-row">
               <div class="form-group col-md-6">
@@ -20,27 +20,16 @@
                   class="form-control"
                   name="password"
                   placeholder="Password"
-                >
-                <div class="invalid-feedback-not-work">{{ errors.first('password')}}</div>
+                />
+                <div class="invalid-feedback-not-work">{{ errors.first('password') }}</div>
               </div>
               <div class="form-group col-md-6">
                 <label for="confirmation">Confirmation</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  name="confirmation"
-                  ref="confirmation"
-                  placeholder="Password"
-                >
-                <div class="invalid-feedback-not-work">{{ errors.first('confirmation')}}</div>
+                <input type="password" class="form-control" name="confirmation" ref="confirmation" placeholder="Password" />
+                <div class="invalid-feedback-not-work">{{ errors.first('confirmation') }}</div>
               </div>
             </div>
-            <button
-              type="button"
-              class="btn btn-warning col-white"
-              :disabled="errors.has()"
-              @click="changePassword"
-            >Update</button>
+            <button type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="changePassword">Update</button>
           </form>
         </div>
       </div>
@@ -71,6 +60,7 @@ export default {
   },
   created() {
     this.User = this.$store.getters.user;
-  }
+  },
+  components: { ErrorAlert }
 };
 </script>

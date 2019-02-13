@@ -19,7 +19,6 @@
 
 <script>
 import { OrderService } from '@/services/order.service';
-import { ChoiceService } from '@/services/choice.service';
 import OrderTable from '@/components/Order/Table';
 
 export default {
