@@ -81,7 +81,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import '~buefy/dist/buefy.css';
-</style>

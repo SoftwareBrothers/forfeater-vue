@@ -47,14 +47,16 @@ export class OrderService extends ApiService {
     const data = await this.getAll();
     data.forEach(async order => {
       order.vendor.products = await this.productService.getAllActiveByVendor(order.vendor.id);
+      order.choice = null;
       const choices = await this.getOrderWithChoices(order.id);
       let userChoice = choices.find(x => x.userId === store.getters.user.id);
-      order.choice = {
-        id: (userChoice && userChoice.id) || null,
-        product: (userChoice && userChoice.product) || null,
-        comment: (userChoice && userChoice.orderComment) || ''
-      };
-
+      if (userChoice !== undefined) {
+        order.choice = {
+          id: userChoice.id,
+          product: userChoice.product,
+          comment: userChoice.orderComment
+        };
+      }
       orders.push(order);
     });
     return orders;

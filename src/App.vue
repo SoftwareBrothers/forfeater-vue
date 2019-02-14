@@ -20,8 +20,9 @@ export default {
 };
 </script>
 
-<style scoped>
-@import './assets/css/styles.css';
+<style lang="scss">
+@import '~@/assets/app.scss';
+@import '~@/assets/css/styles.css';
 body {
   background: #fafafa;
 }
