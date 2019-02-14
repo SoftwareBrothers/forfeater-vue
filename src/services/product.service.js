@@ -14,11 +14,11 @@ export class ProductService extends ApiService {
   }
 
   remove(vendorId, productId) {
-    return this.delete(`${this.uri}/${vendorId}/products/${productId}`);
+    return this.client.delete(`${this.uri}/${vendorId}/products/${productId}`);
   }
 
   store(product) {
-    this.client.post(`${this.uri}/${product.vendorId}/products`, product);
+    return this.client.post(`${this.uri}/${product.vendorId}/products`, product);
   }
 
   update(product) {

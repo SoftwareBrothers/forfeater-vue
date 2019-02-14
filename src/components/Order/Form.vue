@@ -93,7 +93,6 @@ export default {
     };
   },
   async created() {
-    this.user = this.$store.getters.user;
     this.vendors = await this.vendorService.getAll();
   },
   methods: {
@@ -109,8 +108,9 @@ export default {
       }
     },
     loadProducts: async function() {
-      this.products = await this.productService.getAll(this.Order.vendorId);
-      this.checkedProducts = this.products
+      const products = await this.productService.getAll(this.Order.vendorId);
+      this.products = products;
+      this.checkedProducts = products
         .filter(product => {
           return product.active;
         })
@@ -124,7 +124,7 @@ export default {
     },
 
     sendProducts: function() {
-      this.products = this.products.map(async product => {
+      this.products.map(async product => {
         product.active = Number(this.checkedProducts.indexOf(product.id) !== -1);
         await this.productService.update(product);
         return product;

@@ -45,8 +45,12 @@ export default {
         name: null,
         active: null
       })
-    },
-    service: new ProductService()
+    }
+  },
+  data() {
+    return {
+      service: new ProductService()
+    };
   },
   created() {
     this.Product.vendorId = this.$route.params.vendorId;

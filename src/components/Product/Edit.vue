@@ -49,7 +49,7 @@ export default {
       service: new ProductService()
     };
   },
-  async beforeCreate() {
+  async created() {
     this.Product = await this.service.find(this.$route.params.vendorId, this.$route.params.id);
   },
   components: { ProductForm }

@@ -55,9 +55,10 @@ export default {
       productService: new ProductService()
     };
   },
-  async beforeCreate() {
+  async created() {
     this.Product = await this.productService.find(this.$route.params.vendorId, this.$route.params.id);
-    this.choices = await this.service.getFromProduct(this.Product).filter(item => {
+    const choices = await this.service.getFromProduct(this.Product);
+    this.choices = choices.filter(item => {
       return item.score != null || item.scoreComment != null;
     });
   }

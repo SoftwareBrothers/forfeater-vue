@@ -72,7 +72,7 @@ export default {
       }
     }
   },
-  async beforeCreate() {
+  async created() {
     this.Choice = await this.service.getFromOrder(this.$route.params.id);
   },
   components: { ScoreForm }

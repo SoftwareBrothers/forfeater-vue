@@ -47,7 +47,7 @@ export default {
       productService: new ProductService()
     };
   },
-  async beforeCreate() {
+  async created() {
     this.Order = await this.service.find(this.$route.params.id);
     this.loadProducts();
   },

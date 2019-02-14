@@ -43,7 +43,7 @@ export default {
       service: new ChoiceService()
     };
   },
-  async beforeCreate() {
+  async created() {
     this.choice = await this.service.find(this.$route.params.choiceId);
   },
   components: {

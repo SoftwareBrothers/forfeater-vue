@@ -6,6 +6,10 @@ export class ChoiceService extends ApiService {
     this.uri = 'choices';
   }
 
+  getAll() {
+    return this.client.get(this.uri);
+  }
+
   getAllFromOrder(orderId) {
     return this.client.get(`orders/${orderId}/${this.uri}`);
   }

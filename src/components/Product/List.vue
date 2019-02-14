@@ -30,11 +30,12 @@ import ProductTable from '@/components/Product/Table';
 export default {
   data() {
     return {
-      products: []
+      products: [],
+      service: new ProductService()
     };
   },
   async created() {
-    this.products = await ProductService.getAll(this.$route.params.vendorId);
+    this.products = await this.service.getAll(this.$route.params.vendorId);
   },
   components: { ProductTable }
 };

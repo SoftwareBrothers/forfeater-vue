@@ -33,6 +33,45 @@
     <ChoiceTable :choices="choices" :tableData="tableData"></ChoiceTable>
   </div>
 </template>
+<script>
+import { ChoiceService } from '@/services/choice.service';
+import { VendorService } from '@/services/vendor.service';
+import { OrderService } from '@/services/order.service';
+
+import ChoiceTable from '@/components/Choice/Table';
+import Print from '@/components/Print';
+
+export default {
+  data() {
+    return {
+      choices: [],
+      tableData: [],
+      vendor: null,
+      order: null,
+      service: new ChoiceService(),
+      vendorService: new VendorService(),
+      orderService: new OrderService()
+    };
+  },
+  async created() {
+    this.order = await this.orderService.find(this.$route.params.orderId);
+    this.vendor = await this.vendorService.find(this.order.vendorId);
+
+    const choices = await this.service.getAll(this.$route.params.orderId);
+    this.choices = choices
+      .sort((a, b) => a.productId - b.productId)
+      .map((item, key) =>
+        Object.assign({}, item, {
+          index: key,
+          userFullName: `${item.user.lastName} ${item.user.firstName}`,
+          productName: item.product.name
+        })
+      );
+    this.tableData = this.choices;
+  },
+  components: { ChoiceTable, Print }
+};
+</script>
 <style>
 @media print {
   .VueTables__search {
@@ -49,42 +88,3 @@
   }
 }
 </style>
-<script>
-import { ChoiceService } from '@/services/choice.service';
-import { VendorService } from '@/services/vendor.service';
-import { OrderService } from '@/services/order.service';
-
-import ChoiceTable from '@/components/Choice/Table';
-import Print from '@/components/Print';
-
-export default {
-  data() {
-    return {
-      choices: {},
-      tableData: [],
-      vendor: null,
-      order: null,
-      service: new ChoiceService(),
-      vendorService: new VendorService(),
-      orderService: new OrderService()
-    };
-  },
-  async created() {
-    this.order = await this.orderService.find(this.$route.params.orderId);
-    this.vendor = await this.vendorService.find(this.order.vendorId);
-
-    this.choices = await this.service
-      .getAll(this.$route.params.orderId)
-      .sort((a, b) => a.productId - b.productId)
-      .map((item, key) =>
-        Object.assign({}, item, {
-          index: key,
-          userFullName: `${item.user.lastName} ${item.user.firstName}`,
-          productName: item.product.name
-        })
-      );
-    this.tableData = this.choices;
-  },
-  components: { ChoiceTable, Print }
-};
-</script>

@@ -34,7 +34,7 @@
                   >
                     <font-awesome-icon icon="edit" />
                   </router-link>
-                  <a class="btn-action d-inline text-danger" href @click="remove(product.id, key, $event)">
+                  <a class="btn-action d-inline text-danger" href @click="remove(product.id, key)">
                     <font-awesome-icon icon="trash" />
                   </a>
                 </td>
