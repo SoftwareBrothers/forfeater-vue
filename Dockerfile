@@ -1,10 +1,10 @@
 # build stage
 FROM node:10.8.0-alpine as build-stage
 WORKDIR /app
-COPY package*.json ./
-RUN yarn install
-COPY . .
-RUN yarn run build
+COPY package.json yarn.lock ./
+RUN yarn
+COPY . ./
+RUN yarn build
 
 # production stage
 FROM nginx:1.13.12-alpine as production-stage
