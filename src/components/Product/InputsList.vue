@@ -20,17 +20,18 @@ export default {
   props: {
     order: {
       required: true
+    },
+    choice: {
+      required: true
     }
   },
   methods: {
     onSelect: function(product) {
-      let choice = this.order.choice || {};
-      choice = Object.assign(choice, { product });
-      this.$set(this.order, 'choice', choice);
-      this.$emit('update:order', this.order);
+      const order = JSON.parse(JSON.stringify(this.order));
+      this.$emit('update:choice', Object.assign(this.choice, { product, order }));
     },
     isChecked(product) {
-      return this.order.choice && this.order.choice.product === product;
+      return this.order.choice.product && this.order.choice.product.id === product.id;
     }
   },
   computed: {

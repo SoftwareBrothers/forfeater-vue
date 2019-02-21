@@ -94,6 +94,7 @@ export default {
   },
   async created() {
     this.vendors = await this.vendorService.getAll();
+    this.loadProducts();
   },
   methods: {
     save: async function(type) {
@@ -124,11 +125,13 @@ export default {
     },
 
     sendProducts: function() {
-      this.products.map(async product => {
-        product.active = Number(this.checkedProducts.indexOf(product.id) !== -1);
-        await this.productService.update(product);
-        return product;
-      });
+      if (this.products.length) {
+        this.products.map(async product => {
+          product.active = Number(this.checkedProducts.indexOf(product.id) !== -1);
+          await this.productService.update(product);
+          return product;
+        });
+      }
     }
   },
 

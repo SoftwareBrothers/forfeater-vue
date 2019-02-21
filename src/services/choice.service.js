@@ -1,9 +1,11 @@
 import { ApiService } from '@/services/api.service';
+import { ProductService } from '@/services/product.service';
 
 export class ChoiceService extends ApiService {
   constructor() {
     super();
     this.uri = 'choices';
+    this.productService = new ProductService();
   }
 
   getAll() {
@@ -33,6 +35,13 @@ export class ChoiceService extends ApiService {
       productId: Product.id,
       orderComment: comment
     });
+  }
+
+  async save(User, Order, Product, commentText) {
+    const data = await this.store(User, Order, Product, commentText);
+    const product = await this.productService.find(Product.vendorId, data.productId);
+    const { id = null, orderComment: comment = null, orderId } = data;
+    return { id, product, comment, orderId };
   }
 
   rate(orderId, Score) {

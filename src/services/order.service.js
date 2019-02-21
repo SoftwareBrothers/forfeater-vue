@@ -43,22 +43,30 @@ export class OrderService extends ApiService {
   }
 
   async getAllWithProductChoices() {
-    const orders = [];
     const data = await this.getAll();
-    data.forEach(async order => {
+    return this.getProductChoicesFromOrders(data);
+  }
+
+  async getAllActiveWithProductChoices() {
+    const data = await this.getActive();
+    return this.getProductChoicesFromOrders(data);
+  }
+
+  async getProductChoicesFromOrders(data) {
+    const orders = [];
+
+    for (const order of data) {
       order.vendor.products = await this.productService.getAllActiveByVendor(order.vendor.id);
-      order.choice = null;
       const choices = await this.getOrderWithChoices(order.id);
-      let userChoice = choices.find(x => x.userId === store.getters.user.id);
-      if (userChoice !== undefined) {
-        order.choice = {
-          id: userChoice.id,
-          product: userChoice.product,
-          comment: userChoice.orderComment
-        };
-      }
+      const userChoice = choices.find(x => x.userId === store.getters.user.id);
+      order.choice = {
+        id: (userChoice && userChoice.id) || null,
+        product: (userChoice && userChoice.product) || null,
+        comment: (userChoice && userChoice.orderComment) || null
+      };
+
       orders.push(order);
-    });
+    }
     return orders;
   }
 }

@@ -2,7 +2,7 @@
   <div class="container">
     <div v-if="orders.length">
       <div class="mt-3 d-flex flex-row justify-content-center">
-        <div v-for="(order, key) in orders" :key="key" class="card border-warning mx-2 my-2">
+        <div v-for="(order, key) in orders" :key="key" class="card border-warning mx-2 my-2" @click="choice = order.choice || {}">
           <div class="card-header text-center">
             <h2>{{ order.vendor.name }}</h2>
             <small class="badge badge-warning">
@@ -10,19 +10,11 @@
             </small>
           </div>
           <div class="card-body text-dark">
-            <ProductsInputList :order.sync="order" @update:order="setChoice"></ProductsInputList>
+            <ProductsInputList :order="order" :choice.sync="choice" />
           </div>
-          <div class="card-footer bg-transparent border-warning">
-            <div v-if="order.choice && order.choice.comment">
-              <strong>Comment:</strong>
-              <small>{{ order.choice.comment }}</small>
-            </div>
+          <div class="card-footer bg-transparent border-warning" v-if="isCancel(order)">
             <div class="text-center mt-1">
-              <button
-                v-if="order.choice && order.choice.product && beforeDeadline(order)"
-                v-on:click="removeChoice(order)"
-                class="btn btn-sm btn-danger col-white"
-              >
+              <button v-on:click="removeChoices()" class="btn btn-sm btn-danger col-white">
                 Cancel
               </button>
             </div>
@@ -53,33 +45,40 @@ export default {
   data: () => {
     return {
       orders: [],
-      choice: null,
+      choice: {
+        order: null,
+        product: null,
+        comment: '',
+        id: null
+      },
       service: new ChoiceService(),
       orderService: new OrderService()
     };
   },
   methods: {
-    sendForm: function() {
+    sendForm: async function() {
       if (this.choice.product) {
-        this.service.store(this.$store.getters.user, this.choice.order, this.choice.product, this.choice.comment).then(choice => {
+        const choice = await this.service.save(this.$store.getters.user, this.choice.order, this.choice.product, this.choice.comment);
+        if (choice) {
+          this.$store.dispatch('setNotification', { type: 'success', message: this.$t('choices.saved'), code: 200 });
           this.orders.find(x => x.id === choice.orderId).choice = choice;
-          this.choice = null;
-        });
+        }
       }
     },
-    removeChoice: async function(order) {
-      if (order.id && order.choice.id) {
-        await this.service.remove(order.id, order.choice.id);
+    removeChoices: async function() {
+      for (const order of this.orders) {
+        if (order.choice.id) {
+          await this.service.remove(order.id, order.choice.id);
+          order.choice = { id: null, comment: null, product: null, order: null };
+          this.comment = '';
+        }
       }
-      this.choice = null;
-      this.orders.find(x => x.id === order.id).choice = null;
     },
     beforeDeadline: function(order) {
       return new Date(order.deadlineAt) > new Date();
     },
-    setChoice(order) {
-      this.choice = order.choice;
-      this.choice.order = order;
+    isCancel(order) {
+      return (this.choice.order && this.choice.order.id) === order.id && this.beforeDeadline(order);
     }
   },
   computed: {
@@ -97,7 +96,16 @@ export default {
     }
   },
   async created() {
-    this.orders = await this.orderService.getAllWithProductChoices();
+    const orders = await this.orderService.getAllActiveWithProductChoices();
+    if (!orders.length) {
+      return this.$store.dispatch('setNotification', { type: 'warning', message: this.$t('orders.lack'), code: 200 });
+    }
+    this.orders = orders;
+    const order = orders.find(x => parseInt(x.choice.id) > 0);
+    if (order) {
+      this.choice = order.choice;
+      this.choice.order = order;
+    }
   },
   components: { ProductsInputList, Countdown }
 };

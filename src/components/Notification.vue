@@ -30,6 +30,10 @@ export default Vue.extend({
       switch (this.notification.type) {
         case 'error':
           return 'is-danger';
+        case 'warning':
+          return 'is-warning';
+        case 'success':
+          return 'is-success';
         default:
           return null;
       }
