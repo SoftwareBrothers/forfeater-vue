@@ -1,20 +1,27 @@
 <template>
   <div>
-    <input v-model="input" :class="{'is-invalid': error}" type="text" class="form-control" name="input" placeholder="Enter Name" @input="onChange">
+    <input
+      v-model="input"
+      :class="{ 'is-invalid': error }"
+      type="text"
+      class="form-control"
+      name="input"
+      placeholder="Enter Name"
+      @input="onChange"
+    />
     <div class="invalid-feedback" v-show="error">{{ error }}</div>
     <ul class="autocomplete-results" v-show="isOpen">
       <li class="autocomplete-result" v-show="results.length > 0" v-for="(user, i) in results" :key="i" @click="onSelect(user)">
         {{ fullName(user) }}
       </li>
-      <li class="autocomplete-error" v-show="results.length === 0 && input.length > 3">
-        No result found
-      </li>
+      <li class="autocomplete-error" v-show="results.length === 0 && input.length > 3">No result found</li>
     </ul>
   </div>
 </template>
 
 <script>
-import UserProvider from "@/provider/user.provider";
+import { UserService } from '@/services/user.service';
+
 export default {
   props: {
     user: {
@@ -24,44 +31,34 @@ export default {
         id: null,
         firstName: null,
         lastName: null,
-        email: null,
-      }),
+        email: null
+      })
     }
   },
   data: function() {
     return {
       input: this.user.email ? this.fullName(this.user) : '',
-      appErrors: [],
       users: [],
       results: [],
       isOpen: false,
-      error: false
+      error: null,
+      service: new UserService()
     };
   },
-  created() {
-    new UserProvider()
-      .getAll()
-      .then(users => {
-        this.users = users;
-      })
-      .catch(errors => {
-        this.appErrors.push(errors);
-      });
+  async created() {
+    this.users = await this.service.getAll();
   },
   methods: {
     onSelect: function(user) {
       this.isOpen = false;
-      console.log('onSelect');
-      console.log(user);
-      this.$emit("update:user", user);
+      this.$emit('update:user', user);
     },
     onChange: function() {
       if (this.input.length <= 3) {
         this.isOpen = false;
-        this.error = "Please provide at least 4 characters";
+        this.error = 'Please provide at least 4 characters';
         return;
       }
-      this.error = false;
       this.filterResults();
       this.isOpen = true;
     },
@@ -73,12 +70,12 @@ export default {
         );
       });
     },
-    fullName: (user) => {
+    fullName: user => {
       return `${user.firstName} ${user.lastName} (${user.email})`;
     }
   },
-  watch:{
-    user: function (user) {
+  watch: {
+    user: function(user) {
       this.input = this.fullName(user);
     }
   }

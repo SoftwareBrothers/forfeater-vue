@@ -2,8 +2,12 @@
   <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link :to="{ name: 'Home' }">Home</router-link></li>
-        <li class="breadcrumb-item"><router-link :to="{ name: 'UserList' }">Users</router-link></li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'Home' }">Home</router-link>
+        </li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'UserList' }">Users</router-link>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">Edit</li>
       </ol>
     </nav>
@@ -24,8 +28,8 @@
 </template>
 
 <script>
-import UserProvider from "@/provider/user.provider";
-import UserForm from "@/components/User/Form";
+import UserForm from '@/components/User/Form';
+import { UserService } from '@/services/user.service';
 
 export default {
   data() {
@@ -36,24 +40,13 @@ export default {
         role: null,
         email: null,
         password: null
-      }
+      },
+      service: new UserService()
     };
   },
-  beforeCreate() {
-    new UserProvider()
-      .find(this.$route.params.id)
-      .then(user => {
-        this.User = user;
-      })
-      .catch(errors => {
-        console.log(errors);
-      });
+  async mounted() {
+    this.User = await this.service.find(this.$route.params.id);
   },
-  components: {
-    UserForm
-  }
+  components: { UserForm }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

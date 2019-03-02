@@ -1,51 +1,56 @@
 <template>
-    <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <router-link :to="{ name: 'Home' }">Home</router-link>
-                </li>
-                <li class="breadcrumb-item">
-                    <router-link :to="{ name: 'OrderList' }">Orders</router-link>
-                </li>
-                <!-- <li class="breadcrumb-item active" aria-current="page">Edit</li> -->
-            </ol>
-        </nav>
-        <div class="row pt-3">
-            <div class="col-sm">
-                <h1 class="text-center">Score your order</h1>
-            </div>
-        </div>
-        <div v-if="alertText" :class="alertClass" role="alert">
-            {{ alertText }}
-        </div>
-        <div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div>Product: <strong>{{ Choice.product.name }}</strong></div>
-                    <div>Rate: <strong>{{ Choice.score }}</strong></div>
-                    <div>Comment: <strong>{{ Choice.scoreComment }}</strong></div>
-                    <ScoreForm :score="score"></ScoreForm>
-                </div>
-            </div>
-        </div>
-        <div class="d-flex justify-content-center mt-4">
-            <button :disabled="!score.score" class="btn btn-lg btn-warning col-white" v-on:click="sendForm">Send</button>
-        </div>
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'Home' }">Home</router-link>
+        </li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'OrderList' }">Orders</router-link>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+      </ol>
+    </nav>
+    <div class="row pt-3">
+      <div class="col-sm">
+        <h1 class="text-center">Score your order</h1>
+      </div>
     </div>
+    <div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div>
+            Product:
+            <strong>{{ Choice.product.name }}</strong>
+          </div>
+          <div>
+            Rate:
+            <strong>{{ Choice.score }}</strong>
+          </div>
+          <div>
+            Comment:
+            <strong>{{ Choice.scoreComment }}</strong>
+          </div>
+          <ScoreForm :score="score"></ScoreForm>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+      <button :disabled="!score.score" class="btn btn-lg btn-warning col-white" v-on:click="sendForm">Send</button>
+    </div>
+  </div>
 </template>
 
 <script>
-import ChoiceProvider from "@/provider/choice.provider";
-
-import ScoreForm from "@/components/Choice/ScoreForm";
+import ScoreForm from '@/components/Choice/ScoreForm';
+import { ChoiceService } from '@/services/choice.service';
 
 export default {
   data() {
     return {
       score: {
         score: null,
-        comment: ""
+        comment: null
       },
       Choice: {
         orderId: null,
@@ -57,44 +62,19 @@ export default {
         order: {},
         product: {}
       },
-      alertText: "",
-      alertClass: ""
+      service: new ChoiceService()
     };
   },
   methods: {
-    sendForm: function() {
+    sendForm: async function() {
       if (this.score.score) {
-        new ChoiceProvider()
-          .rate(this.$route.params.id, this.score)
-          .then(choice => {
-            this.alertText = "You scored and commented the order!";
-            this.alertClass = "alert alert-success";
-            this.Choice = choice;
-          })
-          .catch(errors => {
-            this.alertText = "Something went wrong!";
-            this.alertClass = "alert alert-danger";
-            this.appErrors.push(errors);
-          });
+        this.Choice = await this.service.rate(this.$route.params.id, this.score);
       }
     }
   },
-  beforeCreate() {
-    new ChoiceProvider()
-      .getFromOrder(this.$route.params.id)
-      .then(choice => {
-        this.Choice = choice;
-        console.log(choice);
-      })
-      .catch(errors => {
-        console.log(errors);
-      });
+  async created() {
+    this.Choice = await this.service.getFromOrder(this.$route.params.id);
   },
-  components: {
-    ScoreForm
-  }
+  components: { ScoreForm }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

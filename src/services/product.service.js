@@ -1,116 +1,36 @@
-import axios from "axios";
-import ApiService from "./api.service";
+import { ApiService } from '@/services/api.service';
 
-class ProductService extends ApiService {
-  products = [];
-  error = [];
-
+export class ProductService extends ApiService {
+  constructor() {
+    super();
+    this.uri = 'vendors';
+  }
   find(vendorId, id) {
-    return new Promise((resolve, reject) => {
-      axios
-        .get(
-          this.base + "/vendors/" + vendorId + "/products/" + id,
-          this.config
-        )
-        .then(response => {
-          if (response.status !== 200) {
-            reject(this.errors);
-          }
-          resolve(response.data);
-        })
-        .catch(errors => {
-          console.log(errors);
-          this.errors.push(errors);
-          reject(this.errors);
-        });
-    });
+    return this.client.get(`${this.uri}/${vendorId}/products/${id}`);
   }
 
   getAll(vendorId) {
-    return new Promise((resolve, reject) => {
-      axios
-        .get(this.base + "/vendors/" + vendorId + "/products", this.config)
-        .then(response => {
-          this.products = response.data;
-          resolve(this.products);
-        })
-        .catch(errors => {
-          this.errors.push(errors);
-          reject(this.errors);
-        });
-    });
+    return this.client.get(`${this.uri}/${vendorId}/products`);
   }
 
   remove(vendorId, productId) {
-    return new Promise((resolve, reject) => {
-      axios
-        .delete(
-          this.base + "/vendors/" + vendorId + "/products/" + productId,
-          this.config
-        )
-        .then(response => {
-          status = response.data.status;
-          console.log(status);
-          if (status != "success") {
-            reject(this.errors);
-          }
-          resolve(true);
-        })
-        .catch(errors => {
-          this.errors.push(errors);
-          reject(this.errors);
-        });
-    });
+    return this.client.delete(`${this.uri}/${vendorId}/products/${productId}`);
   }
 
   store(product) {
-    return new Promise((resolve, reject) => {
-      axios
-        .post(
-          this.base + "/vendors/" + product.vendorId + "/products",
-          product,
-          this.config
-        )
-        .then(response => {
-          if (response.status !== 201) {
-            reject(this.errors);
-          }
-          resolve(response.data);
-        })
-        .catch(errors => {
-          console.log(errors);
-          this.errors.push(errors);
-          reject(this.errors);
-        });
-    });
+    return this.client.post(`${this.uri}/${product.vendorId}/products`, product);
   }
 
   update(product) {
-    return new Promise((resolve, reject) => {
-      axios
-        .patch(
-          this.base +
-            "/vendors/" +
-            product.vendorId +
-            "/products/" +
-            product.id,
-          product,
-          this.config
-        )
-        .then(response => {
-          console.log(response.data);
-          if (response.status !== 200) {
-            reject(this.errors);
-          }
-          resolve(response.data);
-        })
-        .catch(errors => {
-          console.log(errors);
-          this.errors.push(errors);
-          reject(this.errors);
-        });
+    return this.client.patch(`${this.uri}/${product.vendorId}/products/${product.id}`, product);
+  }
+
+  getAllActiveByVendor(vendorId) {
+    return this.client.get(`${this.uri}/${vendorId}/products`, {
+      params: {
+        active: 1,
+        vendorId: vendorId
+      }
     });
   }
 }
-
-export default new ProductService();

@@ -2,33 +2,38 @@
   <form class="needs-validation" novalidate>
     <div class="form-row">
       <div class="form-group custom-control col-sm-9 col-md-10">
-        <div><label for="name">Name</label></div>
-        <input v-validate="'required'" v-model="Product.name" type="text" class="form-control" name="name" placeholder="name">
-        <div class="invalid-feedback-not-work">{{ errors.first('name')}}</div>
+        <div>
+          <label for="name">Name</label>
+        </div>
+        <input v-validate="'required'" v-model="Product.name" type="text" class="form-control" name="name" placeholder="name" />
+        <div class="invalid-feedback-not-work">{{ errors.first('name') }}</div>
       </div>
 
       <div class="form-group custom-control col-sm-3 col-md-2">
-        <div><label for="name">Active</label></div>
+        <div>
+          <label for="name">Active</label>
+        </div>
         <div class="form-check form-check-inline">
-          <input v-model="Product.active" class="form-check-input" type="radio" name="active" id="active1" value="1" checked>
+          <input v-model="Product.active" class="form-check-input" type="radio" name="active" id="active1" value="1" checked />
           <label class="form-check-label" for="active1">Yes</label>
         </div>
         <div class="form-check form-check-inline">
-          <input v-model="Product.active" class="form-check-input" type="radio" name="active" id="active0" value="0">
+          <input v-model="Product.active" class="form-check-input" type="radio" name="active" id="active0" value="0" />
           <label class="form-check-label" for="active0">No</label>
         </div>
-        <div class="invalid-feedback-not-work">{{ errors.first('active')}}</div>
+        <div class="invalid-feedback-not-work">{{ errors.first('active') }}</div>
       </div>
-
     </div>
 
-    <button v-if="!Product.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="create">Create</button>
-    <button v-if="Product.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="edit">Save</button>
+    <button v-if="!Product.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="save(`store`)">
+      Create
+    </button>
+    <button v-if="Product.id" type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="save(`update`)">Save</button>
   </form>
 </template>
 
 <script>
-import ProductService from "@/services/product.service";
+import { ProductService } from '@/services/product.service';
 
 export default {
   props: {
@@ -42,35 +47,21 @@ export default {
       })
     }
   },
+  data() {
+    return {
+      service: new ProductService()
+    };
+  },
   created() {
     this.Product.vendorId = this.$route.params.vendorId;
   },
   methods: {
-    create: function() {
+    save: async function(type) {
       if (!this.errors.any()) {
-        ProductService.store(this.Product)
-          .then(product => {
-            this.$router.push("/vendors/" + product.vendorId + "/products");
-          })
-          .catch(errors => {
-            this.errors.push(errors);
-          });
-      }
-    },
-    edit: function() {
-      if (!this.errors.any()) {
-        ProductService.update(this.Product)
-          .then(product => {
-            this.$router.push("/vendors/" + product.vendorId + "/products");
-          })
-          .catch(errors => {
-            this.errors.push(errors);
-          });
+        await this.service[type](this.Product);
+        this.$router.push('/vendors/' + this.Product.vendorId + '/products');
       }
     }
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

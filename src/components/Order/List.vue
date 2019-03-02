@@ -2,7 +2,9 @@
   <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link :to="{ name: 'Home' }">Home</router-link></li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'Home' }">Home</router-link>
+        </li>
         <li class="breadcrumb-item active">Orders</li>
       </ol>
     </nav>
@@ -16,49 +18,19 @@
 </template>
 
 <script>
-import OrderProvider from "@/provider/order.provider";
-import OrderTable from "@/components/Order/Table";
-import ChoiceService from "@/services/choice.service";
+import { OrderService } from '@/services/order.service';
+import OrderTable from '@/components/Order/Table';
 
 export default {
   data() {
     return {
-      orders: []
+      orders: [],
+      service: new OrderService()
     };
   },
-  created() {
-
-      new OrderProvider()
-          .getAll()
-          .then(orders => {
-              orders.forEach(order => {
-                  ChoiceService.getAll(order.id)
-                      .then(choices => {
-                          let userChoice = choices.find(
-                              x => x.userId === this.$store.getters.user.id
-                          );
-
-                          order.choice = {
-                              product: userChoice ? userChoice.product : null,
-                              comment: userChoice ? userChoice.comment : ""
-                          };
-
-                          this.orders.push(order);
-                      })
-                      .catch(errors => {
-                          console.log(errors);
-                      });
-              });
-          })
-          .catch(errors => {
-              console.log(errors);
-          });
+  async created() {
+    this.orders = await this.service.getAllWithProductChoices();
   },
-  components: {
-    OrderTable
-  }
+  components: { OrderTable }
 };
 </script>
-
-<style lang="scss">
-</style>

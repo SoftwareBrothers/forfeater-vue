@@ -2,8 +2,12 @@
   <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link :to="{ name: 'Home' }">Home</router-link></li>
-        <li class="breadcrumb-item"><router-link :to="{ name: 'VendorList' }">Vendors</router-link></li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'Home' }">Home</router-link>
+        </li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'VendorList' }">Vendors</router-link>
+        </li>
         <li class="breadcrumb-item active">{{ Vendor.name }}</li>
         <li class="breadcrumb-item active" aria-current="page">Edit</li>
       </ol>
@@ -25,8 +29,8 @@
 </template>
 
 <script>
-import VendorProvider from "@/provider/vendor.provider";
-import VendorForm from "@/components/Vendor/Form";
+import { VendorService } from '@/services/vendor.service';
+import VendorForm from '@/components/Vendor/Form';
 
 export default {
   data() {
@@ -34,25 +38,13 @@ export default {
       Vendor: {
         name: null,
         url: null
-      }
+      },
+      service: new VendorService()
     };
   },
-  beforeCreate() {
-    new VendorProvider()
-      .find(this.$route.params.id)
-      .then(vendor => {
-        this.Vendor = vendor;
-        console.log(vendor);
-      })
-      .catch(errors => {
-        console.log(errors);
-      });
+  async mounted() {
+    this.Vendor = await this.service.find(this.$route.params.id);
   },
-  components: {
-    VendorForm
-  }
+  components: { VendorForm }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

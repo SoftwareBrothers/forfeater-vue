@@ -2,8 +2,12 @@
   <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link :to="{ name: 'Home' }">Home</router-link></li>
-        <li class="breadcrumb-item"><router-link :to="{ name: 'OrderList' }">Orders</router-link></li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'Home' }">Home</router-link>
+        </li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'OrderList' }">Orders</router-link>
+        </li>
         <li class="breadcrumb-item">Choices</li>
         <li class="breadcrumb-item active" aria-current="page">Edit</li>
       </ol>
@@ -24,36 +28,26 @@
 </template>
 
 <script>
-  import ChoiceProvider from "@/provider/choice.provider";
-  import ChoiceForm from "@/components/Choice/Form";
-  
-  export default {
-    data() {
-      return {
-        choice: {
-          vendorId: null,
-          userId: null,
-          deadlineAt: null,
-          deliveryAt: null
-        }
-      };
-    },
-    beforeCreate() {
+import ChoiceForm from '@/components/Choice/Form';
+import { ChoiceService } from '@/services/choice.service';
 
-      new ChoiceProvider().find(this.$route.params.choiceId)
-              .then(choice => {
-                this.choice = choice;
-              })
-              .catch(errors => {
-                console.log(errors);
-              });
-    },
-    components: {
-      ChoiceForm
-    }
-  };
+export default {
+  data() {
+    return {
+      choice: {
+        vendorId: null,
+        userId: null,
+        deadlineAt: null,
+        deliveryAt: null
+      },
+      service: new ChoiceService()
+    };
+  },
+  async created() {
+    this.choice = await this.service.find(this.$route.params.choiceId);
+  },
+  components: {
+    ChoiceForm
+  }
+};
 </script>
-
-<style lang="scss" scoped>
-  
-</style>

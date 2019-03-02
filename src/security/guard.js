@@ -1,41 +1,28 @@
-import Auth from "@/security/auth";
-import store from "@/security/store";
+import Auth from '@/security/auth';
+import store from '@/config/store';
 
 class Guard {
   isGuest(to, from, next) {
-    next(!Auth.check());
+    next(!Auth.isValid());
   }
 
   isAdmin(to, from, next) {
-    next(store.getters.user.role == "admin");
+    next(Auth.isValid() && store.getters.user.role === 'admin');
   }
 
   async isAuthenticated(to, from, next) {
     let redirectToLogin = {
-      name: "Login",
+      name: 'Login',
       query: {
         redirect: to.name
       }
     };
 
-    let redirectToHome = {
-      name: "Home",
-      query: {
-        redirect: to.name
-      }
-    };
-
-    if (!Auth.check()) {
+    if (!Auth.isValid()) {
       next(redirectToLogin);
     }
 
-    if (to.meta.adminAuth) {
-      if (store.getters.user.role != "admin") {
-        next(redirectToHome);
-      }
-    }
-
-    next(await store.dispatch("getUser"));
+    next(await store.dispatch('getUser'));
   }
 }
 

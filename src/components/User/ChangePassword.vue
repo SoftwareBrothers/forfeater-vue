@@ -8,17 +8,25 @@
     <div>
       <div class="row">
         <div class="col-sm-12">
+          <ErrorAlert v-if="alert" :message="alert" :title="null" />
           <form class="needs-validation" novalidate>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="password">Password</label>
-                <input v-validate="'required|confirmed:confirmation'" v-model="newPassword" type="password" class="form-control" name="password" placeholder="Password">
-                <div class="invalid-feedback-not-work">{{ errors.first('password')}}</div>
+                <input
+                  v-validate="'required|confirmed:confirmation'"
+                  v-model="newPassword"
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  placeholder="Password"
+                />
+                <div class="invalid-feedback-not-work">{{ errors.first('password') }}</div>
               </div>
               <div class="form-group col-md-6">
                 <label for="confirmation">Confirmation</label>
-                <input type="password" class="form-control" name="confirmation" ref="confirmation" placeholder="Password">
-                <div class="invalid-feedback-not-work">{{ errors.first('confirmation')}}</div>
+                <input type="password" class="form-control" name="confirmation" ref="confirmation" placeholder="Password" />
+                <div class="invalid-feedback-not-work">{{ errors.first('confirmation') }}</div>
               </div>
             </div>
             <button type="button" class="btn btn-warning col-white" :disabled="errors.has()" @click="changePassword">Update</button>
@@ -30,42 +38,29 @@
 </template>
 
 <script>
-import UserProvider from "@/provider/user.provider";
+import ErrorAlert from '@/components/Alerts/Error';
+import { UserService } from '@/services/user.service';
 
 export default {
   data() {
     return {
-      User: {
-        type: Object,
-        required: false,
-        default: () => ({
-          firstName: null,
-          lastName: null,
-          role: null,
-          email: null,
-          password: null
-        })
-      },
-      newPassword: null
+      User: null,
+      newPassword: null,
+      service: new UserService(),
+      alert: ''
     };
   },
   methods: {
-    changePassword: function() {
-      console.log(this.errors);
+    changePassword: async function() {
       if (!this.errors.any()) {
-        new UserProvider()
-          .changePassword(this.User, this.newPassword)
-          .then(response => {
-            this.$router.push("/");
-          })
-          .catch(errors => {
-            this.errors.push(errors);
-          });
+        await this.service.changePassword(this.User, this.newPassword);
+        this.$router.go('-1');
       }
     }
   },
   created() {
     this.User = this.$store.getters.user;
-  }
+  },
+  components: { ErrorAlert }
 };
 </script>

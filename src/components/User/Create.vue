@@ -24,17 +24,9 @@
 </template>
 
 <script>
-import UserForm from "@/components/User/Form";
+import UserForm from '@/components/User/Form';
 
 export default {
-  data() {
-    return {};
-  },
-  components: {
-    UserForm
-  }
+  components: { UserForm }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

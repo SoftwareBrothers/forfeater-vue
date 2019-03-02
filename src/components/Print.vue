@@ -1,12 +1,12 @@
 <template>
-    <button class="btn btn-outline-info text-center" @click="doPrint()">
-        <slot name="buttonText"></slot>
-        <font-awesome-icon icon="print"/>
-    </button>
+  <button class="btn btn-outline-info text-center" @click="doPrint()">
+    <slot name="buttonText"></slot>
+    <font-awesome-icon icon="print" />
+  </button>
 </template>
 <script>
 export default {
-  name: "Print",
+  name: 'Print',
   methods: {
     doPrint() {
       window.print();

@@ -24,17 +24,9 @@
 </template>
 
 <script>
-import VendorForm from "@/components/Vendor/Form";
+import VendorForm from '@/components/Vendor/Form';
 
 export default {
-  data() {
-    return {};
-  },
-  components: {
-    VendorForm
-  }
+  components: { VendorForm }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

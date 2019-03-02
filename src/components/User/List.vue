@@ -2,7 +2,9 @@
   <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link :to="{ name: 'Home' }">Home</router-link></li>
+        <li class="breadcrumb-item">
+          <router-link :to="{ name: 'Home' }">Home</router-link>
+        </li>
         <li class="breadcrumb-item active">Users</li>
       </ol>
     </nav>
@@ -11,35 +13,25 @@
         <h1 class="text-center">User list</h1>
       </div>
     </div>
-    <UserTable :users="users"></UserTable>
+    <UserTable :users.sync="users"></UserTable>
   </div>
 </template>
 
 <script>
-import UserProvider from "@/provider/user.provider";
-import UserTable from "@/components/User/Table";
+import { UserService } from '@/services/user.service';
+
+import UserTable from '@/components/User/Table';
 
 export default {
   data() {
     return {
-      users: {}
+      users: null,
+      service: new UserService()
     };
   },
-  created() {
-    new UserProvider()
-      .getAll()
-      .then(users => {
-        this.users = users;
-      })
-      .catch(errors => {
-        console.log(errors);
-      });
+  async created() {
+    this.users = await this.service.getAll();
   },
-  components: {
-    UserTable
-  }
+  components: { UserTable }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

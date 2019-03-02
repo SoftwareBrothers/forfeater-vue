@@ -3,9 +3,9 @@
     <div class="row justify-content-center mt-4">
       <div class="col-sm-6">
         <label for="score">Rate</label>
-        <select v-model="score.score" class="custom-select border-warning" name="score" >
+        <select v-model="score.score" class="custom-select border-warning" name="score">
           <option :value="null" disabled>Please rate</option>
-          <option v-for="(value,key) in 6" :key="key" :value="value">{{ value }}</option>
+          <option v-for="(value, key) in 6" :key="key" :value="value">{{ value }}</option>
         </select>
       </div>
     </div>
@@ -22,19 +22,11 @@
 export default {
   props: {
     score: {
-      score: null,
-      comment: null
-    },
-    Choice: {
+      required: true,
       type: Object,
-      required: false,
       default: () => ({
-        orderId: null,
-        userId: null,
-        productId: null,
-        orderComment: null,
         score: null,
-        scoreComment: null
+        comment: null
       })
     }
   }

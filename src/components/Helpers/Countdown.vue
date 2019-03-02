@@ -1,9 +1,9 @@
 <template>
-    <span>{{ hours | two_digits }}:{{ minutes | two_digits }}:{{ seconds | two_digits }}</span>
+  <!-- TODO: Fix this shity code -->
+  <span>{{ hours | two_digits }}:{{ minutes | two_digits }}:{{ seconds | two_digits }}</span>
 </template>
 
 <script>
-const moment = require("moment");
 export default {
   props: {
     end: {

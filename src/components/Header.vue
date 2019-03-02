@@ -2,14 +2,22 @@
   <header>
     <nav class="navbar navbar-expand-md navbar-dark justify-content-between">
       <router-link class="navbar-brand p-0" :to="{ name: 'Home' }">
-        <img src="@/assets/images/logo.png" alt="logo" class="navbar-logo"> Forfeater
+        <img src="@/assets/images/logo.png" alt="logo" class="navbar-logo" /> Forfeater
       </router-link>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarCollapse"
+        aria-controls="navbarCollapse"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
+          <li class="nav-item" v-if="user">
             <router-link class="nav-link" :to="{ name: 'OrderList' }">Orders</router-link>
           </li>
           <li v-if="user && user.role == 'admin'" class="nav-item">
@@ -24,7 +32,12 @@
         </ul>
       </div>
       <div v-if="user">
-        <div class="nav-user">Hello, <strong><router-link class="nav-link" :to="{ name: 'UserProfile' }">{{ user.firstName }}</router-link></strong></div>
+        <div class="nav-user">
+          Hello,
+          <strong>
+            <router-link class="nav-link" :to="{ name: 'UserProfile' }">{{ user.firstName }}</router-link>
+          </strong>
+        </div>
         <button class="btn btn-outline-light" @click="logout()">Logout</button>
       </div>
     </nav>
@@ -33,13 +46,10 @@
 
 <script>
 export default {
-  data() {
-    return {};
-  },
   methods: {
     logout() {
-      this.$store.dispatch("logout");
-      const name = this.$router.currentRoute.name !== "Home" ? "Home" : "Login";
+      this.$store.dispatch('logout');
+      const name = this.$router.currentRoute.name !== 'Home' ? 'Home' : 'Login';
       this.$router.push({ name });
     }
   },
@@ -47,8 +57,7 @@ export default {
     user() {
       return this.$store.getters.user;
     }
-  },
-  created() {}
+  }
 };
 </script>
 
@@ -76,5 +85,9 @@ export default {
     color: #fff;
     padding: 0;
   }
+}
+
+header {
+  margin-bottom: 2rem;
 }
 </style>
