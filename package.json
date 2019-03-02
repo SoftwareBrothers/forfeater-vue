@@ -14,6 +14,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/vue-fontawesome": "^0.1.5",
+    "@vue/component-compiler-utils": "^2.6.0",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "buefy": "^0.7.2",
@@ -28,8 +29,10 @@
     "vue": "^2.6.6",
     "vue-flatpickr-component": "^8.1.1",
     "vue-i18n": "^8.8.1",
+    "vue-loader": "^15.7.0",
     "vue-router": "^3.0.2",
     "vue-tables-2": "^1.4.70",
+    "vue-template-loader": "^1.0.0",
     "vuex": "^3.1.0"
   },
   "devDependencies": {
