@@ -11,7 +11,8 @@ const headers = {
 
 const client = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
-  headers
+  headers,
+  withCredentials: true
 });
 
 client.interceptors.response.use(
