@@ -1,21 +1,27 @@
 <template>
-  <div id="app"></div>
+  <div id="app">
+    <Header />
+    <main role="main">
+      <router-view />
+    </main>
+    <Footer />
+  </div>
 </template>
 
 <script>
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
 export default {
   name: 'App',
-  components: {},
+  components: { Header, Footer },
 };
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+@import '~@/assets/app.scss';
+@import '~@/assets/css/styles.css';
+body {
+  background: #fafafa;
 }
 </style>

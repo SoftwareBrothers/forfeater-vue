@@ -1,29 +1,28 @@
 module.exports = {
-    root: true,
-    env: {
-      node: true
-    },
-    extends: [
-      "plugin:vue/recommended",
-      "eslint:recommended",
-      "prettier/vue",
-      "plugin:prettier/recommended"
+  root: true,
+  env: {
+    node: true,
+  },
+  extends: [
+    'plugin:vue/recommended',
+    'eslint:recommended',
+    'prettier/vue',
+    'plugin:prettier/recommended',
+  ],
+  rules: {
+    'vue/component-name-in-template-casing': ['error', 'PascalCase'],
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'prettier/prettier': [
+      'warn',
+      {
+        singleQuote: true,
+        semi: true,
+        trailingComma: 'all',
+      },
     ],
-    rules: {
-      "vue/component-name-in-template-casing": ["error", "PascalCase"],
-      "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
-      "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
-      "prettier/prettier": [
-        "warn",
-        {
-          "singleQuote": true,
-          "semi": true,
-          "trailingComma": "all"
-        }
-      ]
-
-    },
-    parserOptions: {
-      parser: "babel-eslint"
-    }
-  };
+  },
+  parserOptions: {
+    parser: 'babel-eslint',
+  },
+};

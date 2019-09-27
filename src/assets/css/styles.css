@@ -1,0 +1,97 @@
+html {
+    position: relative;
+    min-height: 100%;
+  }
+  body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+      background: #fafafa;
+  }
+  
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px; /* Vertically center the text there */
+      color: #fff;
+    background-color: orange;
+  }
+  
+  body > .container {
+    padding: 60px 15px 0;
+  }
+  
+  .footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  
+  main{
+      margin-top: 1rem;
+      margin-bottom: 60px;
+      padding-bottom: 50px;
+  }
+
+  code {
+    font-size: 80%;
+  }
+  
+  li a {
+      color: green;
+  }
+  
+  .navbar {
+      background-color: orange;
+  }
+  
+  .navbar-logo {
+      height: 40px;
+      width: auto;
+      margin: 0 10px 0 0;
+  }
+  
+  .jumbotron {
+      background-color: #ffeecc;
+  }
+  
+  @media (min-width: 576px) {
+      .jumbotron {
+          padding: 1rem;
+      }
+  }
+  
+.btn-action {
+    padding: 0.5rem;
+}
+
+  .p-0 {
+      padding: 0;
+  }
+
+.btn-warning.col-white, 
+.btn-warning.col-white:hover, 
+.btn-warning.col-white:active, 
+.btn-warning.col-white:focus, 
+.btn-warning.col-white:visited,
+.btn-warning.col-white:disabled {
+    color: #fff;
+}
+
+.col-white{
+    color: #fff;
+}
+
+.btn-custom {
+    max-width: 200px;
+    margin: 0 0 0.5rem 0;
+}
+
+.breadcrumb.breadcrumb {
+    background-color: #EEE8AA;
+}
+
+.breadcrumb-item.active {
+    color: #2E8B57;
+}
