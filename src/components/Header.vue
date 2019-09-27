@@ -1,58 +1,45 @@
 <template>
-  <header>
-    <nav class="navbar navbar-expand-md navbar-dark justify-content-between">
-      <router-link class="navbar-brand p-0" :to="{ name: 'Home' }">
-        <img src="@/assets/images/logo.png" alt="logo" class="navbar-logo" />
+  <b-navbar>
+    <template slot="brand">
+      <b-navbar-item tag="router-link" :to="{ name: 'Home' }">
+        <img
+          src="@/assets/images/logo.png"
+          alt="Forfeater"
+          class="navbar-logo"
+        />
         Forfeater
-      </router-link>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarCollapse"
-        aria-controls="navbarCollapse"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="navbarCollapse" class="collapse navbar-collapse">
-        <ul class="navbar-nav mr-auto">
-          <li v-if="user" class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'OrderList' }"
-              >Orders</router-link
-            >
-          </li>
-          <li v-if="user && user.role == 'admin'" class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'VendorList' }"
-              >Vendors</router-link
-            >
-          </li>
-          <li v-if="user && user.role == 'admin'" class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'UserList' }"
-              >Users</router-link
-            >
-          </li>
-          <li v-if="user" class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'UserProfile' }"
-              >Profile</router-link
-            >
-          </li>
-        </ul>
-      </div>
-      <div v-if="user">
-        <div class="nav-user">
-          Hello,
-          <strong>
-            <router-link class="nav-link" :to="{ name: 'UserProfile' }">{{
-              user.firstName
-            }}</router-link>
-          </strong>
+      </b-navbar-item>
+    </template>
+    <template slot="start">
+      <b-navbar-item tag="router-link" :to="{ name: 'OrderList' }">
+        Orders
+      </b-navbar-item>
+      <b-navbar-item tag="router-link" :to="{ name: 'VendorList' }">
+        Vendors
+      </b-navbar-item>
+      <b-navbar-item tag="router-link" :to="{ name: 'UserList' }">
+        Users
+      </b-navbar-item>
+    </template>
+
+    <template slot="end">
+      <b-navbar-item v-if="user" tag="span">
+        Hello,
+        <strong>
+          <router-link class="nav-link" :to="{ name: 'UserProfile' }">{{
+            user.firstName
+          }}</router-link>
+        </strong>
+      </b-navbar-item>
+      <b-navbar-item v-if="user" tag="div">
+        <div class="buttons">
+          <a class="button is-light" @click="logout()">
+            Logout
+          </a>
         </div>
-        <button class="btn btn-outline-light" @click="logout()">Logout</button>
-      </div>
-    </nav>
-  </header>
+      </b-navbar-item>
+    </template>
+  </b-navbar>
 </template>
 
 <script>
@@ -71,34 +58,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-#logo {
-  height: 50px;
-  width: auto;
-}
-
-.navbar-dark {
-  .navbar-nav {
-    .router-link-active {
-      color: #fff;
-    }
-  }
-}
-
-.nav-user {
-  display: inline;
-  margin-right: 10px;
-  color: #fff;
-
-  a {
-    display: inline;
-    color: #fff;
-    padding: 0;
-  }
-}
-
-header {
-  margin-bottom: 2rem;
-}
-</style>
