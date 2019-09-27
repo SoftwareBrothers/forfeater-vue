@@ -1,60 +1,53 @@
 <template>
-  <div class="container has-text-centered">
-    <div class="row">
-      <div class="col-12 col-md-8 col-lg-4 mx-auto w-100">
-        <form @submit.prevent="login()">
-          <div class="form-group">
-            <div class="col-sm">
-              <label for="username">Username</label>
-              <input
-                id="username"
-                v-model="username"
-                v-validate="'required|email'"
-                :class="{ 'is-invalid': errors.has('username') }"
-                type="text"
-                class="form-control"
-                name="username"
-                placeholder="Your e-mail address"
-              />
-              <small class="invalid-feedback" :if="errors.has('username')">{{
-                errors.first('username')
-              }}</small>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm">
-              <label for="password">Password</label>
-              <input
-                id="password"
-                v-model="password"
-                v-validate="'required'"
-                :class="{ 'is-invalid': errors.has('password') }"
-                type="password"
-                class="form-control"
-                name="password"
-                placeholder="Your e-mail address"
-              />
-              <small class="invalid-feedback" :if="errors.has('password')">{{
-                errors.first('password')
-              }}</small>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm text-center">
-              <button
-                type="submit"
-                class="button is-warning"
-                :class="{ 'is-loading': loading }"
-                :disabled="disabled()"
+  <section class="hero is-fullheight">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+            <form class="box" @submit.prevent="login()">
+              <b-field
+                label="Username"
+                :type="{ 'is-danger': errors.has('username') }"
+                :message="errors.first('username')"
               >
-                Send
-              </button>
-            </div>
+                <b-input
+                  v-model="username"
+                  v-validate="'required|email'"
+                  type="email"
+                  name="username"
+                  icon="envelope"
+                />
+              </b-field>
+              <b-field
+                label="Password"
+                :type="{ 'is-danger': errors.has('password') }"
+                :message="errors.first('password')"
+              >
+                <b-input
+                  v-model="password"
+                  v-validate="'required|min:8'"
+                  password-reveal
+                  type="password"
+                  name="password"
+                  icon="lock"
+                />
+              </b-field>
+              <div class="field">
+                <b-button
+                  type="is-primary"
+                  :disabled="disabled()"
+                  outline
+                  native-type="submit"
+                >
+                  Login
+                </b-button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -63,7 +56,6 @@ export default {
     return {
       username: '',
       password: '',
-      loading: false,
     };
   },
   beforeCreate() {
@@ -73,7 +65,6 @@ export default {
   },
   methods: {
     async login() {
-      this.loading = true;
       let token = await this.$store.dispatch('authenticate', {
         username: this.username,
         password: this.password,
@@ -84,14 +75,12 @@ export default {
           name: componentName ? componentName : 'Home',
         });
       }
-      this.loading = false;
     },
     disabled() {
       return (
         this.username.length === 0 ||
         this.password.length === 0 ||
-        this.errors.any() ||
-        this.loading
+        this.errors.any()
       );
     },
   },

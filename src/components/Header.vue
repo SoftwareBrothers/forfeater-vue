@@ -7,7 +7,7 @@
           alt="Forfeater"
           class="navbar-logo"
         />
-        Forfeater
+        &nbsp;Forfeater
       </b-navbar-item>
     </template>
     <template slot="start">
@@ -17,18 +17,15 @@
       <b-navbar-item tag="router-link" :to="{ name: 'VendorList' }">
         Vendors
       </b-navbar-item>
-      <b-navbar-item tag="router-link" :to="{ name: 'UserList' }">
-        Users
-      </b-navbar-item>
     </template>
 
     <template slot="end">
       <b-navbar-item v-if="user" tag="span">
-        Hello,
+        Hello,&nbsp;
         <strong>
-          <router-link class="nav-link" :to="{ name: 'UserProfile' }">{{
-            user.firstName
-          }}</router-link>
+          <router-link class="nav-link" :to="{ name: 'UserProfile' }">
+            {{ user.firstName }}
+          </router-link>
         </strong>
       </b-navbar-item>
       <b-navbar-item v-if="user" tag="div">

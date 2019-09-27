@@ -1,20 +1,19 @@
 <template>
-  <div v-if="type" class="container">
-    <div class="columns">
-      <div class="column"></div>
-      <div class="column is-8">
-        <b-notification :type="type" has-icon auto-close @close="close()">{{
-          message
-        }}</b-notification>
-      </div>
-      <div class="column"></div>
+  <div class="columns is-mobile is-centered">
+    <div class="column is-half">
+      <b-notification
+        v-if="type"
+        :type="type"
+        has-icon
+        auto-close
+        @close="close()"
+        >{{ message }}</b-notification
+      >
     </div>
   </div>
 </template>
-<script lang="ts">
-import Vue from 'vue';
-
-export default Vue.extend({
+<script>
+export default {
   name: 'Notification',
   data() {
     return {
@@ -59,5 +58,5 @@ export default Vue.extend({
       this.$store.dispatch('removeNotification');
     },
   },
-});
+};
 </script>

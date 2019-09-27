@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import jwtDecode from 'jwt-decode';
+
 import { AuthService } from '@/services/auth.service';
 import { getExpireDate } from '@/helper/date.helper';
 
@@ -51,14 +53,15 @@ const mutations = {
 const actions = {
   authenticate: async (context, payload) => {
     const data = await service.authorize({
-      username: payload.username,
+      email: payload.username,
       password: payload.password,
     });
     if (data) {
-      let token = data.access_token;
+      let token = data.accessToken;
       context.commit(AUTH, token);
       localStorage.setItem('token', token);
-      localStorage.setItem('token_expires_at', getExpireDate(data.expires_in));
+      const { exp } = jwtDecode(token);
+      localStorage.setItem('token_expires_at', getExpireDate(exp));
       return token;
     }
     return false;
@@ -69,15 +72,17 @@ const actions = {
     localStorage.removeItem('user');
     localStorage.removeItem('token_expires_at');
   },
-  getUser: async context => {
+  getUser: context => {
     const token = localStorage.getItem('token') || null;
     if (token) {
-      const user = await service.getUserProfile(token);
-      if (user) {
-        context.commit(LOGIN, user);
-        localStorage.setItem('user', JSON.stringify(user));
-        return user;
-      }
+      const { first_name, last_name, email } = jwtDecode(token);
+      const user = {
+        firstName: first_name,
+        lastName: last_name,
+        email,
+      };
+      context.commit(LOGIN, user);
+      localStorage.setItem('user', JSON.stringify(user));
     }
     return false;
   },

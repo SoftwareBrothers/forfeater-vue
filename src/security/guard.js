@@ -10,7 +10,7 @@ class Guard {
     next(Auth.isValid() && store.getters.user.role === 'admin');
   }
 
-  async isAuthenticated(to, from, next) {
+  isAuthenticated(to, from, next) {
     let redirectToLogin = {
       name: 'Login',
       query: {
@@ -22,7 +22,7 @@ class Guard {
       next(redirectToLogin);
     }
 
-    next(await store.dispatch('getUser'));
+    next(store.dispatch('getUser'));
   }
 }
 

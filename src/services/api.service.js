@@ -1,8 +1,6 @@
 import client from '@/config/client';
 
 export class ApiService {
-  token = null;
-
   constructor() {
     this.initClient();
   }
@@ -13,11 +11,13 @@ export class ApiService {
   }
 
   initToken() {
-    this.token = localStorage.getItem('token') || null;
-    if (this.token) {
-      this.client.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${this.token}`;
+    const token = this.getToken();
+    if (token) {
+      this.client.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
+  }
+
+  getToken() {
+    return localStorage.getItem('token') || null;
   }
 }
