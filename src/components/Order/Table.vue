@@ -93,6 +93,7 @@ export default {
   props: {
     orders: {
       required: true,
+      type: Array,
     },
   },
   data() {

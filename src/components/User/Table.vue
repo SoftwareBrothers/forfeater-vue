@@ -60,6 +60,7 @@ export default {
   props: {
     users: {
       required: true,
+      type: Array,
     },
   },
   data() {

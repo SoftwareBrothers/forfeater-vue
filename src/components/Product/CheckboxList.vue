@@ -25,9 +25,11 @@ export default {
   props: {
     products: {
       required: true,
+      type: Array,
     },
     checkedProducts: {
       required: true,
+      type: Array,
       default: () => [],
     },
   },

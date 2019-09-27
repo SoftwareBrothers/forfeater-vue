@@ -26,9 +26,11 @@ export default {
   props: {
     order: {
       required: true,
+      type: Object,
     },
     choice: {
       required: true,
+      type: Object,
     },
   },
   computed: {

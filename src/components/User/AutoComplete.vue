@@ -12,13 +12,13 @@
     <div v-show="error" class="invalid-feedback">{{ error }}</div>
     <ul v-show="isOpen" class="autocomplete-results">
       <li
-        v-for="(user, i) in results"
+        v-for="(el, i) in results"
         v-show="results.length > 0"
         :key="i"
         class="autocomplete-result"
-        @click="onSelect(user)"
+        @click="onSelect(el)"
       >
-        {{ fullName(user) }}
+        {{ fullName(el) }}
       </li>
       <li
         v-show="results.length === 0 && input.length > 3"

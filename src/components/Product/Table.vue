@@ -71,6 +71,7 @@ export default {
   props: {
     products: {
       required: true,
+      type: Array,
     },
   },
   data() {

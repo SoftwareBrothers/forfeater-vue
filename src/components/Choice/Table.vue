@@ -41,6 +41,7 @@ export default {
     },
     tableData: {
       required: true,
+      type: Object,
     },
   },
   data() {

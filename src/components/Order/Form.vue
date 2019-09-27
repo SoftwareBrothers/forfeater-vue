@@ -101,6 +101,8 @@ export default {
   props: {
     products: {
       required: false,
+      type: Object,
+      default: Object.create({}),
     },
     order: {
       type: Object,
