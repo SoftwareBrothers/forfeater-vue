@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Header />
+    <Notification></Notification>
     <main role="main">
       <router-view />
     </main>
@@ -11,9 +12,10 @@
 <script>
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Notification from '@/components/Notification';
 
 export default {
   name: 'App',
-  components: { Header, Footer },
+  components: { Header, Footer, Notification },
 };
 </script>

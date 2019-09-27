@@ -28,6 +28,9 @@ import {
   faUpload,
   faEnvelope,
   faLock,
+  faTrash,
+  faEdit,
+  faList,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -48,11 +51,14 @@ library.add(
   faUpload,
   faEnvelope,
   faLock,
+  faTrash,
+  faEdit,
+  faList,
 );
-Vue.component('vue-fontawesome', FontAwesomeIcon);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(Buefy, {
-  defaultIconComponent: 'vue-fontawesome',
+  defaultIconComponent: 'font-awesome-icon',
   defaultIconPack: 'fas',
 });
 Vue.use(VeeValidate);

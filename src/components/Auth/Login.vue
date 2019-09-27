@@ -56,7 +56,6 @@ export default {
     return {
       username: '',
       password: '',
-      loading: false,
     };
   },
   beforeCreate() {
@@ -66,7 +65,6 @@ export default {
   },
   methods: {
     async login() {
-      this.loading = true;
       let token = await this.$store.dispatch('authenticate', {
         username: this.username,
         password: this.password,
@@ -77,14 +75,12 @@ export default {
           name: componentName ? componentName : 'Home',
         });
       }
-      this.loading = false;
     },
     disabled() {
       return (
         this.username.length === 0 ||
         this.password.length === 0 ||
-        this.errors.any() ||
-        this.loading
+        this.errors.any()
       );
     },
   },
