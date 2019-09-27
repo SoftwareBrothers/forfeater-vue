@@ -17,11 +17,3 @@ export default {
   components: { Header, Footer },
 };
 </script>
-
-<style lang="scss">
-@import '~@/assets/app.scss';
-@import '~@/assets/css/styles.css';
-body {
-  background: #fafafa;
-}
-</style>

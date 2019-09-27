@@ -17,5 +17,8 @@
     "editor.formatOnSave": false,
     "vetur.validation.template": false,
     "vetur.format.defaultFormatter.html": "js-beautify-html",
-    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,   
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "jshint.options": {
+      "esversion": 6,
+    }    
   }

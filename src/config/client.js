@@ -2,11 +2,11 @@ import axios from 'axios';
 import store from '@/config/store';
 
 const headers = {
-  common: {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-    'Access-Control-Allow-Origin': '*',
-  },
+  // common: {
+  //   'Content-Type': 'application/json',
+  //   Accept: 'application/json',
+  //   'Access-Control-Allow-Origin': '*',
+  // },
 };
 
 const client = axios.create({

@@ -2,7 +2,6 @@ import client from '@/config/client';
 
 export class ApiService {
   token = null;
-
   constructor() {
     this.initClient();
   }
