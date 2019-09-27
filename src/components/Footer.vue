@@ -2,17 +2,23 @@
   <footer class="footer">
     <div class="content has-text-centered">
       <p>
-        <strong>Forfeater</strong> by
-        <a href="https://softwarebrothers.co">Software Brothers</a>
+        <b>Forfeater</b>
+        <span> by </span>
+        <a href="https://softwarebrothers.co">
+          <strong>Software Brothers</strong></a
+        >
       </p>
     </div>
   </footer>
 </template>
 <style scoped>
-strong {
+b {
   color: green;
 }
-a {
+strong {
   color: #e6282b;
+}
+span {
+  color: initial;
 }
 </style>

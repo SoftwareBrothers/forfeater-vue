@@ -1,5 +1,5 @@
 <template>
-  <div class="container pt-5">
+  <div class="container has-text-centered">
     <div class="row">
       <div class="col-12 col-md-8 col-lg-4 mx-auto w-100">
         <form @submit.prevent="login()">

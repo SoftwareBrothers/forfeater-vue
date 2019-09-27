@@ -1,18 +1,21 @@
 <template>
-  <div class="container">
-    <div class="row pt-3">
-      <div class="col-sm">
-        <h1 class="text-center">Gary move out!</h1>
-        <div class="text-center">
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/WcYe1Sd8H_U"
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen
-          ></iframe>
-        </div>
+  <div class="hero is-medium has text centered">
+    <div class="hero-body has-text-centered">
+      <router-link :to="{ name: 'Home' }">
+        <h1 class="title is-1 has-text-centered">Gary move out!</h1>
+      </router-link>
+      <router-link :to="{ name: 'Home' }">
+        <img src="@/assets/images/404.jpeg" />
+      </router-link>
+      <div class="buttons, has-text-centered">
+        <b-button
+          size="is-large"
+          tag="router-link"
+          :to="{ name: 'Home' }"
+          type="is-primary"
+        >
+          Back
+        </b-button>
       </div>
     </div>
   </div>
