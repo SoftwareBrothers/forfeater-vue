@@ -1,11 +1,15 @@
 <template>
-  <div id="app"></div>
+  <div id="app">
+    <PageNotFound />
+  </div>
 </template>
 
 <script>
+import Footer from './components/Footer';
+import PageNotFound from './templates/PageNotFound';
 export default {
   name: 'App',
-  components: {},
+  components: { Footer, PageNotFound },
 };
 </script>
 
