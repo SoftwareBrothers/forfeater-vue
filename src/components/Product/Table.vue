@@ -1,65 +1,56 @@
 <template>
   <div v-if="products">
-    <div class="row">
-      <div class="col-sm"></div>
-      <div class="col-sm-12">
-        <router-link
-          class="nav-link btn btn-warning btn-custom col-white"
+    <div class="columns is-mobile is-centered">
+      <div class="column">
+        <b-button
+          class="is-pulled-right	"
+          tag="router-link"
           :to="{ name: 'ProductCreate' }"
-          >Create product</router-link
+          type="is-primary"
         >
-        <div class="table-responsive">
-          <table
-            class="table table-sm table-hover table-bordered table-striped"
-          >
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Rate</th>
-                <th scope="col">Votes</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody v-if="products">
-              <tr v-for="(product, key) in products" :key="key">
-                <th scope="row">{{ product.id }}</th>
-                <td>{{ product.name }}</td>
-                <td>{{ product.avgScore }}</td>
-                <td>{{ product.rankCount }}</td>
-                <td>
-                  <router-link
-                    class="btn-action d-inline text-warning"
-                    :to="{
-                      name: 'ProductShow',
-                      params: { vendorId: product.vendorId, id: product.id },
-                    }"
-                  >
-                    <font-awesome-icon icon="list" />
-                  </router-link>
-                  <router-link
-                    class="btn-action d-inline"
-                    :to="{
-                      name: 'ProductEdit',
-                      params: { vendorId: product.vendorId, id: product.id },
-                    }"
-                  >
-                    <font-awesome-icon icon="edit" />
-                  </router-link>
-                  <a
-                    class="btn-action d-inline text-danger"
-                    href
-                    @click="remove(product.id, key)"
-                  >
-                    <font-awesome-icon icon="trash" />
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          Create product
+        </b-button>
       </div>
-      <div class="col-sm"></div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <v-client-table :data="products" :columns="['id', 'name', 'actions']">
+          <template slot="name" slot-scope="props">
+            <router-link
+              :to="{
+                name: 'ProductShow',
+                params: { vendorId, id: props.row.id },
+              }"
+            >
+              {{ props.row.name }}
+            </router-link>
+          </template>
+          <template slot="actions" slot-scope="props">
+            <div class="buttons">
+              <b-button
+                class="is-pulled-right"
+                tag="router-link"
+                :to="{
+                  name: 'ProductEdit',
+                  params: { vendorId, id: props.row.id },
+                }"
+                type="is-warning"
+                icon-left="edit"
+                size="is-small"
+                outlined
+              />
+              <b-button
+                class="is-pulled-right"
+                type="is-danger"
+                icon-left="trash"
+                outlined
+                size="is-small"
+                @click="remove(props.row.id, props.index)"
+              />
+            </div>
+          </template>
+        </v-client-table>
+      </div>
     </div>
   </div>
 </template>
@@ -79,9 +70,12 @@ export default {
       service: new ProductService(),
     };
   },
+  created() {
+    this.vendorId = +this.$route.params.vendorId;
+  },
   methods: {
     remove: async function(productId, key) {
-      await this.service.remove(this.$route.params.vendorId, productId);
+      await this.service.remove(this.vendorId, productId);
       this.products.splice(key, 1);
     },
   },

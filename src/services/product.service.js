@@ -5,8 +5,8 @@ export class ProductService extends ApiService {
     super();
     this.uri = 'vendors';
   }
-  find(vendorId, id) {
-    return this.client.get(`${this.uri}/${vendorId}/products/${id}`);
+  find(id) {
+    return this.client.get(`products/${id}`);
   }
 
   getAll(vendorId) {
@@ -18,17 +18,11 @@ export class ProductService extends ApiService {
   }
 
   store(product) {
-    return this.client.post(
-      `${this.uri}/${product.vendorId}/products`,
-      product,
-    );
+    return this.client.post(`products`, product);
   }
 
   update(product) {
-    return this.client.patch(
-      `${this.uri}/${product.vendorId}/products/${product.id}`,
-      product,
-    );
+    return this.client.put(`products`, product);
   }
 
   getAllActiveByVendor(vendorId) {

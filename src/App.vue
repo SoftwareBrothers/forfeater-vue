@@ -3,7 +3,7 @@
     <Header />
     <Notification></Notification>
     <main role="main">
-      <router-view />
+      <router-view> </router-view>
     </main>
     <Footer />
   </div>

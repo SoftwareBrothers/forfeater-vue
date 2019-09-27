@@ -10,7 +10,7 @@
         &nbsp;Forfeater
       </b-navbar-item>
     </template>
-    <template slot="start">
+    <template v-if="user" slot="start">
       <b-navbar-item tag="router-link" :to="{ name: 'OrderList' }">
         Orders
       </b-navbar-item>

@@ -1,73 +1,100 @@
 <template>
-  <form class="needs-validation" novalidate>
-    <div class="form-row">
-      <div class="form-group custom-control col-sm-9 col-md-10">
+  <div class="columns is-centered">
+    <div class="column is-half">
+      <form class="box">
+        <b-field
+          label="Name"
+          :type="{ 'is-danger': errors.has('name') }"
+          :message="errors.first('name')"
+        >
+          <b-input
+            v-model="product.name"
+            v-validate="'required|min:3'"
+            name="name"
+          ></b-input>
+        </b-field>
         <div>
-          <label for="name">Name</label>
+          <b>Require description</b>
         </div>
-        <input
-          v-model="Product.name"
-          v-validate="'required'"
-          type="text"
-          class="form-control"
-          name="name"
-          placeholder="name"
-        />
-        <div class="invalid-feedback-not-work">{{ errors.first('name') }}</div>
-      </div>
+        <b-field
+          :type="{ 'is-danger': errors.has('desc') }"
+          :message="errors.first('desc')"
+        >
+          <b-radio-button
+            v-model="product.requireDescription"
+            native-value="0"
+            type="is-danger"
+            name="desc"
+          >
+            <b-icon icon="times"></b-icon>
+            <span>No</span>
+          </b-radio-button>
 
-      <div class="form-group custom-control col-sm-3 col-md-2">
+          <b-radio-button
+            v-model="product.requireDescription"
+            native-value="1"
+            type="is-success"
+            name="desc"
+          >
+            <b-icon icon="check"></b-icon>
+            <span>Yes</span>
+          </b-radio-button>
+        </b-field>
         <div>
-          <label for="name">Active</label>
+          <b>Diet</b>
         </div>
-        <div class="form-check form-check-inline">
-          <input
-            id="active1"
-            v-model="Product.active"
-            class="form-check-input"
-            type="radio"
-            name="active"
-            value="1"
-            checked
-          />
-          <label class="form-check-label" for="active1">Yes</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            id="active0"
-            v-model="Product.active"
-            class="form-check-input"
-            type="radio"
-            name="active"
-            value="0"
-          />
-          <label class="form-check-label" for="active0">No</label>
-        </div>
-        <div class="invalid-feedback-not-work">
-          {{ errors.first('active') }}
-        </div>
-      </div>
+        <b-field
+          :type="{ 'is-danger': errors.has('diet') }"
+          :message="errors.first('diet')"
+        >
+          <b-radio-button
+            v-model="diet"
+            native-value="meat"
+            type="is-danger"
+            name="diet"
+          >
+            <span>🥩 Meat</span>
+          </b-radio-button>
+
+          <b-radio-button
+            v-model="diet"
+            native-value="vege"
+            type="is-warning"
+            name="diet"
+          >
+            <span>🥚 Vege</span>
+          </b-radio-button>
+          <b-radio-button
+            v-model="diet"
+            v-validate="'required'"
+            native-value="vegan"
+            type="is-success"
+            name="diet"
+          >
+            <span>🥦 Vegan</span>
+          </b-radio-button>
+        </b-field>
+        <b-button
+          v-if="!product.id"
+          type="is-primary"
+          :disabled="errors.has()"
+          outline
+          @click="save(`store`)"
+        >
+          Create
+        </b-button>
+        <b-button
+          v-if="product.id"
+          type="is-primary"
+          :disabled="errors.has()"
+          outline
+          @click="save(`update`)"
+        >
+          Save
+        </b-button>
+      </form>
     </div>
-
-    <button
-      v-if="!Product.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="save(`store`)"
-    >
-      Create
-    </button>
-    <button
-      v-if="Product.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="save(`update`)"
-    >
-      Save
-    </button>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -79,27 +106,62 @@ export default {
       type: Object,
       required: false,
       default: () => ({
-        vendorId: null,
+        vendor: null,
         name: null,
-        active: null,
+        isVege: false,
+        isVegan: false,
+        requireDescription: null,
       }),
     },
   },
   data() {
     return {
+      diet: null,
       service: new ProductService(),
     };
   },
-  created() {
-    this.Product.vendorId = this.$route.params.vendorId;
+  watch: {
+    diet(value) {
+      switch (value) {
+        case 'vegan':
+          this.product.isVegan = true;
+          this.product.isVege = true;
+          break;
+        case 'vege':
+          this.product.isVegan = false;
+          this.product.isVege = true;
+          break;
+        default:
+          this.product.isVegan = false;
+          this.product.isVege = false;
+          break;
+      }
+    },
+  },
+  beforeMount() {
+    this.product.vendor = +this.$route.params.vendorId;
+    this.diet = this.getDiet(this.product.isVege, this.product.isVegan);
+    this.product.requireDescription = +this.product.requireDescription;
   },
   methods: {
-    save: async function(type) {
+    async save(type) {
       if (!this.errors.any()) {
-        await this.service[type](this.Product);
-        this.$router.push('/vendors/' + this.Product.vendorId + '/products');
+        // this.product.requireDescription = !!this.product.requireDescription;
+        await this.service[type](this.product);
+        this.$router.push('/vendors/' + this.product.vendor + '/products');
+      }
+    },
+    getDiet(vege, vegan) {
+      switch (true) {
+        case (vege && vegan) || vegan:
+          return 'vegan';
+        case vege && !vegan:
+          return 'vege';
+        default:
+          return this.product.id ? 'meat' : null;
       }
     },
   },
 };
 </script>
+<style scoped></style>

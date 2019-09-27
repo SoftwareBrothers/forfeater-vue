@@ -28,6 +28,6 @@ export class VendorService extends ApiService {
   }
 
   update(vendor) {
-    return this.client.patch(`${this.uri}/${vendor.id}`, vendor);
+    return this.client.put(`${this.uri}/${vendor.id}`, vendor);
   }
 }

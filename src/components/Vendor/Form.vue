@@ -1,50 +1,46 @@
 <template>
-  <form class="needs-validation" novalidate>
-    <div class="form-row">
-      <div class="form-group col-md-6 custom-control">
-        <label for="name">Name</label>
-        <input
-          v-model="Vendor.name"
-          v-validate="'required'"
-          type="text"
-          class="form-control"
-          name="name"
-          placeholder="name"
-        />
-        <div class="invalid-feedback-not-work">{{ errors.first('name') }}</div>
-      </div>
-      <div class="form-group col-md-6">
-        <label for="name">Website</label>
-        <input
-          v-model="Vendor.url"
-          v-validate="'url'"
-          type="text"
-          class="form-control"
-          name="url"
-          placeholder="url"
-        />
-        <div class="invalid-feedback-not-work">{{ errors.first('url') }}</div>
-      </div>
+  <div class="columns is-centered">
+    <div class="column is-half">
+      <form class="box" novalidate>
+        <b-field
+          label="Name"
+          :type="{ 'is-danger': errors.has('name') }"
+          :message="errors.first('name')"
+        >
+          <b-input
+            v-model="vendor.name"
+            v-validate="'required|min:3'"
+            name="name"
+          ></b-input>
+        </b-field>
+        <b-field
+          label="Url"
+          :type="{ 'is-danger': errors.has('url') }"
+          :message="errors.first('url')"
+        >
+          <b-input v-model="vendor.url" v-validate="'url'" name="url"></b-input>
+        </b-field>
+        <b-button
+          v-if="!vendor.id"
+          type="is-primary"
+          :disabled="errors.has()"
+          outline
+          @click="save(`store`)"
+        >
+          Create
+        </b-button>
+        <b-button
+          v-if="vendor.id"
+          type="is-primary"
+          :disabled="errors.has()"
+          outline
+          @click="save(`update`)"
+        >
+          Save
+        </b-button>
+      </form>
     </div>
-    <button
-      v-if="!Vendor.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="save(`store`)"
-    >
-      Create
-    </button>
-    <button
-      v-if="Vendor.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="save(`update`)"
-    >
-      Save
-    </button>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -67,9 +63,9 @@ export default {
     };
   },
   methods: {
-    save: function(type) {
+    save(type) {
       if (!this.errors.any()) {
-        this.service[type](this.Vendor).then(() => {
+        this.service[type](this.vendor).then(() => {
           this.$router.push('/vendors');
         });
       }

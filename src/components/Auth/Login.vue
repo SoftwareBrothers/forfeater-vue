@@ -32,16 +32,14 @@
                   icon="lock"
                 />
               </b-field>
-              <div class="field">
-                <b-button
-                  type="is-primary"
-                  :disabled="disabled()"
-                  outline
-                  native-type="submit"
-                >
-                  Login
-                </b-button>
-              </div>
+              <b-button
+                type="is-primary"
+                :disabled="disabled()"
+                outline
+                native-type="submit"
+              >
+                Login
+              </b-button>
             </form>
           </div>
         </div>

@@ -59,7 +59,7 @@ export default new VueRouter({
       beforeEnter: Guard.isAuthenticated,
     },
     {
-      path: '/user/my-profile',
+      path: '/about-me',
       name: 'UserProfile',
       component: UserProfile,
       beforeEnter: Guard.isAuthenticated,
@@ -96,24 +96,23 @@ export default new VueRouter({
       path: '/vendors',
       name: 'VendorList',
       component: VendorList,
-      meta: { adminAuth: true },
-      beforeEnter: Guard.isAuthenticated,
-    },
-    {
-      path: '/vendors/create',
-      name: 'VendorCreate',
-      component: VendorCreate,
-      meta: { adminAuth: true },
+      meta: { adminAuth: true, label: 'Vendors' },
       beforeEnter: Guard.isAuthenticated,
     },
     {
       path: '/vendors/:id/edit',
       name: 'VendorEdit',
       component: VendorEdit,
-      meta: { adminAuth: true },
+      meta: { adminAuth: true, label: 'Edit' },
       beforeEnter: Guard.isAuthenticated,
     },
-
+    {
+      path: '/create',
+      name: 'VendorCreate',
+      component: VendorCreate,
+      meta: { adminAuth: true, label: 'Create' },
+      beforeEnter: Guard.isAuthenticated,
+    },
     {
       path: '/vendors/:vendorId/products',
       name: 'ProductList',
