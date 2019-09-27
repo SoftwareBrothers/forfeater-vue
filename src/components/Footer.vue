@@ -12,6 +12,10 @@
   </footer>
 </template>
 <style scoped>
+.footer {
+  flex: 1;
+  background: white;
+}
 b {
   color: green;
 }

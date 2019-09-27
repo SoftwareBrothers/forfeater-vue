@@ -1,5 +1,5 @@
 <template>
-  <div class="hero is-medium has text centered">
+  <div class="hero is-medium has-text-centered">
     <div class="hero-body has-text-centered">
       <router-link :to="{ name: 'Home' }">
         <h1 class="title is-1 has-text-centered">Gary move out!</h1>

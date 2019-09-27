@@ -31,6 +31,8 @@ import {
   faTrash,
   faEdit,
   faList,
+  faStore,
+  faClipboardList,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -54,6 +56,8 @@ library.add(
   faTrash,
   faEdit,
   faList,
+  faStore,
+  faClipboardList,
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
