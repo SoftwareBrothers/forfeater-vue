@@ -10,7 +10,9 @@ export class ProductService extends ApiService {
   }
 
   getAll(vendorId) {
-    return this.client.get(`${this.uri}/${vendorId}/products`);
+    return this.client
+      .get(`${this.uri}/${vendorId}/products`)
+      .then(result => result.items);
   }
 
   remove(vendorId, productId) {

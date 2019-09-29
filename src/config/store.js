@@ -75,10 +75,10 @@ const actions = {
   getUser: context => {
     const token = localStorage.getItem('token') || null;
     if (token) {
-      const { first_name, last_name, email } = jwtDecode(token);
+      const { firstName, lastName, email } = jwtDecode(token);
       const user = {
-        firstName: first_name,
-        lastName: last_name,
+        firstName,
+        lastName,
         email,
       };
       context.commit(LOGIN, user);

@@ -11,7 +11,7 @@ export class VendorService extends ApiService {
   }
 
   getAll() {
-    return this.client.get(this.uri);
+    return this.client.get(this.uri).then(result => result.items);
   }
 
   getTodayVendor() {

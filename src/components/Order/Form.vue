@@ -1,109 +1,108 @@
 <template>
-  <form class="needs-validation">
-    <div class="form-row">
-      <div class="form-group col-md-12 custom-control">
-        <label for="name">Vendor</label>
-        <select
-          v-model="Order.vendorId"
-          v-validate="'required'"
-          name="vendorId"
-          class="custom-select"
-          @change="loadProducts()"
+  <div class="columns is-centered">
+    <div class="column is-half">
+      <form class="box" novalidate>
+        <b-field
+          label="Vendor"
+          :type="{ 'is-danger': errors.has('vendorId') }"
+          :message="errors.first('vendorId')"
         >
-          <option :value="null" disabled>Select Vendor</option>
-          <option
-            v-for="(vendor, key) in vendors"
-            :key="key"
-            :value="vendor.id"
-            >{{ vendor.name }}</option
-          >
-        </select>
-        <div class="invalid-feedback-not-work">
-          {{ errors.first('vendorId') }}
-        </div>
-        <ProductCheckboxList
-          :products="products"
-          :checked-products="checkedProducts"
-          @productsSelected="productsSelected"
-        ></ProductCheckboxList>
-        <input
-          v-validate:length="'min_value:1'"
-          type="hidden"
-          name="checkedProducts"
-        />
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-6 custom-control">
-        <label for="name">Deadline</label>
-        <div>
-          <flat-pickr
-            ref="deadlineAt"
-            v-model="Order.deadlineAt"
+          <b-select
+            v-model="order.vendorId"
             v-validate="'required'"
-            :config="config"
-            class="form-control"
-            placeholder="Select date"
-            name="deadlineAt"
-          ></flat-pickr>
+            placeholder="Select a vendor"
+            required
+            name="vendorId"
+            @input="loadProducts()"
+          >
+            <option
+              v-for="(vendor, key) in vendors"
+              :key="key"
+              :value="vendor.id"
+            >
+              {{ vendor.name }}
+            </option>
+          </b-select>
+        </b-field>
+
+        <ProductCheckboxList :products.sync="products"></ProductCheckboxList>
+
+        <div class="columns">
+          <b-field label="Deadline" class="column is-half">
+            <b-datepicker
+              v-model="order.deadlineAt"
+              v-validate="'required'"
+              placeholder="Click to select..."
+              icon="calendar-alt"
+              name="deadlineAt"
+            >
+            </b-datepicker>
+          </b-field>
+          <b-field
+            label="Delivery"
+            class="column is-half"
+            :type="{ 'is-danger': errors.has('deliveryAt') }"
+            :message="errors.first('deliveryAt')"
+          >
+            <b-datepicker
+              v-model="order.deliveryAt"
+              v-validate="'required'"
+              placeholder="Click to select..."
+              icon="calendar-alt"
+              name="deliveryAt"
+            >
+              <button
+                class="button is-primary"
+                type="button"
+                :style="{ 'margin-right': '5px' }"
+                @click="order.deliveryAt = new Date()"
+              >
+                <b-icon icon="calendar-alt"></b-icon>
+                <span>Today</span>
+              </button>
+
+              <button
+                class="button is-danger"
+                type="button"
+                @click="order.deliveryAt = null"
+              >
+                <b-icon icon="times"></b-icon>
+                <span>Clear</span>
+              </button>
+            </b-datepicker>
+          </b-field>
         </div>
-        <div class="invalid-feedback-not-work">
-          {{ errors.first('deadlineAt') }}
-        </div>
-      </div>
-      <div class="form-group col-md-6">
-        <label for="name">Delivery</label>
-        <div>
-          <flat-pickr
-            v-model="Order.deliveryAt"
-            :config="config"
-            class="form-control"
-            placeholder="Select date"
-            name="deliveryAt"
-          ></flat-pickr>
-          <div class="invalid-feedback-not-work">
-            {{ errors.first('deliveryAt') }}
-          </div>
-        </div>
-      </div>
+        <b-button
+          v-if="!order.id"
+          type="is-primary"
+          :disabled="errors.has()"
+          outline
+          @click="save(`store`)"
+        >
+          Create
+        </b-button>
+        <b-button
+          v-if="order.id"
+          type="is-primary"
+          :disabled="errors.has()"
+          outline
+          @click="save(`update`)"
+        >
+          Save
+        </b-button>
+      </form>
     </div>
-    <button
-      v-if="!Order.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="save(`store`)"
-    >
-      Create
-    </button>
-    <button
-      v-if="Order.id"
-      type="button"
-      class="btn btn-warning col-white"
-      :disabled="errors.has()"
-      @click="save(`update`)"
-    >
-      Save
-    </button>
-  </form>
+  </div>
 </template>
 
 <script>
 import { OrderService } from '@/services/order.service';
 import { ProductService } from '@/services/product.service';
 import { VendorService } from '@/services/vendor.service';
-
 import ProductCheckboxList from '@/components/Product/CheckboxList';
-import flatPickr from 'vue-flatpickr-component';
-
 export default {
-  components: { ProductCheckboxList, flatPickr },
+  components: { ProductCheckboxList },
   props: {
-    products: {
-      required: false,
-      type: Object,
-      default: Object.create({}),
-    },
     order: {
       type: Object,
       required: false,
@@ -118,15 +117,7 @@ export default {
   data() {
     return {
       vendors: {},
-      checkedProducts: [],
-      config: {
-        wrap: true,
-        altFormat: 'Y-m-d H:i',
-        altInput: true,
-        dateFormat: 'Z',
-        enableTime: true,
-        time_24hr: true,
-      },
+      products: [],
       service: new OrderService(),
       vendorService: new VendorService(),
       productService: new ProductService(),
@@ -140,58 +131,41 @@ export default {
   },
   watch: {
     user: function() {
-      if (this.Order.id === undefined) {
-        this.Order.userId = this.user.id;
+      if (this.order.id === undefined) {
+        this.order.userId = this.user.id;
       }
     },
   },
   async created() {
     this.vendors = await this.vendorService.getAll();
-    this.loadProducts();
   },
   methods: {
     save: async function(type) {
       var isValid = await this.$validator.validateAll();
       this.sendProducts();
       if (isValid && !this.errors.any()) {
-        this.Order.userId = this.user.id;
+        this.order.userId = this.user.id;
 
-        this.service[type](this.Order).then(() => {
+        this.service[type](this.order).then(() => {
           this.$router.push('/orders');
         });
       }
     },
     loadProducts: async function() {
-      const products = await this.productService.getAll(this.Order.vendorId);
-      this.products = products;
-      this.checkedProducts = products
-        .filter(product => {
-          return product.active;
-        })
-        .map(product => {
-          return product.id;
-        });
-    },
-
-    productsSelected: function(productIds) {
-      this.checkedProducts = productIds;
+      this.products = await this.productService.getAll(this.order.vendorId);
     },
 
     sendProducts: function() {
       if (this.products.length) {
         this.products.map(async product => {
-          product.active = Number(
-            this.checkedProducts.indexOf(product.id) !== -1,
-          );
-          await this.productService.update(product);
-          return product;
+          // product.active = Number(
+          //   this.checkedProducts.indexOf(product.id) !== -1,
+          // );
+          // await this.productService.update(product);
+          // return product;
         });
       }
     },
   },
 };
 </script>
-<style scoped>
-/* TODO: Move to seperate component */
-@import '~flatpickr/dist/flatpickr.css';
-</style>

@@ -1,5 +1,20 @@
 <template>
-  <ul v-if="products" class="list-group list-group-flush">
+  <b-field
+    :type="{ 'is-danger': errors.has('selected') }"
+    :message="errors.first('selected')"
+  >
+    <b-checkbox
+      v-for="(product, key) in products"
+      :key="key"
+      v-model="selected"
+      :native-value="product.id"
+      name="selected"
+      @input="onChange"
+    >
+      {{ product.name }}
+    </b-checkbox>
+  </b-field>
+  <!-- <ul v-if="products" class="list-group list-group-flush">
     <li v-for="(product, key) in products" :key="key" class="list-group-item">
       <div class="form-check">
         <input
@@ -17,7 +32,7 @@
         }}</label>
       </div>
     </li>
-  </ul>
+  </ul> -->
 </template>
 
 <script>
@@ -27,16 +42,23 @@ export default {
       required: true,
       type: Array,
     },
-    checkedProducts: {
-      required: true,
-      type: Array,
-      default: () => [],
+  },
+  data() {
+    return {
+      selected: [],
+    };
+  },
+  watch: {
+    selected(value) {
+      value.map(el => {
+        const index = this.products.findIndex(product => (product.id = el));
+        this.products[index].active = 1;
+      });
     },
   },
-
   methods: {
     onChange: function() {
-      this.$emit('productsSelected', this.checkedProducts);
+      this.$emit('update:products', this.products);
     },
   },
 };

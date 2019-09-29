@@ -35,6 +35,7 @@ import {
   faTimes,
   faStore,
   faClipboardList,
+  faCalendarAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -61,6 +62,7 @@ library.add(
   faTimes,
   faStore,
   faClipboardList,
+  faCalendarAlt,
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
