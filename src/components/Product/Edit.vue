@@ -15,7 +15,10 @@ export default {
     };
   },
   async created() {
-    this.product = await this.service.find(this.$route.params.id);
+    this.product = await this.service.find(
+      +this.$route.params.vendorId,
+      this.$route.params.id,
+    );
   },
 };
 </script>

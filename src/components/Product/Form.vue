@@ -21,8 +21,8 @@
           :message="errors.first('desc')"
         >
           <b-radio-button
-            v-model="product.requireDescription"
-            native-value="0"
+            v-model="description"
+            native-value="false"
             type="is-danger"
             name="desc"
           >
@@ -31,8 +31,8 @@
           </b-radio-button>
 
           <b-radio-button
-            v-model="product.requireDescription"
-            native-value="1"
+            v-model="description"
+            native-value="true"
             type="is-success"
             name="desc"
           >
@@ -117,6 +117,7 @@ export default {
   data() {
     return {
       diet: null,
+      description: null,
       service: new ProductService(),
     };
   },
@@ -137,18 +138,25 @@ export default {
           break;
       }
     },
+    description(value) {
+      this.product.requireDescription = value === 'true' ? true : false;
+    },
+    'product.isVege': function() {
+      this.diet = this.getDiet(this.product.isVege, this.product.isVegan);
+    },
+    'product.requireDescription': function() {
+      this.description = `${this.product.requireDescription}`;
+    },
   },
-  beforeMount() {
-    this.product.vendor = +this.$route.params.vendorId;
-    this.diet = this.getDiet(this.product.isVege, this.product.isVegan);
-    this.product.requireDescription = +this.product.requireDescription;
+  mounted() {
+    this.vendorId = +this.$route.params.vendorId;
   },
   methods: {
     async save(type) {
       if (!this.errors.any()) {
-        // this.product.requireDescription = !!this.product.requireDescription;
-        await this.service[type](this.product);
-        this.$router.push('/vendors/' + this.product.vendor + '/products');
+        this.product.requireDescription = !!this.product.requireDescription;
+        await this.service[type](this.vendorId, this.product);
+        this.$router.push('/vendors/' + this.vendorId + '/products');
       }
     },
     getDiet(vege, vegan) {

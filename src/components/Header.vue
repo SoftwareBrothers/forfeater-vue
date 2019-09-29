@@ -7,15 +7,27 @@
           alt="Forfeater"
           class="navbar-logo"
         />
-        &nbsp;Forfeater
+        &nbsp;<b>Forfeater</b>
       </b-navbar-item>
     </template>
-    <template v-if="user" slot="start">
-      <b-navbar-item tag="router-link" :to="{ name: 'OrderList' }">
-        Orders
+    <template slot="start">
+      <b-navbar-item
+        tag="router-link"
+        :to="{ name: 'OrderList' }"
+        class="navbarItem"
+      >
+        <b-icon icon="clipboard-list" size="is-small" />
+        <span>
+          Orders
+        </span>
       </b-navbar-item>
-      <b-navbar-item tag="router-link" :to="{ name: 'VendorList' }">
-        Vendors
+      <b-navbar-item
+        tag="router-link"
+        :to="{ name: 'VendorList' }"
+        class="navbarItem"
+      >
+        <b-icon icon="store" style="margin-right: 5px" size="is-small" />
+        <span> Vendors </span>
       </b-navbar-item>
     </template>
 
@@ -55,3 +67,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.navbarItem {
+  display: flex;
+  vertical-align: middle;
+}
+</style>
