@@ -17,8 +17,8 @@ export default {
     };
   },
   async mounted() {
-    const result = await this.service.getAll();
-    this.vendors = result.items;
+    // const result = await this.service.getAll();
+    this.vendors = await this.service.getAll();
   },
 };
 </script>

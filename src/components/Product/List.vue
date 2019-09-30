@@ -17,8 +17,7 @@ export default {
     };
   },
   async created() {
-    const { items } = await this.service.getAll(this.$route.params.vendorId);
-    this.products = items;
+    this.products = await this.service.getAll(this.$route.params.vendorId);
   },
 };
 </script>

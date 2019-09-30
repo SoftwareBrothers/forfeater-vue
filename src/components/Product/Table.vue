@@ -1,5 +1,5 @@
 <template>
-  <div v-if="products">
+  <div>
     <div class="columns is-mobile is-centered">
       <div class="column">
         <b-button
@@ -76,7 +76,7 @@ export default {
   methods: {
     remove: async function(productId, key) {
       await this.service.remove(this.vendorId, productId);
-      this.products.splice(key, 1);
+      this.products.splice(key-1, 1);
     },
   },
 };

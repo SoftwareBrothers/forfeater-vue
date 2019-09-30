@@ -19,21 +19,29 @@
           :columns="[
             'id',
             'vendor',
-            'my_choice',
-            'deadline',
-            'delivery',
-            'creator',
+            'deadlineAt',
+            'deliveryAt',
+            'owner',
             'actions',
           ]"
         >
-          <template slot="name" slot-scope="props">
+        <template slot="owner" slot-scope="props">
+              {{ props.row.owner.firstName }} {{ props.row.owner.lastName }}
+          </template>
+           <template slot="deadlineAt" slot-scope="props">
+              {{ props.row.deadlineAt | formatDate }}
+          </template>
+          <template slot="deliveryAt" slot-scope="props">
+              {{ props.row.deadlineAt | formatDate }}
+          </template>
+          <template slot="vendor" slot-scope="props">
             <router-link
               :to="{
                 name: 'ProductList',
                 params: { vendorId: props.row.id },
               }"
             >
-              {{ props.row.name }}
+              {{ props.row.vendor.name }}
             </router-link>
           </template>
           <template slot="actions" slot-scope="props">
@@ -145,7 +153,7 @@ export default {
   methods: {
     remove: function(orderId, key) {
       this.service.remove(orderId).then(() => {
-        this.orders.splice(key, 1);
+        this.orders.splice(key-1, 1);
       });
     },
     isActive(order) {
