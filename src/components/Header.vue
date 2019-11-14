@@ -32,7 +32,7 @@
     </template>
 
     <template slot="end">
-      <b-navbar-item v-if="user" tag="span">
+      <b-navbar-item v-if="user" class="is-hidden-touch" tag="span">
         Hello,&nbsp;
         <strong>
           <router-link class="nav-link" :to="{ name: 'UserProfile' }">

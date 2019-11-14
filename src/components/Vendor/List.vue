@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container is-fluid">
     <VendorTable :vendors.sync="vendors" />
   </div>
 </template>

@@ -19,13 +19,7 @@ export default {
   components: { Header, Footer, Notification },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 #app {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-main {
-  flex-grow: 2;
 }
 </style>

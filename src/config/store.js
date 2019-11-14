@@ -15,6 +15,8 @@ const AUTH = 'AUTH';
 const NOTIFICATION = 'NOTIFICATION';
 const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 
+const GET_USER = 'GET_USER';
+
 const state = {
   user: localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user'))
@@ -72,7 +74,7 @@ const actions = {
     localStorage.removeItem('user');
     localStorage.removeItem('token_expires_at');
   },
-  getUser: context => {
+  [GET_USER]: context => {
     const token = localStorage.getItem('token') || null;
     if (token) {
       const { firstName, lastName, email } = jwtDecode(token);
@@ -100,3 +102,5 @@ export default new Vuex.Store({
   mutations: mutations,
   actions: actions,
 });
+
+export { GET_USER };

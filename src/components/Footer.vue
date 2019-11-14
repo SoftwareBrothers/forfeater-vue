@@ -13,16 +13,6 @@
 </template>
 <style scoped>
 .footer {
-  flex: 1;
-  background: white;
-}
-b {
-  color: green;
-}
-strong {
-  color: #e6282b;
-}
-span {
-  color: initial;
+  padding: 1.5rem 0.75rem;
 }
 </style>

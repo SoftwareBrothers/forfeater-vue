@@ -76,7 +76,7 @@ export default {
   methods: {
     remove: async function(productId, key) {
       await this.service.remove(this.vendorId, productId);
-      this.products.splice(key-1, 1);
+      this.products.splice(key - 1, 1);
     },
   },
 };

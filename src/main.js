@@ -7,9 +7,10 @@ import store from '@/config/store';
 import i18n from '@/config/i18n';
 
 import App from './App.vue';
-import 'buefy/dist/buefy.css';
 import '@/filters/index';
 import Breadcrumbs from './components/Breadcrumbs';
+
+import '@/assets/styles/main.scss';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {

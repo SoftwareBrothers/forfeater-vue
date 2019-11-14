@@ -1,5 +1,5 @@
 import Auth from '@/security/auth';
-import store from '@/config/store';
+import store, { GET_USER } from '@/config/store';
 
 class Guard {
   isGuest(to, from, next) {
@@ -11,7 +11,7 @@ class Guard {
   }
 
   isAuthenticated(to, from, next) {
-    let redirectToLogin = {
+    const redirectToLogin = {
       name: 'Login',
       query: {
         redirect: to.name,
@@ -19,10 +19,10 @@ class Guard {
     };
 
     if (!Auth.isValid()) {
-      next(redirectToLogin);
+      return next(redirectToLogin);
     }
 
-    next(store.dispatch('getUser'));
+    return next(store.dispatch(GET_USER));
   }
 }
 
