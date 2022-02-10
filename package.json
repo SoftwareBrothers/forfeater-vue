@@ -52,7 +52,7 @@
     "eslint-plugin-vue": "^5.1.0",
     "jest": "^24.1.0",
     "js-beautify": "^1.8.9",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "prettier": "^1.16.4",
     "sass-loader": "^7.1.0",
     "vue-jest": "^3.0.3",
