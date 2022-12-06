@@ -24,7 +24,7 @@
     "jquery": "^3.3.1",
     "moment": "^2.24.0",
     "popper.js": "^1.14.7",
-    "qs": "^6.6.0",
+    "qs": "^6.6.1",
     "vee-validate": "^2.1.7",
     "vue": "^2.6.6",
     "vue-flatpickr-component": "^8.1.1",
